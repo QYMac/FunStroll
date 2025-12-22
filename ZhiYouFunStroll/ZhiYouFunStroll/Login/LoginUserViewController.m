@@ -19,6 +19,8 @@
 }
 
 @property (nonatomic,strong) UIButton *backBut;
+@property (nonatomic,strong) UILabel *loginTypeL;
+@property (nonatomic,strong) UILabel *loginHinteL;
 
 @property (strong,nonatomic) UIView *bgView;
 @property (strong,nonatomic) UITextField *userName;
@@ -43,47 +45,47 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = RGB(240, 240, 240);
+    [self setupLoginUI];
     [self addInitLoginView];
+}
+
+- (void)setupLoginUI{
+    
+    [self.view addSubview:self.backBut];
+    [self.backBut mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(0);
+        make.width.height.mas_equalTo(44);
+        make.top.mas_equalTo(statusBarHeight);
+    }];
+    
+    [self.view addSubview:self.loginTypeL];
+    [self.loginTypeL mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(15);
+        make.right.mas_equalTo(-15);
+        make.height.mas_equalTo(25);
+        make.top.mas_equalTo(topHeight + 15);
+    }];
+    
+    [self.view addSubview:self.loginHinteL];
+    [self.loginHinteL mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(15);
+        make.right.mas_equalTo(-15);
+        make.height.mas_equalTo(20);
+        make.top.mas_equalTo(self.loginTypeL.mas_bottom).offset(10);
+    }];
+    
+    [self.view addSubview:self.bgView];
+    [self.bgView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(15);
+        make.right.mas_equalTo(-15);
+        make.height.mas_equalTo(450);
+        make.top.mas_equalTo(self.loginHinteL.mas_bottom).offset(15);
+    }];
+    
 }
 
 #pragma mark - 初始化注册界面
 - (void)addInitLoginView{
-    
-    UILabel *appName = [[UILabel alloc]init];
-    appName.text = @"欢迎来到趣逛";
-    appName.textColor = [UIColor blackColor];
-    [appName setFont:[UIFont fontWithName:@"Helvetica-Bold" size:24*DDVerticalFlexibleRatio()]];
-    [self.view addSubview:appName];
-    [appName mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(70*DDVerticalFlexibleRatio());
-        make.right.mas_equalTo(-15*DDVerticalFlexibleRatio());
-        make.left.mas_equalTo(15*DDVerticalFlexibleRatio());
-        make.height.mas_equalTo(30*DDVerticalFlexibleRatio());
-    }];
-    
-    UILabel *viceAppName = [[UILabel alloc]init];
-    viceAppName.text = @"记录每一次出发  分享每一程趣事";
-    viceAppName.textColor = RGB(110, 110, 110);
-    [viceAppName setFont:[UIFont systemFontOfSize:12*DDVerticalFlexibleRatio()]];
-    [self.view addSubview:viceAppName];
-    [viceAppName mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(appName.mas_bottom);
-        make.right.mas_equalTo(-15*DDVerticalFlexibleRatio());
-        make.left.mas_equalTo(15*DDVerticalFlexibleRatio());
-        make.height.mas_equalTo(20*DDVerticalFlexibleRatio());
-    }];
-    
-    _bgView = [[UIView alloc]init];
-    _bgView.backgroundColor = [UIColor whiteColor];
-    //_bgView.layer.cornerRadius = 8*DDVerticalFlexibleRatio();
-    //_bgView.layer.masksToBounds = YES;
-    [self.view addSubview:_bgView];
-    [_bgView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(140*DDVerticalFlexibleRatio());
-        make.right.mas_equalTo(-10*DDVerticalFlexibleRatio());
-        make.left.mas_equalTo(10*DDVerticalFlexibleRatio());
-        make.height.mas_equalTo(450*DDVerticalFlexibleRatio());
-    }];
      
     _phone = [[UILabel alloc]init];
     _phone.text = @"手机号";
@@ -599,6 +601,52 @@
     return NO;
 }
 
+#pragma mark - 按钮点击
+- (void)backButClick:(UIButton *)sender{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+
+#pragma mark - 懒加载
+- (UIButton *)backBut{
+    if (!_backBut) {
+        _backBut = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_backBut setImage:[UIImage imageNamed:@"back"] forState:UIControlStateNormal];
+        [_backBut addTarget:self action:@selector(backButClick:) forControlEvents:UIControlEventTouchUpInside];
+        
+    }
+    return _backBut;
+}
+
+- (UILabel *)loginTypeL{
+    if (!_loginTypeL) {
+        _loginTypeL = [[UILabel alloc]init];
+        _loginTypeL.text = @"手机号登录";
+        _loginTypeL.textColor = [UIColor blackColor];
+        _loginTypeL.font = [UIFont systemFontOfSize:24];
+        _loginTypeL.textAlignment = NSTextAlignmentCenter;
+    }
+    return _loginTypeL;
+}
+
+- (UILabel *)loginHinteL{
+    if (!_loginHinteL) {
+        _loginHinteL = [[UILabel alloc]init];
+        _loginHinteL.text = @"未注册的手机号登录成功后将自动注册";
+        _loginHinteL.textColor = RGB(173, 173, 173);
+        _loginHinteL.font = [UIFont systemFontOfSize:15];
+        _loginHinteL.textAlignment = NSTextAlignmentCenter;
+    }
+    return _loginHinteL;
+}
+
+- (UIView *)bgView{
+    if (!_bgView) {
+        _bgView = [[UIView alloc] init];
+        _bgView.backgroundColor = [UIColor clearColor];
+    }
+    return _bgView;
+}
 
 #pragma mark - 弹出框样式
 - (void)_showAlertWithMessage:(NSString *)message{
@@ -610,12 +658,8 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     // 显示导航栏
-    [self.navigationController setNavigationBarHidden:NO animated:NO];
+    [self.navigationController setNavigationBarHidden:YES animated:NO];
     
-    UIImage * image = [[UIImage imageNamed:@"back"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-    UIBarButtonItem *backButton = [[UIBarButtonItem alloc]initWithImage:image style:UIBarButtonItemStyleDone target:self action:@selector(dismissaBtu)];
-    self.navigationItem.leftBarButtonItem = backButton;
-
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -623,8 +667,5 @@
     
 }
 
-- (void)dismissaBtu{
-    [self.navigationController popViewControllerAnimated:YES];
-}
 
 @end

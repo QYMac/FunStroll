@@ -65,47 +65,39 @@ blue:((float)(rgbValue & 0xFF)) / 255.0 alpha:1.0]
     }];;
 }
 
-// 检测是否有 SIM 卡
-- (BOOL)hasSIMCard {
-    
+// 检测是否有SIM卡
+- (BOOL)hasSIMCard{
     CTTelephonyNetworkInfo *networkInfo = [[CTTelephonyNetworkInfo alloc] init];
-    // iOS 12+ 支持双卡
-    NSDictionary<NSString *, CTCarrier *> *carriers = networkInfo.serviceSubscriberCellularProviders;
     
-    for (CTCarrier *carrier in carriers.allValues) {
-        if ([self isValidCarrier:carrier]) {
-            return YES;
+    if (@available(iOS 12.0, *)) {
+        // iOS 12+
+        NSDictionary<NSString *, CTCarrier *> *carriers = networkInfo.serviceSubscriberCellularProviders;
+        
+        if (carriers.count == 0) {
+            return NO; // 没有SIM卡
         }
-    }
-    return NO;
-    
-    /*
-     // iOS 12 之前
-     CTCarrier *carrier = networkInfo.subscriberCellularProvider;
-     return [self isValidCarrier:carrier];
-     */
-}
-
-// 验证运营商是否有效
-- (BOOL)isValidCarrier:(CTCarrier *)carrier {
-    if (!carrier) {
+        
+        // 遍历所有运营商
+        for (CTCarrier *carrier in carriers.allValues) {
+            if (carrier.carrierName.length > 0 &&
+                ![carrier.carrierName isEqualToString:@"Carrier"] &&
+                ![carrier.carrierName isEqualToString:@"--"]) {
+                return YES; // 有有效的SIM卡
+            }
+        }
         return NO;
+    } else {
+        // iOS 12之前
+        CTCarrier *carrier = networkInfo.subscriberCellularProvider;
+        
+        if (!carrier ||
+            carrier.carrierName.length == 0 ||
+            [carrier.carrierName isEqualToString:@"Carrier"] ||
+            [carrier.carrierName isEqualToString:@"--"]) {
+            return NO;
+        }
+        return YES;
     }
-    
-    // 检查运营商代码
-    NSString *mcc = carrier.mobileCountryCode;
-    NSString *mnc = carrier.mobileNetworkCode;
-    
-    // 检查运营商名称
-    NSString *carrierName = carrier.carrierName;
-    
-    // 有效的运营商应满足以下条件之一：
-    // 1. 有有效的运营商代码
-    // 2. 有运营商名称
-    BOOL hasValidCodes = (mcc && mcc.length > 0 && mnc && mnc.length > 0);
-    BOOL hasCarrierName = (carrierName && carrierName.length > 0 && ![carrierName isEqualToString:@"--"]);
-    
-    return hasValidCodes || hasCarrierName;
 }
 
 - (void)alicomFusionAuthHandlerToken:(NSString *)token{

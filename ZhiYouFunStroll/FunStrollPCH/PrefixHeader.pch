@@ -1,0 +1,117 @@
+//
+//  PrefixHeader.pch
+//  ZhiYouFunStroll
+//
+//  Created by Qingyun Wei on 2025/11/24.
+//
+
+#ifndef PrefixHeader_pch
+#define PrefixHeader_pch
+
+// 服务器地址
+#define BASE_URL @"http://47.121.183.217:9999"
+
+// NSLog
+#ifdef DEBUG
+#define NSLog(FORMAT, ...) printf("%s\n", [[NSString stringWithFormat:FORMAT, ##__VA_ARGS__] UTF8String])
+#else
+#define NSLog(...)
+#endif
+
+
+// 自定义颜色
+#define RGB(r,g,b) [UIColor colorWithRed:r/255.0 green:g/255.0 blue:b/255.0 alpha:1.0]
+
+// 弱引用
+#define WeakSelf __weak __typeof(self)weakSelf = self;
+
+#define kWidth [UIScreen mainScreen].bounds.size.width
+#define kHeight [UIScreen mainScreen].bounds.size.height
+
+//屏幕适配--iPhoneX全系
+#define IS_IPHONE (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+#define IS_IOS_11  ([[[UIDevice currentDevice] systemVersion] floatValue] >= 11.f)
+#define IS_IPHONE_X (IS_IOS_11 && IS_IPHONE && (MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height) >= 375 && MAX([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height) >= 812))
+#define statusBarHeight [[UIApplication sharedApplication] statusBarFrame].size.height
+#define navBarHeight 44.0
+#define tabBarHeight ([[UIApplication sharedApplication] statusBarFrame].size.height>20?83:49)
+#define bottomHeight (IS_IPHONE_X ? 34.f : 0.f)
+#define topHeight (statusBarHeight + navBarHeight)
+
+// Include any system framework and library headers here that should be included in all compilation units.
+// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+
+#import "UIView+TBFrame.h"
+#import "UIButton+SSEdgeInsets.h"
+#import "Masonry.h" // 屏幕适配
+#import "AdaptScreen.h" // 屏幕适配
+#import "SwitchPageView.h" // 分页切换
+#import "GeneralWaterfallFlowLayout.h" // 瀑布流
+#import "TopLeftLabel.h" // lable文字顶部显示
+#import "CheckTool.h" // 防止字符为nil
+#import "LabelSpacing.h" // 计算文字宽带行数
+#import "MJRefresh.h" // 刷新控件
+#import "UIView+ZFView.h" // 设置部分圆角
+#import "SetShadow.h" // 设置阴影
+#import "IQKeyboardManager.h" //键盘相关
+#import "ServiceStarView.h" // 评分控件
+#import "TabBarViewController.h" // tabBar
+#import "TZImagePickerController.h" // 图片选择
+#import "AlertWith.h" //弹出框
+#import "MovEncodeToMpegTool.h" // 视频转码
+#import "NSString+TimeFormatter.h" // 转时间
+#import "WKWebViewController.h" // 网页界面（显示条款等）
+#import "TransitionAnimation.h" // 淡入淡出动画（一般登录界面用）
+#import "UserModel.h" // 用户模型
+
+//加载控件
+#import "UIView+MBProgressHUD.h"
+#import "MBProgressHUD+NH.h"
+#import "ZSProgressHUD.h"
+
+// 高德地图相关
+//#import <MAMapKit/MAMapKit.h>
+#import <AMapNaviKit/AMapNaviKit.h>
+#import <AMapFoundationKit/AMapFoundationKit.h>
+#import <AMapSearchKit/AMapSearchKit.h>
+#import <AMapLocationKit/AMapLocationKit.h>
+#import <CoreLocation/CoreLocation.h>
+#define AMapKey @"77e28f37d8d0d718bf1ad8d0a55c785e"
+
+// 图片相关
+#import "SDImageCache.h"
+#import "UIImageView+WebCache.h"
+#import <SDWebImageFLPlugin/SDWebImageFLPlugin.h>
+
+// 编辑功能 Build Settings --> Preprocessor Macros --> 在Debug与Release添加LF_MEDIAEDIT=1  视频编辑 需要访问音乐库 需要在info.plist 添加 NSAppleMusicUsageDescription
+#import "LFImagePickerController.h"
+
+// 本地存储
+#import "FMDBManager.h"
+#import "FMDBTool.h"
+
+// 通知相关
+#define kCurrentLocation @"CurrentLocation"  // 通知定位当前位置
+
+
+
+
+#import "MapNavigationController.h"
+#import "MapNavigationController.h" // 地图导航
+
+#pragma mark - 阿里云融合认证
+#import <AlicomFusionAuth/AlicomFusionAuth.h>
+#import "AlicomFusionAuthTokenManager.h"
+#define kDEMO_UD_PHONE_NUM @"18888888888"
+#define LOGIN_TEMPLATEID @"100001" // 场景ID
+#define DEMO_SCHEME_CODE @"FA000000009700208037" // 方案号
+#define DEMO_TEMPORATY_TOKEN @"" /* 快速访问token（去阿里云平台调用接口获取：(https://next.api.aliyun.com/api/Dypnsapi/2017-05-25/GetFusionAuthToken)）*/
+
+
+#define kRefreshToken @"kRefreshToken" // refresh_token
+#define kAccessToken @"kAccessToken" // access_token
+#define kUserName @"kUserName" // username
+#define kUserId @"kUserId" // user_id
+#define kTokenType @"kTokenType" // token_type
+
+#endif /* PrefixHeader_pch */

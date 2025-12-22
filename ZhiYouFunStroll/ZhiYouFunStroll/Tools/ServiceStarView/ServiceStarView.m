@@ -1,0 +1,143 @@
+//
+//  ServiceStarView.m
+//  ZhiYouFunStroll
+//
+//  Created by Qingyun Wei on 2025/12/1.
+//
+
+#import "ServiceStarView.h"
+#import "SetReViews.h"
+
+@interface ServiceStarView()
+
+@property (nonatomic, strong) NSMutableArray *starViewArr;
+
+@end
+
+@implementation ServiceStarView
+
+- (instancetype)initWithStarSize:(CGSize)size space:(CGFloat)space numberOfStar:(NSInteger)number{
+    self = [super init];
+    if (self) {
+        _selectable = YES;
+        _starViewArr = [NSMutableArray array];
+        self.frame = CGRectMake(0, 0, size.width * number + (number - 1)*space, size.height);
+        for (int i = 0; i < number; i ++) {
+            SetReViews *starView = [[SetReViews alloc] initWithFrame:CGRectMake((space + size.width) * i, 0, size.width, size.height)];
+            starView.percent = 1.0;
+            starView.backgroundColor = [UIColor clearColor];
+            [self addSubview:starView];
+            [_starViewArr addObject:starView];
+        }
+    }
+    return self;
+}
+
+- (void)setScore:(CGFloat)score{
+    _score = score;
+    if (score >= _starViewArr.count) {
+        _score = _starViewArr.count;
+    }else if(score <= 0){
+        _score = 0;
+    }
+    
+    NSInteger index = (NSInteger)_score;
+    SetReViews *starView = index == _starViewArr.count?nil:_starViewArr[index];
+    
+    for (int i = 0; i < _starViewArr.count; i ++) {
+        SetReViews *star = _starViewArr[i];
+        if (i < index) {
+            star.percent = 1.0;
+        }else if(i > index){
+            star.percent = 0.0;
+        }else{
+            CGFloat percent = _score - index;
+            starView.percent = percent;
+        }
+    }
+    
+}
+
+- (void)handleTouches:(NSSet *)touches{
+    if (!_selectable) {
+        return;
+    }
+    
+    UITouch *touch = [touches anyObject];
+    CGPoint point = [touch locationInView:self];
+    SetReViews *starView;
+    for (SetReViews *star in _starViewArr) {
+        if (star.frame.origin.x <= point.x && star.frame.origin.x + star.frame.size.width >= point.x) {
+            starView = star;
+            break;
+        }
+    }
+    
+    if (!starView) {
+        return;
+    }
+    
+    NSInteger index = [_starViewArr indexOfObject:starView];
+    for (int i = 0; i < _starViewArr.count; i ++) {
+        SetReViews *star = _starViewArr[i];
+        if (i < index) {
+            star.percent = 1.0;
+        }else if(i > index){
+            star.percent = 0.0;
+        }else{
+            if(_supportDecimal){
+                CGFloat percent = (point.x - starView.frame.origin.x)/starView.frame.size.width;
+                starView.percent = percent;
+            }else{
+                starView.percent = 1.0;
+            }
+            
+        }
+    }
+}
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
+        [self handleTouches:touches];
+}
+
+- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event{
+        [self handleTouches:touches];
+}
+
+- (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event{
+        [self handleTouches:touches];
+}
+
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event{
+        [self handleTouches:touches];
+}
+
++(CGFloat)scoreNumber:(CGFloat)score{
+    CGFloat scoreNum = 0;
+    if (score == 0 ){
+        scoreNum = score;
+    }else if (score <= 10) {
+        scoreNum = 0.5;
+    }else if (score <= 20) {
+        scoreNum = 1;
+    }else if (score <= 30) {
+        scoreNum = 1.5;
+    }else if (score <= 40) {
+        scoreNum = 2;
+    }else if (score <= 50) {
+        scoreNum = 2.5;
+    }else if (score <= 60) {
+        scoreNum = 3;
+    }else if (score <= 70) {
+        scoreNum = 3.5;
+    }else if (score <= 80) {
+        scoreNum = 4;
+    }else if (score <= 90) {
+        scoreNum = 4.5;
+    }else if (score <= 100) {
+        scoreNum = 5;
+    }
+    return scoreNum;
+}
+
+@end

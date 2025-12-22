@@ -1,0 +1,50 @@
+# Uncomment the next line to define a global platform for your project
+# platform :ios, '12.0'
+
+# 方便模拟器运行项目，高德地图不支持模拟器
+post_install do |installer|
+  installer.pods_project.build_configurations.each do |config|
+    config.build_settings["EXCLUDED_ARCHS[sdk=iphonesimulator*]"] = "arm64"
+  end
+end
+
+target 'ZhiYouFunStroll' do
+  # Comment the next line if you don't want to use dynamic frameworks
+  use_frameworks!
+  
+  #---屏幕适配
+#  pod 'Masonry'
+#  #---SDWebImage
+#  pod 'SDWebImage'
+#  #---SDWebImage支持.WebP格式图片
+#  pod 'FLAnimatedImage'
+#  pod 'SDWebImageFLPlugin' # 对FLAnimatedImage和SDWebImage的桥接
+#  #---刷新控件
+#  pod 'MJRefresh'
+#  #---键盘相关
+#  pod 'IQKeyboardManager'
+#  #---图片选择
+#  pod 'TZImagePickerController'
+#  #pod 'LFImagePickerController/LFMediaEdit' //因为要自定义拍照界面，所有手动导入更改UI
+#  pod 'LFMediaEditingController'
+#  pod 'LFAssetExportSession'
+#  #---高德地图
+#  #pod 'AMap3DMap-NO-IDFA' #pod 'AMap2DMap' #2D地图SDK (2D和3D不能同时使用)
+#  pod 'AMapSearch-NO-IDFA' #搜索功能
+#  pod 'AMapLocation-NO-IDFA' #定位功能
+#  pod 'AMapNavi-NO-IDFA' #AMapNavi包含AMap3DMap
+#  #---FMDB 本地存储
+#  pod 'FMDB'
+#  #---边缘侧滑返回
+#  pod 'TZScrollViewPopGesture'
+#  #---全屏侧滑返回
+#  pod 'FDFullscreenPopGesture'
+#  #---模型解析
+#  pod 'YYModel'
+#  #---弹出提示框
+#  pod 'MBProgressHUD'
+#  #---网络请求
+#  pod 'AFNetworking'
+  # Pods for ZhiYouFunStroll
+
+end

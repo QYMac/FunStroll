@@ -11,14 +11,14 @@
 #import <CoreTelephony/CTTelephonyNetworkInfo.h>
 #import <CoreTelephony/CTCarrier.h>
 
-#define AlicomColorHex(rgbValue)        [UIColor \
+#define AlicomColorHex(rgbValue) [UIColor \
 colorWithRed:((float)((rgbValue & 0xFF0000) >> 16)) / 255.0 \
 green:((float)((rgbValue & 0xFF00) >> 8)) / 255.0 \
 blue:((float)(rgbValue & 0xFF)) / 255.0 alpha:1.0]
 
-#define ALICOM_FUSION_DEMO_SCREEN_WIDTH       [[UIScreen mainScreen] bounds].size.width
-#define ALICOM_FUSION_DEMO_SCREEN_HEIGHT      [[UIScreen mainScreen] bounds].size.height
-#define ALICOM_FUSION_DEMO_STATUS_BAR_HEIGHT                ([AlicomFusionDemoUtil getDemoStatusBarHeight])
+#define ALICOM_FUSION_DEMO_SCREEN_WIDTH [[UIScreen mainScreen] bounds].size.width
+#define ALICOM_FUSION_DEMO_SCREEN_HEIGHT [[UIScreen mainScreen] bounds].size.height
+#define ALICOM_FUSION_DEMO_STATUS_BAR_HEIGHT ([AlicomFusionDemoUtil getDemoStatusBarHeight])
 
 @interface AlicomFusionAuthTokenManager ()<AlicomFusionAuthDelegate,AlicomFusionAuthUIDelegate>
 
@@ -62,7 +62,7 @@ blue:((float)(rgbValue & 0xFF)) / 255.0 alpha:1.0]
     } failureHandler:^(NSError * _Nonnull error) {
         [ZSProgressHUD hideAllHUDAnimated:YES];
         [AlertWith showAlertWithMessageText:@"一键登录失败，请尝试其它登录方式"];
-    }];;
+    }];
 }
 
 // 检测是否有SIM卡

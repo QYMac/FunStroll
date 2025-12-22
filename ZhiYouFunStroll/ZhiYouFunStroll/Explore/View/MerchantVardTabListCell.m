@@ -73,7 +73,6 @@
     return _fgView;
 }
 
-
 - (UILabel *)nameL{
     if (!_nameL) {
         _nameL = [[UILabel alloc]init];

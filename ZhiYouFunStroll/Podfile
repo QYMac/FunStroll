@@ -36,7 +36,7 @@ target 'ZhiYouFunStroll' do
   #---FMDB 本地存储
   pod 'FMDB'
   #---边缘侧滑返回
-  pod 'TZScrollViewPopGesture'
+  #pod 'TZScrollViewPopGesture'
   #---全屏侧滑返回
   pod 'FDFullscreenPopGesture'
   #---模型解析

@@ -63,6 +63,7 @@
 #import "WKWebViewController.h" // 网页界面（显示条款等）
 #import "TransitionAnimation.h" // 淡入淡出动画（一般登录界面用）
 #import "UserModel.h" // 用户模型
+#import "UINavigationController+FDFullscreenPopGesture.h" // 全屏侧滑返回
 
 //加载控件
 #import "UIView+MBProgressHUD.h"

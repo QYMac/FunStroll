@@ -57,7 +57,7 @@
         make.width.mas_equalTo(size.width+30);
         make.left.mas_equalTo(15);
         make.height.mas_equalTo(25);
-        make.top.mas_equalTo(statusBarHeight+10+self.pageView.titleViewHeight+15);
+        make.top.mas_equalTo(statusBarHeight + 10 + self.pageView.titleViewHeight+15);
     }];
     
     self.searchBut.layer.cornerRadius = 32/2;
@@ -120,6 +120,7 @@
 // 在 viewWillAppear: 方法中隐藏
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    self.fd_prefersNavigationBarHidden = YES;
     [self.navigationController setNavigationBarHidden:YES animated:NO];
 }
 

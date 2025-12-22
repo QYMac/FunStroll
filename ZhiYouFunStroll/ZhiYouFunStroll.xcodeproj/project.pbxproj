@@ -1634,6 +1634,7 @@
 				);
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ZhiYouFunStroll/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "趣游";
 				INFOPLIST_KEY_NSCameraUsageDescription = "需要使用相机权限扫码、拍照、设置头像等";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "需要定位您所在的城市查看附近美食或景点等";
 				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "需要持续定位您的位置查看附近的美食或景点等";
@@ -1744,6 +1745,7 @@
 				);
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ZhiYouFunStroll/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "趣游";
 				INFOPLIST_KEY_NSCameraUsageDescription = "需要使用相机权限扫码、拍照、设置头像等";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "需要定位您所在的城市查看附近美食或景点等";
 				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "需要持续定位您的位置查看附近的美食或景点等";

@@ -53,7 +53,7 @@
         
         [self.contentView addSubview:self.likeBut];
         [self.likeBut mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.width.mas_equalTo(60);
+            make.width.mas_equalTo(50);
             make.height.mas_equalTo(15);
             make.centerY.mas_equalTo(self.avatarImage);
             make.right.mas_equalTo(-10);
@@ -176,7 +176,7 @@
         [_likeBut setImage:[UIImage imageNamed:@"like_on"] forState:UIControlStateNormal];
         [_likeBut setTitle:@"9999" forState:UIControlStateNormal];
         [_likeBut setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        _likeBut.titleLabel.font = [UIFont systemFontOfSize:12];
+        _likeBut.titleLabel.font = [UIFont systemFontOfSize:10];
         _likeBut.selected = NO;
         [_likeBut addTarget:self action:@selector(likeButClick:) forControlEvents:UIControlEventTouchUpInside];
         _likeBut.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;

@@ -156,6 +156,7 @@
 // 在 viewWillAppear: 方法中隐藏
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    self.fd_prefersNavigationBarHidden = YES;
     [self.navigationController setNavigationBarHidden:YES animated:NO];
 }
 

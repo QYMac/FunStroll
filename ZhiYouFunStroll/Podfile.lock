@@ -85,7 +85,6 @@ PODS:
     - TZImagePickerController/Location (= 3.8.9)
   - TZImagePickerController/Basic (3.8.9)
   - TZImagePickerController/Location (3.8.9)
-  - TZScrollViewPopGesture (1.0.6)
   - YYModel (1.0.4)
 
 DEPENDENCIES:
@@ -105,7 +104,6 @@ DEPENDENCIES:
   - SDWebImage
   - SDWebImageFLPlugin
   - TZImagePickerController
-  - TZScrollViewPopGesture
   - YYModel
 
 SPEC REPOS:
@@ -128,7 +126,6 @@ SPEC REPOS:
     - SDWebImage
     - SDWebImageFLPlugin
     - TZImagePickerController
-    - TZScrollViewPopGesture
     - YYModel
 
 SPEC CHECKSUMS:
@@ -150,9 +147,8 @@ SPEC CHECKSUMS:
   SDWebImage: d0184764be51240d49c761c37f53dd017e1ccaaf
   SDWebImageFLPlugin: 72efd2cfbf565bc438421abb426f4bcf7b670754
   TZImagePickerController: 456f470b5dea97b37226ec7a694994a8663340b2
-  TZScrollViewPopGesture: d36355038259e89372a1f4a2db7e9ca675de2278
   YYModel: 2a7fdd96aaa4b86a824e26d0c517de8928c04b30
 
-PODFILE CHECKSUM: 980548278478f7ea99cd16fba928018e70bc0bdc
+PODFILE CHECKSUM: d4623e3886dda535577923d7a90a5eef33940d30
 
 COCOAPODS: 1.16.2

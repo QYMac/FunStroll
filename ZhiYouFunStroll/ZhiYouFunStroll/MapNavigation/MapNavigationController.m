@@ -404,7 +404,8 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    // 显示导航栏
+    // 隐藏导航栏
+    self.fd_prefersNavigationBarHidden = YES;
     [self.navigationController setNavigationBarHidden:YES animated:NO];
     
     /*

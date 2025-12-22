@@ -11,6 +11,11 @@
 
 + (NSDictionary *)headersDictionary{
     NSString *basic = [NSString stringWithFormat:@"Basic YXBwOmFwcA=="];
+    if ([UserModel sharedUserModel].isAutoLogin == YES) {
+        NSString *token_type = [UserModel getObjectForKey:kTokenType];
+        NSString *access_token = [UserModel getObjectForKey:kAccessToken];
+        basic = [NSString stringWithFormat:@"%@ %@",token_type,access_token];
+    }
     NSMutableDictionary *parameters = [[NSMutableDictionary alloc]init];
     [parameters setObject:basic forKey:@"Authorization"];
     [parameters setObject:@"1" forKey:@"TENANT-ID"];

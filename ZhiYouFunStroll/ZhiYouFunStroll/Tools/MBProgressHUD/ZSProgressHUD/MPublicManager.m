@@ -48,16 +48,6 @@
     UIGraphicsEndImageContext();
     return theImage;
 }
-//+ (UITabBarItem *)getItemWithTitle:(NSString *)title defaultImageName:(NSString *)defaultImageName  selectedImageName:(NSString *)selectedImageName{
-//    UITabBarItem *item;
-//    NSShadow *shadow=[[NSShadow alloc]init];
-//    item=[[UITabBarItem alloc]initWithTitle:title image:[UIImage imageNamed:defaultImageName] selectedImage:[UIImage imageNamed:selectedImageName]];
-//    item.image=[item.image imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-//    item.selectedImage=[item.selectedImage imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-//    [item setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor redColor], NSForegroundColorAttributeName,shadow, NSShadowAttributeName,[UIFont fontWithName:@"Arial" size:TABBAR_TITLE_FONT], NSFontAttributeName, nil] forState:UIControlStateSelected];
-//    [item setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor lightGrayColor], NSForegroundColorAttributeName,shadow, NSShadowAttributeName,[UIFont fontWithName:@"Arial" size:TABBAR_TITLE_FONT], NSFontAttributeName, nil] forState:UIControlStateNormal];
-//    return item;
-//}
 
 + (UIColor *)colorFromHex:(NSString *)hexString alpha:(CGFloat)alpha{
     if (hexString.length==0) {

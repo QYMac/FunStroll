@@ -36,6 +36,7 @@ static UserModel * instance = nil;
 }
 
 
+#pragma mark - 数组本地储存
 +(void)saveObject:(id)obj forKey:(NSString *)key {
     if (!key || !obj) {
         return ;
@@ -57,6 +58,16 @@ static UserModel * instance = nil;
         return nil;
     }
     return [szp_uesrDefault objectForKey:key];
+}
+
+#pragma mark - 懒加载
+
+// 是否已经登录
+- (BOOL)isAutoLogin{
+    if (!_isAutoLogin) {
+        _isAutoLogin = NO;
+    }
+    return _isAutoLogin;
 }
 
 @end

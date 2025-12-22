@@ -13,18 +13,17 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (instancetype)sharedUserModel;
 
-/**
- 保存数据
- */
+/// 保存数据
 +(void)saveObject:(id)obj forKey:(NSString *)key;
-/**
- 清除数据
- */
+
+/// 清除数据
 +(void)clearObjectForKey:(NSString *)key;
-/**
- 获取数据
- */
+
+///  获取数据
 +(id)getObjectForKey:(NSString *)key;
+
+/// 是否登录
+@property (nonatomic,assign) BOOL isAutoLogin;
 
 @end
 

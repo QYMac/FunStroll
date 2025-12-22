@@ -26,6 +26,9 @@ NS_ASSUME_NONNULL_BEGIN
 /// 验证码登录
 + (void)LoginMobile:(NSString *)mobile code:(NSString *)code grant_type:(NSString *)grant_type scope:(NSString *)scope uccess:(SuccessHandler)success failureHandler:(FailureHandler)failure;
 
+/// 更新token
++ (void)LoginRefresh_token:(NSString *)refresh_token grant_type:(NSString *)grant_type scope:(NSString *)scope uccess:(SuccessHandler)success failureHandler:(FailureHandler)failure;
+
 @end
 
 NS_ASSUME_NONNULL_END

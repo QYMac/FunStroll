@@ -635,7 +635,7 @@
 }
 
 - (UIButton *)isMYBut{
-    if (_isMYBut) {
+    if (!_isMYBut) {
         _isMYBut = [UIButton buttonWithType:UIButtonTypeCustom];
         [_isMYBut setImage:[UIImage imageNamed:@"icon_OFF"] forState:UIControlStateNormal];
         [_isMYBut addTarget:self action:@selector(isMYBtnClick:) forControlEvents:UIControlEventTouchUpInside];
@@ -644,7 +644,7 @@
 }
 
 - (UIButton *)removeBut{
-    if (_removeBut) {
+    if (!_removeBut) {
         _removeBut = [UIButton buttonWithType:UIButtonTypeCustom];
         [_removeBut setImage:[UIImage imageNamed:@"icon_Canceltyping"] forState:UIControlStateNormal];
         _removeBut.hidden = YES;

@@ -7,6 +7,7 @@
 
 #import "AppDelegate.h"
 #import "TabBarViewController.h"
+#import "AFNetworking.h"
 
 @interface AppDelegate ()
 
@@ -32,6 +33,8 @@
     [MAMapView updatePrivacyShow:AMapPrivacyShowStatusDidShow privacyInfo:AMapPrivacyInfoStatusDidContain];
     [MAMapView updatePrivacyAgree:AMapPrivacyAgreeStatusDidAgree];
     
+    [self detectionNetworkingStatus]; // 检测网络状况
+    
     //关闭暗黑模式
     if(@available(iOS 13.0,*)){
         self.window.overrideUserInterfaceStyle = UIUserInterfaceStyleLight;
@@ -42,5 +45,38 @@
     return YES;
 }
 
+
+- (void)detectionNetworkingStatus{
+    // 获取共享的网络可达性管理器
+    AFNetworkReachabilityManager *manager = [AFNetworkReachabilityManager sharedManager];
+
+    // 设置网络状态变化时的回调
+    [manager setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
+        // 根据状态进行相应处理
+        switch (status) {
+            case AFNetworkReachabilityStatusUnknown:
+                NSLog(@"未知网络");
+                [UserModel sharedUserModel].isNetworkStatus = NO;
+                break;
+            case AFNetworkReachabilityStatusNotReachable:
+                NSLog(@"无网络");
+                [UserModel sharedUserModel].isNetworkStatus = NO;
+                break;
+            case AFNetworkReachabilityStatusReachableViaWWAN:
+                NSLog(@"蜂窝网络");
+                [UserModel sharedUserModel].isNetworkStatus = YES;
+                break;
+            case AFNetworkReachabilityStatusReachableViaWiFi:
+                NSLog(@"WiFi");
+                [UserModel sharedUserModel].isNetworkStatus = YES;
+                break;
+            default:
+                break;
+        }
+    }];
+
+    // 开始监控
+    [manager startMonitoring];
+}
 
 @end

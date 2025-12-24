@@ -24,6 +24,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// 是否登录
 @property (nonatomic,assign) BOOL isAutoLogin;
+/// 是否有网络
+@property (nonatomic,assign) BOOL isNetworkStatus;
 
 @end
 

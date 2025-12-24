@@ -9,6 +9,7 @@
 #import "ScenicSpotViewController.h"
 #import "DeliciousFoodViewController.h"
 #import "CommunityViewController.h"
+#import "AFNetworkingManage+Login.h"
 
 @interface HomeViewController ()
 
@@ -24,8 +25,32 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor whiteColor];
+    [self refreshToken]; // 刷新token，进入app就刷新，保持最新的
     [self initSwitchPageView];
 
+}
+
+// 刷新toekn
+- (void)refreshToken{
+    NSString *token = [UserModel getObjectForKey:kAccessToken];
+    NSLog(@"token=====%@",token);
+    return;
+    if ([UserModel sharedUserModel].isAutoLogin == YES) {
+        NSString *refresh_token = [UserModel getObjectForKey:kRefreshToken];
+        [AFNetworkingManage LoginRefresh_token:refresh_token grant_type:@"refresh_token" scope:@"app-server" success:^(id  _Nonnull responseObject) {
+            
+            NSDictionary *dict = [CheckTool replaceNullWithDictionary:responseObject];
+            NSString *access_token = [CheckTool replaceNullValue:dict[@"access_token"]];
+            NSString *refresh_token = [CheckTool replaceNullValue:dict[@"refresh_token"]];
+            NSString *token_type = [CheckTool replaceNullValue:dict[@"token_type"]];
+            [UserModel saveObject:access_token forKey:kAccessToken];
+            [UserModel saveObject:refresh_token forKey:kRefreshToken];
+            [UserModel saveObject:token_type forKey:kTokenType];
+            
+        } failureHandler:^(NSError * _Nonnull error) {
+            NSLog(@"%@",error);
+        }];
+    }
 }
 
 // 创建分页列表

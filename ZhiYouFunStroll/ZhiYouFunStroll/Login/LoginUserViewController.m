@@ -156,7 +156,6 @@
         make.width.mas_equalTo(self.obtain.mas_width);
         make.height.mas_equalTo(self.obtain.mas_height);
     }];
-
     
     [self.bgView insertSubview:self.fgView2 atIndex:999];
     [self.fgView2 mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -360,7 +359,7 @@
     
     [ZSProgressHUD showHUDShowText:@"登录中..."];
     NSString *iphoneNumber = [NSString stringWithFormat:@"APP-SMS@%@",self.userName.text];
-    [AFNetworkingManage LoginMobile:iphoneNumber code:verification_code grant_type:@"mobile" scope:@"app-server" uccess:^(id  _Nonnull responseObject) {
+    [AFNetworkingManage LoginMobile:iphoneNumber code:verification_code grant_type:@"mobile" scope:@"app-server" success:^(id  _Nonnull responseObject) {
         [ZSProgressHUD hideAllHUDAnimated:YES];
         
         // 储存用户信息
@@ -548,7 +547,6 @@
         _backBut = [UIButton buttonWithType:UIButtonTypeCustom];
         [_backBut setImage:[UIImage imageNamed:@"back"] forState:UIControlStateNormal];
         [_backBut addTarget:self action:@selector(backButClick:) forControlEvents:UIControlEventTouchUpInside];
-        
     }
     return _backBut;
 }
@@ -639,6 +637,7 @@
         _isMYBut = [UIButton buttonWithType:UIButtonTypeCustom];
         [_isMYBut setImage:[UIImage imageNamed:@"icon_OFF"] forState:UIControlStateNormal];
         [_isMYBut addTarget:self action:@selector(isMYBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+        _isMYBut.hidden = YES;
     }
     return _isMYBut;
 }

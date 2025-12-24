@@ -41,6 +41,9 @@
 		CC754EE92EF3F1F1002DB1FA /* MBProgressHUD+NH.m in Sources */ = {isa = PBXBuildFile; fileRef = CC754EE82EF3F1F1002DB1FA /* MBProgressHUD+NH.m */; };
 		CC754EEA2EF3F1F1002DB1FA /* UIView+MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = CC754EE72EF3F1F1002DB1FA /* UIView+MBProgressHUD.m */; };
 		CC754EEE2EF3F452002DB1FA /* AFNetworkingManage+Login.m in Sources */ = {isa = PBXBuildFile; fileRef = CC754EED2EF3F452002DB1FA /* AFNetworkingManage+Login.m */; };
+		CC754EF82EFBBE60002DB1FA /* AFNetworkingManage+Home.m in Sources */ = {isa = PBXBuildFile; fileRef = CC754EF72EFBBE60002DB1FA /* AFNetworkingManage+Home.m */; };
+		CC754EFE2EFBC8F4002DB1FA /* HomeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = CC754EFD2EFBC8F4002DB1FA /* HomeModel.m */; };
+		CC754F012EFBD395002DB1FA /* NSArray+Check.m in Sources */ = {isa = PBXBuildFile; fileRef = CC754F002EFBD395002DB1FA /* NSArray+Check.m */; };
 		CC8253662ED43097006BCE2A /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CC8253642ED43097006BCE2A /* ViewController.m */; };
 		CC8253672ED43097006BCE2A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CC8253602ED43097006BCE2A /* main.m */; };
 		CC8253682ED43097006BCE2A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CC82535B2ED43097006BCE2A /* AppDelegate.m */; };
@@ -218,6 +221,12 @@
 		CC754EE82EF3F1F1002DB1FA /* MBProgressHUD+NH.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "MBProgressHUD+NH.m"; sourceTree = "<group>"; };
 		CC754EEC2EF3F452002DB1FA /* AFNetworkingManage+Login.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AFNetworkingManage+Login.h"; sourceTree = "<group>"; };
 		CC754EED2EF3F452002DB1FA /* AFNetworkingManage+Login.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "AFNetworkingManage+Login.m"; sourceTree = "<group>"; };
+		CC754EF62EFBBE60002DB1FA /* AFNetworkingManage+Home.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AFNetworkingManage+Home.h"; sourceTree = "<group>"; };
+		CC754EF72EFBBE60002DB1FA /* AFNetworkingManage+Home.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "AFNetworkingManage+Home.m"; sourceTree = "<group>"; };
+		CC754EFC2EFBC8F4002DB1FA /* HomeModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HomeModel.h; sourceTree = "<group>"; };
+		CC754EFD2EFBC8F4002DB1FA /* HomeModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HomeModel.m; sourceTree = "<group>"; };
+		CC754EFF2EFBD395002DB1FA /* NSArray+Check.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSArray+Check.h"; sourceTree = "<group>"; };
+		CC754F002EFBD395002DB1FA /* NSArray+Check.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSArray+Check.m"; sourceTree = "<group>"; };
 		CC82535A2ED43097006BCE2A /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		CC82535B2ED43097006BCE2A /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		CC82535C2ED43097006BCE2A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -690,6 +699,17 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		CC754EF22EFBBE32002DB1FA /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				CC754EF62EFBBE60002DB1FA /* AFNetworkingManage+Home.h */,
+				CC754EF72EFBBE60002DB1FA /* AFNetworkingManage+Home.m */,
+				CC754EFC2EFBC8F4002DB1FA /* HomeModel.h */,
+				CC754EFD2EFBC8F4002DB1FA /* HomeModel.m */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		CC8253832ED434DD006BCE2A /* ZhiYouFunStroll */ = {
 			isa = PBXGroup;
 			children = (
@@ -771,6 +791,7 @@
 		CC8253A12ED440C4006BCE2A /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				CC754EF22EFBBE32002DB1FA /* Model */,
 				CC82545A2ED98630006BCE2A /* HomeViewDetails */,
 				CC8253DB2ED5AD1D006BCE2A /* View */,
 				CC8253D72ED5A906006BCE2A /* GeneralWaterfallFlowLayout */,
@@ -888,6 +909,8 @@
 			children = (
 				CC8253E42ED69F66006BCE2A /* CheckTool.h */,
 				CC8253E52ED69F66006BCE2A /* CheckTool.m */,
+				CC754EFF2EFBD395002DB1FA /* NSArray+Check.h */,
+				CC754F002EFBD395002DB1FA /* NSArray+Check.m */,
 			);
 			path = CheckTool;
 			sourceTree = "<group>";
@@ -1466,6 +1489,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CC995A592EF1429000456825 /* LFPhotoPreViewColletionCell.m in Sources */,
+				CC754F012EFBD395002DB1FA /* NSArray+Check.m in Sources */,
 				CC57C94B2EE286AB006A38C3 /* WeatherModel.m in Sources */,
 				CC8253DE2ED5AD40006BCE2A /* CommunityCollectionViewCell.m in Sources */,
 				CC8253DA2ED5A96C006BCE2A /* GeneralWaterfallFlowLayout.m in Sources */,
@@ -1550,6 +1574,7 @@
 				CC995A512EF1297200456825 /* LFAlbum.m in Sources */,
 				CC995A522EF1297200456825 /* LFPhotoPreviewVideoCell.m in Sources */,
 				CC995A532EF1297200456825 /* LFImagePickerHeader.m in Sources */,
+				CC754EFE2EFBC8F4002DB1FA /* HomeModel.m in Sources */,
 				CC8253CB2ED5935F006BCE2A /* CommunityViewController.m in Sources */,
 				CC9959AE2EEBE31900456825 /* NSString+TimeFormatter.m in Sources */,
 				CC8253AC2ED4411C006BCE2A /* ShoppingViewController.m in Sources */,
@@ -1569,6 +1594,7 @@
 				CC8253D42ED593E8006BCE2A /* DeliciousFoodViewController.m in Sources */,
 				CC8254802EDE80F3006BCE2A /* AddCommentCollectionCell.m in Sources */,
 				CC8253672ED43097006BCE2A /* main.m in Sources */,
+				CC754EF82EFBBE60002DB1FA /* AFNetworkingManage+Home.m in Sources */,
 				CC57C9322EE015F1006A38C3 /* MAPCustomPointAnnotation.m in Sources */,
 				CC82544B2ED7F143006BCE2A /* MerchantVardTabListCell.m in Sources */,
 				CC82545D2ED98665006BCE2A /* HomeViewDetailsController.m in Sources */,

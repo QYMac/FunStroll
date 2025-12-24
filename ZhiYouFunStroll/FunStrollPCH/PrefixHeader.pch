@@ -64,6 +64,10 @@
 #import "TransitionAnimation.h" // 淡入淡出动画（一般登录界面用）
 #import "UserModel.h" // 用户模型
 #import "UINavigationController+FDFullscreenPopGesture.h" // 全屏侧滑返回
+#import "YYModel.h" // 数据模型转换
+#import "NSArray+Check.h" // 防止数组越界
+#import "FMDBManager.h" // 本地数据
+#import "FMDBTool.h" // 本地数据
 
 //加载控件
 #import "UIView+MBProgressHUD.h"
@@ -115,5 +119,9 @@
 #define kUserId @"kUserId" // user_id
 #define kTokenType @"kTokenType" // token_type
 #define kPhoneNumber @"kPhoneNumber" // PhoneNumber
+
+
+// FMDB表名
+#define kHomePageList @"kHomePageList" //本地首页列表
 
 #endif /* PrefixHeader_pch */

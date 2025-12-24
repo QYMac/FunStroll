@@ -70,4 +70,12 @@ static UserModel * instance = nil;
     return _isAutoLogin;
 }
 
+// 是否有网络
+- (BOOL)isNetworkStatus{
+    if (!_isNetworkStatus) {
+        _isNetworkStatus = YES;
+    }
+    return _isNetworkStatus;
+}
+
 @end

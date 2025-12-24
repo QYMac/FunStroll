@@ -48,7 +48,7 @@
 + (void)LoginRefresh_token:(NSString *)refresh_token grant_type:(NSString *)grant_type scope:(NSString *)scope success:(SuccessHandler)success failureHandler:(FailureHandler)failure{
     NSString *url = @"/api/auth/oauth2/token";
     NSDictionary *parameters = @{@"refresh_token":refresh_token,@"grant_type":grant_type,@"scope":scope};
-    [self requestWithUrl:url params:parameters requestType:@"POST" isBody:NO successHanler:success failureHandler:failure];
+    [self requestWithUrl:url params:parameters requestType:@"POST" isBody:YES successHanler:success failureHandler:failure];
 }
 
 // 验证手机号码
@@ -85,5 +85,6 @@
     NSDictionary *parameters = @{@"phoneChangeToken":phoneChangeToken,@"newPassword":newPassword,@"confirmPassword":confirmPassword};
     [self requestWithUrl:url params:parameters requestType:@"POST" isBody:YES successHanler:success failureHandler:failure];
 }
+
 
 @end

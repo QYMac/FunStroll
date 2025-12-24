@@ -12,7 +12,7 @@
 + (void)GetAlibabaCloudTokenPlatform:(NSString *)platform success:(SuccessHandler)success failureHandler:(FailureHandler)failure{
     NSString *url = @"/app/fusionAuth/getFusionAuthToken";
     NSDictionary *parameters = @{@"platform":platform};
-    [self requestWithUrl:url params:parameters requestType:@"GET" successHanler:success failureHandler:failure];
+    [self requestWithUrl:url params:parameters requestType:@"GET" isBody:NO successHanler:success failureHandler:failure];
 }
 
 @end

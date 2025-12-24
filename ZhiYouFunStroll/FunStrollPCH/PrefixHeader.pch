@@ -114,5 +114,6 @@
 #define kUserName @"kUserName" // username
 #define kUserId @"kUserId" // user_id
 #define kTokenType @"kTokenType" // token_type
+#define kPhoneNumber @"kPhoneNumber" // PhoneNumber
 
 #endif /* PrefixHeader_pch */

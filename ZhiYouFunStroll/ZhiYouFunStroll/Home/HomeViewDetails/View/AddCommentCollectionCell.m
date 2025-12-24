@@ -6,6 +6,8 @@
 //
 
 #import "AddCommentCollectionCell.h"
+#import <ImageIO/ImageIO.h>
+#import <CoreLocation/CoreLocation.h>
 
 @interface AddCommentCollectionCell ()<TZImagePickerControllerDelegate,LFImagePickerControllerDelegate>
 
@@ -73,7 +75,7 @@
         return;
     }
     
-    /*
+    
     // MaxImagesCount  可以选着的最大条目数
     TZImagePickerController *imagePicker = [[TZImagePickerController alloc] initWithMaxImagesCount:9 delegate:self];
     // 是否显示可选原图按钮
@@ -91,26 +93,26 @@
     // 设置 模态弹出模式。 iOS 13默认非全屏
     imagePicker.modalPresentationStyle = UIModalPresentationFullScreen;
     [[TabBarViewController takeCurrentVC] presentViewController:imagePicker animated:YES completion:nil];
-     */
+     
     
-    LFImagePickerController *imagePicker = [[LFImagePickerController alloc] initWithMaxImagesCount:9 delegate:self];
-    imagePicker.allowTakePicture = NO; // 隐藏拍照按钮
-    //imagePicker.maxVideosCount = 1; // 解除混合选择- 要么1个视频，要么9个图片
-    //imagePicker.sortAscendingByCreateDate = NO;
-    imagePicker.supportAutorotate = YES; // 适配横屏
-    //imagePicker.imageCompressSize = 200; // 标清图压缩大小
-    //imagePicker.thumbnailCompressSize = 20; // 缩略图压缩大小
-    imagePicker.allowPickingType = LFPickingMediaTypePhoto | LFPickingMediaTypeGif;
-    //imagePicker.autoPlayLivePhoto = NO; // 自动播放live photo
-    //imagePicker.autoSelectCurrentImage = NO; // 关闭自动选中
-    //imagePicker.defaultAlbumName = @"动图"; // 指定默认显示相册
-    //imagePicker.displayImageFilename = YES; // 显示文件名称
-    //imagePicker.thumbnailCompressSize = 0.f; // 不需要缩略图
-    if ([UIDevice currentDevice].systemVersion.floatValue >= 8.0f) {
-        imagePicker.syncAlbum = YES; // 实时同步相册
-    }
-    imagePicker.modalPresentationStyle = UIModalPresentationFullScreen;
-    [[TabBarViewController takeCurrentVC] presentViewController:imagePicker animated:YES completion:nil];
+//    LFImagePickerController *imagePicker = [[LFImagePickerController alloc] initWithMaxImagesCount:9 delegate:self];
+//    imagePicker.allowTakePicture = NO; // 隐藏拍照按钮
+//    //imagePicker.maxVideosCount = 1; // 解除混合选择- 要么1个视频，要么9个图片
+//    //imagePicker.sortAscendingByCreateDate = NO;
+//    imagePicker.supportAutorotate = YES; // 适配横屏
+//    //imagePicker.imageCompressSize = 200; // 标清图压缩大小
+//    //imagePicker.thumbnailCompressSize = 20; // 缩略图压缩大小
+//    imagePicker.allowPickingType = LFPickingMediaTypePhoto | LFPickingMediaTypeGif;
+//    //imagePicker.autoPlayLivePhoto = NO; // 自动播放live photo
+//    //imagePicker.autoSelectCurrentImage = NO; // 关闭自动选中
+//    //imagePicker.defaultAlbumName = @"动图"; // 指定默认显示相册
+//    //imagePicker.displayImageFilename = YES; // 显示文件名称
+//    //imagePicker.thumbnailCompressSize = 0.f; // 不需要缩略图
+//    if ([UIDevice currentDevice].systemVersion.floatValue >= 8.0f) {
+//        imagePicker.syncAlbum = YES; // 实时同步相册
+//    }
+//    imagePicker.modalPresentationStyle = UIModalPresentationFullScreen;
+//    [[TabBarViewController takeCurrentVC] presentViewController:imagePicker animated:YES completion:nil];
 }
 
 - (void)removeButClick:(UIButton *)sender{
@@ -150,9 +152,66 @@
         [self.addImgList addObject:photos[i]];
     }
     
+    PHAsset *assetsL = [assets objectAtIndex:0];
+    // 检查是否有位置信息
+    if (assetsL.location) {
+        CLLocationCoordinate2D coordinate = assetsL.location.coordinate;
+        NSLog(@"经度: %f, 纬度: %f", coordinate.longitude, coordinate.latitude);
+        
+    } else {
+        NSLog(@"该图片没有位置信息");
+    }
+    
+    
+    
+    
+    
     if (self.addImgButtonBlcok) {
         self.addImgButtonBlcok(self.addImgList);
     }
+    
+    
+}
+
+// 方法1：从原始图片数据获取
+- (NSDictionary *)getImageMetadataFromData:(NSData *)imageData {
+    if (!imageData) return nil;
+    
+    CGImageSourceRef source = CGImageSourceCreateWithData((__bridge CFDataRef)imageData, NULL);
+    if (!source) return nil;
+    
+    CFDictionaryRef metadata = CGImageSourceCopyPropertiesAtIndex(source, 0, NULL);
+    NSDictionary *metadataDict = (__bridge_transfer NSDictionary *)metadata;
+    
+    CFRelease(source);
+    
+    return metadataDict;
+}
+
+// 获取位置信息
+- (CLLocation *)getLocationFromImageMetadata:(NSDictionary *)metadata {
+    if (!metadata) return nil;
+    
+    // 获取 GPS 信息
+    NSDictionary *gpsInfo = metadata[(NSString *)kCGImagePropertyGPSDictionary];
+    if (!gpsInfo) return nil;
+    
+    // 解析经纬度
+    NSString *latitudeRef = gpsInfo[(NSString *)kCGImagePropertyGPSLatitudeRef];
+    NSString *longitudeRef = gpsInfo[(NSString *)kCGImagePropertyGPSLongitudeRef];
+    NSNumber *latitude = gpsInfo[(NSString *)kCGImagePropertyGPSLatitude];
+    NSNumber *longitude = gpsInfo[(NSString *)kCGImagePropertyGPSLongitude];
+    
+    if (!latitude || !longitude) return nil;
+    
+    // 转换坐标
+    CLLocationDegrees lat = latitude.doubleValue;
+    CLLocationDegrees lng = longitude.doubleValue;
+    
+    if ([latitudeRef isEqualToString:@"S"]) lat = -lat;
+    if ([longitudeRef isEqualToString:@"W"]) lng = -lng;
+    
+    return [[CLLocation alloc] initWithLatitude:lat longitude:lng];
 }
 
 #pragma mark - LFImagePickerControllerDelegate

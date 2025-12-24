@@ -11,12 +11,15 @@
 
 @implementation AFNetworkingManage
 
-+ (void)requestWithUrl:(NSString *)url params:(NSDictionary *)params requestType:(NSString *)requestType successHanler:(SuccessHandler)success failureHandler:(FailureHandler)failure {
++ (void)requestWithUrl:(NSString *)url params:(NSDictionary *)params requestType:(NSString *)requestType isBody:(BOOL)isBody successHanler:(SuccessHandler)success failureHandler:(FailureHandler)failure {
     
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript",@"text/html", nil];
     manager.requestSerializer = [AFHTTPRequestSerializer serializer];
     manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+    if (isBody == YES) {
+        manager.requestSerializer = [AFJSONRequestSerializer serializer];
+    }
     //去空值
     AFJSONResponseSerializer *response = [AFJSONResponseSerializer serializer];
     response.removesKeysWithNullValues = YES;

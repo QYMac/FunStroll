@@ -52,6 +52,8 @@ blue:((float)(rgbValue & 0xFF)) / 255.0 alpha:1.0]
     //[self alicomFusionAuthHandlerToken:DEMO_TEMPORATY_TOKEN];
     //return;
     
+    [UserModel sharedUserModel].isAutoLogin = NO;
+    
     WeakSelf
     // 正常访问
     [AFNetworkingManage LoginPlatform:@"iOS" success:^(id  _Nonnull responseObject) {
@@ -80,8 +82,8 @@ blue:((float)(rgbValue & 0xFF)) / 255.0 alpha:1.0]
         // 遍历所有运营商
         for (CTCarrier *carrier in carriers.allValues) {
             if (carrier.carrierName.length > 0 &&
-                ![carrier.carrierName isEqualToString:@"Carrier"] &&
-                ![carrier.carrierName isEqualToString:@"--"]) {
+                ![carrier.carrierName isEqualToString:@"Carrier"]) {
+                // && ![carrier.carrierName isEqualToString:@"--"]
                 return YES; // 有有效的SIM卡
             }
         }
@@ -128,10 +130,11 @@ blue:((float)(rgbValue & 0xFF)) / 255.0 alpha:1.0]
     
     WeakSelf
     dispatch_async(dispatch_get_main_queue(), ^{
-        [AFNetworkingManage LoginToken:[CheckTool replaceNullValue:maskToken] uccess:^(id  _Nonnull responseObject) {
+        [AFNetworkingManage LoginToken:[CheckTool replaceNullValue:maskToken] success:^(id  _Nonnull responseObject) {
             NSDictionary *dict = [responseObject copy];
             NSDictionary *dict1 = dict[@"verifyWithModel"];
             NSString *phoneNumber = [NSString stringWithFormat:@"APP-OneClick@%@",[CheckTool replaceNullValue:dict1[@"phoneNumber"]]];
+            NSString *phoneNumberText = [CheckTool replaceNullValue:dict1[@"phoneNumber"]];
             [AFNetworkingManage LoginMobile:phoneNumber grant_type:@"mobile" scope:@"app-server" success:^(id  _Nonnull responseObject) {
                 
                 // 储存用户信息
@@ -146,6 +149,8 @@ blue:((float)(rgbValue & 0xFF)) / 255.0 alpha:1.0]
                 [UserModel saveObject:username forKey:kUserName];
                 [UserModel saveObject:user_id forKey:kUserId];
                 [UserModel saveObject:token_type forKey:kTokenType];
+                [UserModel saveObject:phoneNumberText forKey:kPhoneNumber];
+                [UserModel sharedUserModel].isAutoLogin = YES;
                 
                 [weakSelf.handler stopSceneWithTemplateId:LOGIN_TEMPLATEID];
                 weakSelf.handler = nil;
@@ -154,7 +159,6 @@ blue:((float)(rgbValue & 0xFF)) / 255.0 alpha:1.0]
                     weakSelf.loginOutclickBlcok();
                 }
                 
-                [AlertWith showAlertWithMessageText:[CheckTool replaceNullValue:responseObject]];
             } failureHandler:^(NSError * _Nonnull error) {
                 NSLog(@"%@",error);
             }];
@@ -381,6 +385,7 @@ blue:((float)(rgbValue & 0xFF)) / 255.0 alpha:1.0]
     model.nameLabelFrameBlock = ^CGRect(CGSize screenSize, CGSize superViewSize, CGRect frame) {
         return frame;
     };
+    
     model.otherLoginButtonFrameBlock = ^CGRect(CGSize screenSize, CGSize superViewSize, CGRect frame) {
         return frame;
     };

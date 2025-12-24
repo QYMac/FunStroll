@@ -17,6 +17,11 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    if ([UserModel getObjectForKey:kUserId] != nil) {
+        [UserModel sharedUserModel].isAutoLogin = YES;
+    } else {
+        [UserModel sharedUserModel].isAutoLogin = NO;
+    }
     
     TabBarViewController *tabVc = [[TabBarViewController alloc] init];
     [self.window setRootViewController:tabVc];

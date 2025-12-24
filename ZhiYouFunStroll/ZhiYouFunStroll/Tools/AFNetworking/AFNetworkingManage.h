@@ -16,7 +16,8 @@ typedef void (^FailureHandler)(NSError *error);
 
 + (void)requestWithUrl:(NSString *)url
              params:(NSDictionary *)params
-               requestType:(NSString *)requestType
+         requestType:(NSString *)requestType
+                isBody:(BOOL)isBody
       successHanler:(SuccessHandler)success
      failureHandler:(FailureHandler)failure;
 

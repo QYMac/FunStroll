@@ -44,6 +44,7 @@
 		CC754EF82EFBBE60002DB1FA /* AFNetworkingManage+Home.m in Sources */ = {isa = PBXBuildFile; fileRef = CC754EF72EFBBE60002DB1FA /* AFNetworkingManage+Home.m */; };
 		CC754EFE2EFBC8F4002DB1FA /* HomeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = CC754EFD2EFBC8F4002DB1FA /* HomeModel.m */; };
 		CC754F012EFBD395002DB1FA /* NSArray+Check.m in Sources */ = {isa = PBXBuildFile; fileRef = CC754F002EFBD395002DB1FA /* NSArray+Check.m */; };
+		CC754F202EFD34C2002DB1FA /* PhotoLocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CC754F1F2EFD34C2002DB1FA /* PhotoLocationManager.m */; };
 		CC8253662ED43097006BCE2A /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CC8253642ED43097006BCE2A /* ViewController.m */; };
 		CC8253672ED43097006BCE2A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CC8253602ED43097006BCE2A /* main.m */; };
 		CC8253682ED43097006BCE2A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CC82535B2ED43097006BCE2A /* AppDelegate.m */; };
@@ -227,6 +228,8 @@
 		CC754EFD2EFBC8F4002DB1FA /* HomeModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HomeModel.m; sourceTree = "<group>"; };
 		CC754EFF2EFBD395002DB1FA /* NSArray+Check.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSArray+Check.h"; sourceTree = "<group>"; };
 		CC754F002EFBD395002DB1FA /* NSArray+Check.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSArray+Check.m"; sourceTree = "<group>"; };
+		CC754F1E2EFD34C2002DB1FA /* PhotoLocationManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PhotoLocationManager.h; sourceTree = "<group>"; };
+		CC754F1F2EFD34C2002DB1FA /* PhotoLocationManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PhotoLocationManager.m; sourceTree = "<group>"; };
 		CC82535A2ED43097006BCE2A /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		CC82535B2ED43097006BCE2A /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		CC82535C2ED43097006BCE2A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -710,6 +713,15 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		CC754F022EFD34A6002DB1FA /* PhotoLocationManager */ = {
+			isa = PBXGroup;
+			children = (
+				CC754F1E2EFD34C2002DB1FA /* PhotoLocationManager.h */,
+				CC754F1F2EFD34C2002DB1FA /* PhotoLocationManager.m */,
+			);
+			path = PhotoLocationManager;
+			sourceTree = "<group>";
+		};
 		CC8253832ED434DD006BCE2A /* ZhiYouFunStroll */ = {
 			isa = PBXGroup;
 			children = (
@@ -791,6 +803,7 @@
 		CC8253A12ED440C4006BCE2A /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				CC754F022EFD34A6002DB1FA /* PhotoLocationManager */,
 				CC754EF22EFBBE32002DB1FA /* Model */,
 				CC82545A2ED98630006BCE2A /* HomeViewDetails */,
 				CC8253DB2ED5AD1D006BCE2A /* View */,
@@ -1489,6 +1502,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CC995A592EF1429000456825 /* LFPhotoPreViewColletionCell.m in Sources */,
+				CC754F202EFD34C2002DB1FA /* PhotoLocationManager.m in Sources */,
 				CC754F012EFBD395002DB1FA /* NSArray+Check.m in Sources */,
 				CC57C94B2EE286AB006A38C3 /* WeatherModel.m in Sources */,
 				CC8253DE2ED5AD40006BCE2A /* CommunityCollectionViewCell.m in Sources */,

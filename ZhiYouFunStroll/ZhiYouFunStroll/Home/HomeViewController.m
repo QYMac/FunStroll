@@ -10,6 +10,7 @@
 #import "DeliciousFoodViewController.h"
 #import "CommunityViewController.h"
 #import "AFNetworkingManage+Login.h"
+#import "PhotoLocationManager.h"
 
 @interface HomeViewController ()
 
@@ -102,7 +103,16 @@
 #pragma mark - 按钮点击
 
 - (void)addresButClick:(UIButton *)sender{
-    
+    [ZSProgressHUD showDpromptText:@"请等待..."];
+    [[PhotoLocationManager shared] fetchPhotosWithLocationWithCompletion:^(NSArray<PhotoLocationInfo *> * _Nonnull photos, NSError * _Nullable error) {
+        [[PhotoLocationManager shared] batchReverseGeocodeForPhotos:photos completion:^(NSArray<PhotoLocationInfo *> * _Nonnull photos, NSError * _Nullable error) {
+            for (PhotoLocationInfo *model in photos) {
+                AMapReGeocode *addressModel = model.addressInfo;
+                NSLog(@"formattedAddress=%@",model.formattedAddress);
+            }
+            [ZSProgressHUD hideAllHUDAnimated:YES];
+        }];
+    }];
 }
 
 - (void)searchButClick:(UIButton *)sender{

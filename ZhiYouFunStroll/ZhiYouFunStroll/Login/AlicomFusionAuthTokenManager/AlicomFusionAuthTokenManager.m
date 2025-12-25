@@ -64,11 +64,14 @@ blue:((float)(rgbValue & 0xFF)) / 255.0 alpha:1.0]
 }
 
 - (void)oneClickLogin{
+    
+    /*
     BOOL noSim= [CTSIMSupportGetSIMStatus() isEqualToString:kCTSIMSupportSIMStatusNotInserted];
     if (noSim == NO) {
         [AlertWith showAlertWithMessageText:@"请插 SIM 卡"];
         return;
     }
+     */
     
     [ZSProgressHUD showHUDShowText:@"请稍等..."];
     

@@ -42,7 +42,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (void)LoginOldPassword:(NSString *)oldPassword success:(SuccessHandler)success failureHandler:(FailureHandler)failure;
 
 /// 设置新密码
-+ (void)LoginPasswordChangeToken:(NSString *)phoneChangeToken newPassword:(NSString *)newPassword confirmPassword:(NSString *)confirmPassword success:(SuccessHandler)success failureHandler:(FailureHandler)failure;
++ (void)LoginPasswordChangeToken:(NSString *)passwordChangeToken newPassword:(NSString *)newPassword confirmPassword:(NSString *)confirmPassword success:(SuccessHandler)success failureHandler:(FailureHandler)failure;
 
 @end
 

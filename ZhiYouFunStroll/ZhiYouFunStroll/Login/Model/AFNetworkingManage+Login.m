@@ -80,9 +80,9 @@
 }
 
 // 设置新密码
-+ (void)LoginPasswordChangeToken:(NSString *)phoneChangeToken newPassword:(NSString *)newPassword confirmPassword:(NSString *)confirmPassword success:(SuccessHandler)success failureHandler:(FailureHandler)failure{
++ (void)LoginPasswordChangeToken:(NSString *)passwordChangeToken newPassword:(NSString *)newPassword confirmPassword:(NSString *)confirmPassword success:(SuccessHandler)success failureHandler:(FailureHandler)failure{
     NSString *url = @"/app/appuser/password/set";
-    NSDictionary *parameters = @{@"phoneChangeToken":phoneChangeToken,@"newPassword":newPassword,@"confirmPassword":confirmPassword};
+    NSDictionary *parameters = @{@"passwordChangeToken":passwordChangeToken,@"newPassword":newPassword,@"confirmPassword":confirmPassword};
     [self requestWithUrl:url params:parameters requestType:@"POST" isBody:YES successHanler:success failureHandler:failure];
 }
 

@@ -532,7 +532,7 @@
 }
 
 - (void)testBut3Click{
-    [AFNetworkingManage LoginPasswordChangeToken:[CheckTool replaceNullValue:passwordChangeToken] newPassword:@"yy123456" confirmPassword:@"yy123456" success:^(id  _Nonnull responseObject) {
+    [AFNetworkingManage LoginPasswordChangeToken:[CheckTool replaceNullValue:passwordChangeToken] newPassword:self.password.text confirmPassword:self.password.text success:^(id  _Nonnull responseObject) {
         NSLog(@"%@",responseObject);
         NSString *msgText = [CheckTool replaceNullValue:responseObject[@"msg"]];
         [AlertWith showAlertWithMessageText:[NSString stringWithFormat:@"请求成功，%@",msgText]];

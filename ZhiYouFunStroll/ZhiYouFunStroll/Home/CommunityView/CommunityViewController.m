@@ -18,7 +18,7 @@
 @property (nonatomic,strong) NSString *currentStr; // 分页
 @property (nonatomic,strong) NSString *sizeStr; // 列数
 @property (nonatomic,strong) NSString *keywordStr; // 关键字搜索
-@property (nonatomic,strong) HomeModel *homeModel; // 数据模型
+@property (nonatomic,strong) HomeModel *homeModel; // 列表数据
 
 @end
 
@@ -26,7 +26,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    
     self.view.backgroundColor = [UIColor whiteColor];
     self.currentStr = @"1";
     self.sizeStr = @"10";
@@ -57,7 +57,7 @@
         make.right.mas_equalTo(0);
         make.left.mas_equalTo(0);
         make.bottom.mas_equalTo(0);
-        make.top.mas_equalTo(32+25);//32 是搜索框的高度 + 25 是上间距
+        make.top.mas_equalTo(32+25); // 32 是搜索框的高度 + 25 是上间距
     }];
     
     // 刷新数据
@@ -84,11 +84,14 @@
 
 - (void)MJRefreshFooter{
     // 上拉刷新
-    self.communityCollectionView.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
+    MJRefreshAutoNormalFooter *footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
         //停止下拉刷新
         [self.communityCollectionView.mj_header endRefreshing];
         [self.communityCollectionView.mj_footer endRefreshing];
     }];
+    [footer setTitle:@"已经到底了" forState:MJRefreshStateNoMoreData];
+    self.communityCollectionView.mj_footer = footer;
+
 }
 
 // 下拉加载更多数据

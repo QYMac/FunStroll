@@ -72,14 +72,14 @@ static FMDatabaseQueue *_dbQueue;
                 if (i==allKeyArr.count-1) {
                     appendStr = [NSString stringWithFormat:@" %@ text);",keyStr];
                     isCompleteSql = YES;
-                }else if (i==0) {
+                } else if (i==0) {
                     appendStr = [NSString stringWithFormat:@"%@ text,",keyStr];
-                }else {
+                } else {
                     appendStr = [NSString stringWithFormat:@" %@ text,",keyStr];
                 }
                 sql = [NSString stringWithFormat:@"%@%@",sql,appendStr];
             }
-        }else {
+        } else {
             break;
         }
     }
@@ -88,7 +88,7 @@ static FMDatabaseQueue *_dbQueue;
     BOOL executeUpdate = [_db executeUpdate:sql];
     if (executeUpdate) {
        // NSLog(@"打开或创建表成功 == %@",tabName);
-    }else {
+    } else {
        // NSLog(@"打开或创建表失败");
     }
     handle(executeUpdate);
@@ -144,7 +144,7 @@ static FMDatabaseQueue *_dbQueue;
             // 未创建则先创建
             [FMDBTool createTableWithTabName:tabName dataDict:list.firstObject andHandle:^(BOOL isSuccess) {
                 if (isSuccess == NO) {
-                    //创建失败直接返回失败
+                    // 创建失败直接返回失败
                     handle(isSuccess);
                 } else {
                     handle([self saveInsertDataTabName:tabName dataList:list]);

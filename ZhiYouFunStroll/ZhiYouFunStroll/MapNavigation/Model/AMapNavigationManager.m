@@ -18,6 +18,9 @@
 // 驾车导航相关
 @property (nonatomic, assign) BOOL routeReady;
 @property (nonatomic, strong) AMapNaviDriveManager *driveManager;
+@property (nonatomic, strong) NSMutableArray<MAPolyline *> *driveRouteLines;
+@property (nonatomic, strong) AMapNaviRoute *driveRoute;
+@property (nonatomic, strong) NSMutableArray<MAPointAnnotation *> *driveAnnotations;
 
 // 步行导航相关
 @property (nonatomic, strong) NSMutableArray<MAPolyline *> *walkRouteLines;
@@ -26,12 +29,16 @@
 @property (nonatomic, assign) NSInteger walkCurrentSegmentIndex;
 @property (nonatomic, assign) BOOL walkRouteReady;
 @property (nonatomic, strong) AMapNaviWalkManager *walkManager;
+@property (nonatomic, strong) NSMutableArray<MAPointAnnotation *> *walkAnnotations;
+
 
 // 骑行导航相关
 @property (nonatomic, strong) NSMutableArray<MAPolyline *> *rideRouteLines;
 @property (nonatomic, strong) AMapNaviRoute *rideRoute;
 @property (nonatomic, assign) BOOL rideRouteReady;
 @property (nonatomic, assign) AMapNaviRideManager *rideManager;
+@property (nonatomic, strong) NSMutableArray<MAPointAnnotation *> *rideAnnotations;
+
 
 // 公交导航相关
 @property (nonatomic, strong) NSMutableArray<MAPolyline *> *transitRouteLines;
@@ -88,9 +95,13 @@ static AMapNavigationManager *_sharedManager;
 }
 
 - (void)setupMapView{
+    self.driveRouteLines = [NSMutableArray array];
+    self.driveAnnotations = [NSMutableArray array];
     self.walkRouteLines = [NSMutableArray array];
     self.walkPassedCoords = [NSMutableArray array];
+    self.walkAnnotations = [NSMutableArray array];
     self.rideRouteLines = [NSMutableArray array];
+    self.rideAnnotations = [NSMutableArray array];
     self.walkCurrentSegmentIndex = 0;
     // 公交导航初始化
     self.transitRouteLines = [NSMutableArray array];
@@ -239,18 +250,42 @@ static AMapNavigationManager *_sharedManager;
 }
 
 
-// 选择一条驾车导航路线进行导航
-- (void)selectNaviRouteWithIndex:(NSInteger)index{
+// 选择一条驾车导航画线
+- (void)selectNaviRouteWithRoutes:(NSArray<AMapNaviRoute *> *)routes{
     
-    self.driveView.hidden = NO;
+    self.driveView.hidden = YES;
     self.walkView.hidden = YES;
     self.rideView.hidden = YES;
     [self.walkManager removeDataRepresentative:self.walkView];
     [self.rideManager removeDataRepresentative:self.rideView];
-    [self.driveManager addDataRepresentative:self.driveView];
+    [self.driveManager removeDataRepresentative:self.driveView];
     
     // 清理旧路线
     [self removeMapViewAnnotationsAndRoutes];
+    
+    // 绘制第一条路线
+    if (routes.count > 0) {
+        self.driveRoute = routes.firstObject;
+        [self showDriveRouteOnMap:self.driveRoute];
+    }
+}
+
+- (void)showDriveRouteOnMap:(AMapNaviRoute *)route {
+    // 清理旧路线
+    if (self.driveRouteLines.count) {
+        [self.mapView removeOverlays:self.driveRouteLines];
+        [self.driveRouteLines removeAllObjects];
+    }
+    // 清理其他导航路线
+    if (self.walkRouteLines.count) {
+        [self.mapView removeOverlays:self.walkRouteLines];
+        [self.walkRouteLines removeAllObjects];
+    }
+    if (self.rideRouteLines.count) {
+        [self.mapView removeOverlays:self.rideRouteLines];
+        [self.rideRouteLines removeAllObjects];
+    }
+    
     
     // 选第一条做为当前导航路线
     NSNumber *firstRouteID = self.driveManager.naviRoutes.allKeys.firstObject;
@@ -258,6 +293,48 @@ static AMapNavigationManager *_sharedManager;
         [self.driveManager selectNaviRouteWithRouteID:firstRouteID.integerValue];
     }
     self.routeReady = (self.driveManager.naviRoutes.count > 0);
+    
+    if (!route || !route.routeCoordinates || route.routeCoordinates.count <= 1) { return; }
+    
+    NSUInteger count = route.routeCoordinates.count;
+    CLLocationCoordinate2D *coords = malloc(sizeof(CLLocationCoordinate2D) * count);
+    for (NSUInteger i = 0; i < count; i++) {
+        AMapNaviPoint *point = route.routeCoordinates[i];
+        if (fabs(point.latitude) > 90 || fabs(point.longitude) > 180 || (point.latitude == 0 && point.longitude == 0)) {
+            coords[i] = kCLLocationCoordinate2DInvalid;
+        } else {
+            coords[i] = CLLocationCoordinate2DMake(point.latitude, point.longitude);
+        }
+    }
+    
+    // 过滤有效坐标
+    CLLocationCoordinate2D *validCoords = malloc(sizeof(CLLocationCoordinate2D) * count);
+    NSMutableArray<NSNumber *> *validIndices = [NSMutableArray array];
+    NSUInteger validCount = 0;
+    for (NSUInteger i = 0; i < count; i++) {
+        if (CLLocationCoordinate2DIsValid(coords[i])) {
+            validCoords[validCount++] = coords[i];
+            [validIndices addObject:@(i)];
+        }
+    }
+    free(coords);
+    
+    if (validCount < 2) {
+        free(validCoords);
+        return;
+    }
+    
+    // 创建完整的驾车路线
+    MAPolyline *fullRoute = [MAPolyline polylineWithCoordinates:validCoords count:validCount];
+    [self.driveRouteLines addObject:fullRoute];
+    free(validCoords);
+    
+    // 添加起点、终点和途径点标注
+    [self addAnnotationsForRoute:route withValidIndices:validIndices toAnnotations:self.driveAnnotations routeType:@"驾车"];
+    
+    [self.mapView addOverlays:self.driveRouteLines];
+    [self.mapView addAnnotations:self.driveAnnotations];
+    [self.mapView setVisibleMapRect:[fullRoute boundingMapRect] edgePadding:UIEdgeInsetsMake(60, 40, 80, 40) animated:YES];
 }
 
 - (void)onEmulatorTap {
@@ -276,6 +353,13 @@ static AMapNavigationManager *_sharedManager;
     [self.walkManager removeDataRepresentative:self.walkView];
     [self.rideManager removeDataRepresentative:self.rideView];
     [self.driveManager addDataRepresentative:self.driveView];
+    
+    // 选第一条做为当前导航路线
+    NSNumber *firstRouteID = self.driveManager.naviRoutes.allKeys.firstObject;
+    if (firstRouteID) {
+        [self.driveManager selectNaviRouteWithRouteID:firstRouteID.integerValue];
+    }
+    self.routeReady = (self.driveManager.naviRoutes.count > 0);
     
     [self.driveView setShowUIElements:YES];
     [self startEmulatorNaviWithSpeed:120]; // 模拟速度 60km/s
@@ -367,10 +451,12 @@ static AMapNavigationManager *_sharedManager;
     
     // 过滤有效坐标
     CLLocationCoordinate2D *validCoords = malloc(sizeof(CLLocationCoordinate2D) * count);
+    NSMutableArray<NSNumber *> *validIndices = [NSMutableArray array];
     NSUInteger validCount = 0;
     for (NSUInteger i = 0; i < count; i++) {
         if (CLLocationCoordinate2DIsValid(coords[i])) {
             validCoords[validCount++] = coords[i];
+            [validIndices addObject:@(i)];
         }
     }
     free(coords);
@@ -385,8 +471,12 @@ static AMapNavigationManager *_sharedManager;
     [self.walkRouteLines addObject:fullRoute];
     free(validCoords);
     
+    // 添加起点、终点和途径点标注
+    [self addAnnotationsForRoute:route withValidIndices:validIndices toAnnotations:self.walkAnnotations routeType:@"步行"];
+    
     [self.mapView addOverlays:self.walkRouteLines];
-    [self.mapView setVisibleMapRect:[fullRoute boundingMapRect] edgePadding:UIEdgeInsetsMake(80, 40, 120, 40)  animated:YES];
+    [self.mapView addAnnotations:self.walkAnnotations];
+    [self.mapView setVisibleMapRect:[fullRoute boundingMapRect] edgePadding:UIEdgeInsetsMake(60, 40, 80, 40) animated:YES];
 }
 
 - (void)updateWalkRouteWithPassedSegment:(NSInteger)segmentIndex {
@@ -576,16 +666,25 @@ static AMapNavigationManager *_sharedManager;
     
     NSUInteger count = route.routeCoordinates.count;
     CLLocationCoordinate2D *coords = malloc(sizeof(CLLocationCoordinate2D) * count);
+    NSMutableArray<NSNumber *> *validIndices = [NSMutableArray array];
     for (NSUInteger i = 0; i < count; i++) {
         AMapNaviPoint *point = route.routeCoordinates[i];
-        coords[i] = CLLocationCoordinate2DMake(point.latitude, point.longitude);
+        CLLocationCoordinate2D coord = CLLocationCoordinate2DMake(point.latitude, point.longitude);
+        coords[i] = coord;
+        if (CLLocationCoordinate2DIsValid(coord)) {
+            [validIndices addObject:@(i)];
+        }
     }
     
     MAPolyline *line = [MAPolyline polylineWithCoordinates:coords count:count];
     free(coords);
     
+    // 添加起点、终点和途径点标注
+    [self addAnnotationsForRoute:route withValidIndices:validIndices toAnnotations:self.rideAnnotations routeType:@"骑行"];
+    
     [self.rideRouteLines addObject:line];
     [self.mapView addOverlays:self.rideRouteLines];
+    [self.mapView addAnnotations:self.rideAnnotations];
     [self.mapView setVisibleMapRect:[line boundingMapRect] edgePadding:UIEdgeInsetsMake(60, 40, 80, 40) animated:YES];
 }
 
@@ -1295,7 +1394,9 @@ static AMapNavigationManager *_sharedManager;
         renderer.lineWidth = 6.f;
         // 步行路线蓝色，骑行路线绿色
         // 公交路线：步行段绿色，公交段蓝色，地铁段紫色
-        if ([self.walkRouteLines containsObject:(MAPolyline *)overlay]) {
+        if ([self.driveRouteLines containsObject:(MAPolyline *)overlay]) {
+            renderer.strokeColor = [UIColor colorWithRed:1.0 green:0.5 blue:0.0 alpha:0.9]; // 橙色 - 驾车路线
+        } else if ([self.walkRouteLines containsObject:(MAPolyline *)overlay]) {
             renderer.strokeColor = [UIColor colorWithRed:0.2 green:0.6 blue:1.0 alpha:0.9]; // 蓝色
         } else if ([self.rideRouteLines containsObject:(MAPolyline *)overlay]) {
             renderer.strokeColor = [UIColor colorWithRed:0.1 green:0.8 blue:0.4 alpha:0.9]; // 绿色
@@ -1321,7 +1422,8 @@ static AMapNavigationManager *_sharedManager;
 
 - (MAAnnotationView *)mapView:(MAMapView *)mapView viewForAnnotation:(id<MAAnnotation>)annotation {
     if ([annotation isKindOfClass:[MAPointAnnotation class]]) {
-        static NSString *reuseIdentifier = @"TransitAnnotation";
+        //static NSString *reuseIdentifier = @"TransitAnnotation";
+        static NSString *reuseIdentifier = @"NavigationAnnotation";
         MAPinAnnotationView *annotationView = (MAPinAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:reuseIdentifier];
         if (!annotationView) {
             annotationView = [[MAPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:reuseIdentifier];
@@ -1331,12 +1433,33 @@ static AMapNavigationManager *_sharedManager;
         
         // 根据标注类型设置不同的颜色
         MAPointAnnotation *pointAnno = (MAPointAnnotation *)annotation;
-        if ([pointAnno.subtitle containsString:@"地铁"] || [pointAnno.title containsString:@"地铁"]) {
+        NSString *title = pointAnno.title ?: @"";
+        NSString *subtitle = pointAnno.subtitle ?: @"";
+        if ([title containsString:@"地铁"] || [subtitle containsString:@"地铁"]) {
             annotationView.pinColor = MAPinAnnotationColorRed; // 红色 - 地铁站
-        } else if ([pointAnno.subtitle containsString:@"公交"] || [pointAnno.title containsString:@"公交"]) {
+        } else if ([title containsString:@"公交"] || [subtitle containsString:@"公交"]) {
             annotationView.pinColor = MAPinAnnotationColorPurple; // 紫色 - 公交站
-        } else if ([pointAnno.subtitle containsString:@"步行"] || [pointAnno.title containsString:@"步行"]) {
+        } else if ([title containsString:@"步行"] || [subtitle containsString:@"步行"]) {
             annotationView.pinColor = MAPinAnnotationColorGreen; // 绿色 - 步行
+            // 从下面开始是驾车、步行、骑行三个导航的标注
+        } else if ([title containsString:@"步行起点"]) {
+            annotationView.pinColor = MAPinAnnotationColorGreen; // 绿色 - 步行起点
+        } else if ([title containsString:@"步行终点"]) {
+            annotationView.pinColor = MAPinAnnotationColorGreen; // 绿色 - 步行终点
+        } else if ([title containsString:@"步行途径点"]) {
+            annotationView.pinColor = MAPinAnnotationColorGreen; // 绿色 - 步行途径点
+        } else if ([title containsString:@"驾车起点"]) {
+            annotationView.pinColor = MAPinAnnotationColorRed; // 红色 - 驾车起点
+        } else if ([title containsString:@"驾车终点"]) {
+            annotationView.pinColor = MAPinAnnotationColorRed; // 红色 - 驾车终点
+        } else if ([title containsString:@"驾车途径点"]) {
+            annotationView.pinColor = MAPinAnnotationColorRed; // 红色 - 驾车途径点
+        } else if ([title containsString:@"骑行起点"]) {
+            annotationView.pinColor = MAPinAnnotationColorGreen; // 绿色 - 骑行起点
+        } else if ([title containsString:@"骑行终点"]) {
+            annotationView.pinColor = MAPinAnnotationColorGreen; // 绿色 - 骑行终点
+        } else if ([title containsString:@"骑行途径点"]) {
+            annotationView.pinColor = MAPinAnnotationColorGreen; // 绿色 - 骑行途径点
         } else {
             annotationView.pinColor = MAPinAnnotationColorRed; // 默认红色
         }
@@ -1346,6 +1469,55 @@ static AMapNavigationManager *_sharedManager;
     return nil;
 }
 
+
+// 辅助方法：为路线添加起点、终点和途径点标注
+- (void)addAnnotationsForRoute:(AMapNaviRoute *)route
+               withValidIndices:(NSArray<NSNumber *> *)validIndices
+                  toAnnotations:(NSMutableArray<MAPointAnnotation *> *)annotations
+                      routeType:(NSString *)routeType {
+    if (!route || !route.routeCoordinates || validIndices.count == 0) { return; }
+    
+    // 获取第一个有效点作为起点
+    NSInteger firstIndex = validIndices.firstObject.integerValue;
+    if (firstIndex < route.routeCoordinates.count) {
+        AMapNaviPoint *startPoint = route.routeCoordinates[firstIndex];
+        MAPointAnnotation *startAnno = [[MAPointAnnotation alloc] init];
+        startAnno.coordinate = CLLocationCoordinate2DMake(startPoint.latitude, startPoint.longitude);
+        startAnno.title = [NSString stringWithFormat:@"%@起点", routeType];
+        [annotations addObject:startAnno];
+    }
+    
+    // 获取最后一个有效点作为终点
+    NSInteger lastIndex = validIndices.lastObject.integerValue;
+    if (lastIndex < route.routeCoordinates.count && lastIndex != firstIndex) {
+        AMapNaviPoint *endPoint = route.routeCoordinates[lastIndex];
+        MAPointAnnotation *endAnno = [[MAPointAnnotation alloc] init];
+        endAnno.coordinate = CLLocationCoordinate2DMake(endPoint.latitude, endPoint.longitude);
+        endAnno.title = [NSString stringWithFormat:@"%@终点", routeType];
+        [annotations addObject:endAnno];
+    }
+    
+    // 检查是否有途径点（wayPoints）
+    // 尝试通过KVC或其他方式获取途径点
+    id wayPoints = nil;
+    if ([route respondsToSelector:@selector(wayPoints)]) {
+        wayPoints = [route valueForKey:@"wayPoints"];
+    } else if ([route respondsToSelector:@selector(waypoints)]) {
+        wayPoints = [route valueForKey:@"waypoints"];
+    }
+    
+    if (wayPoints && [wayPoints isKindOfClass:[NSArray class]] && [wayPoints count] > 0) {
+        for (id wayPoint in (NSArray *)wayPoints) {
+            if ([wayPoint isKindOfClass:[AMapNaviPoint class]]) {
+                AMapNaviPoint *point = (AMapNaviPoint *)wayPoint;
+                MAPointAnnotation *wayAnno = [[MAPointAnnotation alloc] init];
+                wayAnno.coordinate = CLLocationCoordinate2DMake(point.latitude, point.longitude);
+                wayAnno.title = [NSString stringWithFormat:@"%@途径点", routeType];
+                [annotations addObject:wayAnno];
+            }
+        }
+    }
+}
 
 #pragma mark - Ride Delegate
 
@@ -1402,6 +1574,25 @@ static AMapNavigationManager *_sharedManager;
     if (self.transitAnnotations.count) {
         [self.mapView removeAnnotations:self.transitAnnotations];
         [self.transitAnnotations removeAllObjects];
+    }
+    
+    if (self.driveAnnotations.count) {
+        [self.mapView removeAnnotations:self.driveAnnotations];
+        [self.driveAnnotations removeAllObjects];
+    }
+    if (self.walkAnnotations.count) {
+        [self.mapView removeAnnotations:self.walkAnnotations];
+        [self.walkAnnotations removeAllObjects];
+    }
+    if (self.rideAnnotations.count) {
+        [self.mapView removeAnnotations:self.rideAnnotations];
+        [self.rideAnnotations removeAllObjects];
+    }
+    
+    // 清理驾车路线（如果存在）
+    if (self.driveRouteLines.count) {
+        [self.mapView removeOverlays:self.driveRouteLines];
+        [self.driveRouteLines removeAllObjects];
     }
     
     // 清理步行路线（如果存在）

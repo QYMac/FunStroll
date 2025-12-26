@@ -55,7 +55,7 @@
 - (void)collectionViewIndexPath:(NSIndexPath *)indexPath dataList:(NSArray *)dataList selectedIndex:(NSInteger)selectedIndex{
     if (selectedIndex == 0) {
         AMapNaviRoute *route = [dataList objectAtIndex:indexPath.row];
-        self.timeL.text = [NSString formatTimeFromSeconds:route.routeTime];
+        self.timeL.text = [CheckTool replaceNullValue:[NSString formatTimeFromSeconds:route.routeTime]];
         NSString *routeLengthText = [NSString stringWithFormat:@"%ld米",route.routeLength];
         if (route.routeLength >= 1000) {
             routeLengthText = [NSString stringWithFormat:@"%ld公里",route.routeLength/1000];

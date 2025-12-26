@@ -54,8 +54,8 @@ typedef void(^ExitNavigationBlcok)(void); // 退出导航
                  policy:(AMapTransitStrategy)policy
              completion:(AMapTransitCompletion)completion;
 
-/// 选择一条驾车导航路线进行导航
-- (void)selectNaviRouteWithIndex:(NSInteger)index;
+/// 选择一条驾车导航画线
+- (void)selectNaviRouteWithRoutes:(NSArray<AMapNaviRoute *> *)routes;
 
 /// 开始模拟导航（需先规划路线），speed 为仿真速度（km/h）
 - (void)startEmulatorNaviWithSpeed:(int)speed;

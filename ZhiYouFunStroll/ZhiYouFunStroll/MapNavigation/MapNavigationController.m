@@ -256,14 +256,13 @@
             weakSelf.dataList = [routes copy];
             [weakSelf.collectionView reloadData];
 
-            
             [[AMapNavigationManager shared].rideView removeFromSuperview];
             [[AMapNavigationManager shared].walkView removeFromSuperview];
             [AMapNavigationManager shared].rideView = temp;
             [AMapNavigationManager shared].walkView = temp;
             [self.view insertSubview:[AMapNavigationManager shared].driveView atIndex:1];
             // 选第一条做为当前导航路线
-            [[AMapNavigationManager shared] selectNaviRouteWithIndex:0];
+            [[AMapNavigationManager shared] selectNaviRouteWithRoutes:routes];
             
         }];
     } else if (index == 1) { // 公共交通

@@ -18,6 +18,10 @@
 @property (nonatomic,strong) UIButton *addresBut;// 定位按钮
 @property (nonatomic,strong) UIButton *searchBut;// 搜索按钮
 
+// 测试
+@property (strong,nonatomic) NSTimer *timer;
+@property (assign,nonatomic) int index;
+
 @end
 
 @implementation HomeViewController
@@ -33,25 +37,7 @@
 
 // 刷新toekn
 - (void)refreshToken{
-    NSString *token = [UserModel getObjectForKey:kAccessToken];
-    NSLog(@"token=====%@",token);
-    return;
-    if ([UserModel sharedUserModel].isAutoLogin == YES) {
-        NSString *refresh_token = [UserModel getObjectForKey:kRefreshToken];
-        [AFNetworkingManage LoginRefresh_token:refresh_token grant_type:@"refresh_token" scope:@"app-server" success:^(id  _Nonnull responseObject) {
-            
-            NSDictionary *dict = [CheckTool replaceNullWithDictionary:responseObject];
-            NSString *access_token = [CheckTool replaceNullValue:dict[@"access_token"]];
-            NSString *refresh_token = [CheckTool replaceNullValue:dict[@"refresh_token"]];
-            NSString *token_type = [CheckTool replaceNullValue:dict[@"token_type"]];
-            [UserModel saveObject:access_token forKey:kAccessToken];
-            [UserModel saveObject:refresh_token forKey:kRefreshToken];
-            [UserModel saveObject:token_type forKey:kTokenType];
-            
-        } failureHandler:^(NSError * _Nonnull error) {
-            NSLog(@"%@",error);
-        }];
-    }
+    [UserModel updateUserLoginToken];
 }
 
 // 创建分页列表
@@ -100,15 +86,25 @@
 
 }
 
+#pragma mark - 定时器，用于测试
+- (void)timerValida{
+    self.index ++;
+}
+
 #pragma mark - 按钮点击
 
 - (void)addresButClick:(UIButton *)sender{
     [ZSProgressHUD showDpromptText:@"请等待..."];
+    self.index = 1;
+    self.timer =  [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(timerValida) userInfo:nil repeats:YES];
     [[PhotoLocationManager shared] fetchPhotosWithLocationWithCompletion:^(NSArray<PhotoLocationInfo *> * _Nonnull photos, NSError * _Nullable error) {
         [[PhotoLocationManager shared] batchReverseGeocodeForPhotos:photos completion:^(NSArray<PhotoLocationInfo *> * _Nonnull photos, NSError * _Nullable error) {
+            //关闭定时器
+            [self.timer setFireDate:[NSDate distantFuture]];
+            self.timer = nil;
             for (PhotoLocationInfo *model in photos) {
-                AMapReGeocode *addressModel = model.addressInfo;
                 NSLog(@"formattedAddress=%@",model.formattedAddress);
+                [AlertWith showAlertWithMessageText:[NSString stringWithFormat:@"查询全部照片信息用时 %d 秒",self.index]];
             }
             [ZSProgressHUD hideAllHUDAnimated:YES];
         }];

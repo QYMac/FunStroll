@@ -15,12 +15,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// 保存数据
 +(void)saveObject:(id)obj forKey:(NSString *)key;
-
 /// 清除数据
 +(void)clearObjectForKey:(NSString *)key;
-
 ///  获取数据
 +(id)getObjectForKey:(NSString *)key;
+/// 更新用户token
++ (void)updateUserLoginToken;
 
 /// 是否登录
 @property (nonatomic,assign) BOOL isAutoLogin;

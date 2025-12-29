@@ -1000,6 +1000,12 @@ CGFloat const bottomToolBarHeight = 50.f;
     UIContextMenuConfiguration *configuration = [UIContextMenuConfiguration configurationWithIdentifier:nil previewProvider:^UIViewController * _Nullable{
         __strong typeof(weakSelf) strongSelf = weakSelf;
         LFImagePickerController *imagePickerVc = (LFImagePickerController *)strongSelf.navigationController;
+        
+        if (((imagePickerVc.sortAscendingByCreateDate && indexPath.row >= self->_models.count) || (!imagePickerVc.sortAscendingByCreateDate && indexPath.row == 0)) && imagePickerVc.allowTakePicture)  {
+            [self takePhoto];
+            return nil;
+        }
+        
         NSInteger index = indexPath.row;
         if (!imagePickerVc.sortAscendingByCreateDate && imagePickerVc.allowTakePicture) {
             index = indexPath.row - 1;
@@ -1007,7 +1013,7 @@ CGFloat const bottomToolBarHeight = 50.f;
         LFPhotoPreviewController *photoPreviewVc = [[LFPhotoPreviewController alloc] initWithModels:[strongSelf.models copy] index:index];
         [photoPreviewVc beginPreviewing:imagePickerVc];
         
-        LFAsset *model = strongSelf.models[indexPath.row];
+        LFAsset *model = [strongSelf.models objectAtIndexCheck:indexPath.row];
         PHAsset *phAsset = model.asset;
         CGFloat aspectRatio = phAsset.pixelWidth / (CGFloat)phAsset.pixelHeight;
         CGFloat pixelWidth = [UIScreen mainScreen].bounds.size.width * 2.0f;

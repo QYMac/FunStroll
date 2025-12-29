@@ -76,43 +76,43 @@
     }
     
     
-    // MaxImagesCount  可以选着的最大条目数
-    TZImagePickerController *imagePicker = [[TZImagePickerController alloc] initWithMaxImagesCount:9 delegate:self];
-    // 是否显示可选原图按钮
-    imagePicker.allowPickingOriginalPhoto = YES;
-    // 是否允许显示视频
-    imagePicker.allowPickingVideo = NO;
-    // 是否允许显示图片
-    imagePicker.allowPickingImage = YES;
-    //相册导航栏颜色
-    imagePicker.naviBgColor = [UIColor whiteColor];
-    imagePicker.barItemTextColor = [UIColor blackColor];
-    imagePicker.naviTitleColor = [UIColor whiteColor];
-    imagePicker.oKButtonTitleColorNormal = [UIColor blackColor];
-    imagePicker.oKButtonTitleColorDisabled = [UIColor blackColor];
-    // 设置 模态弹出模式。 iOS 13默认非全屏
-    imagePicker.modalPresentationStyle = UIModalPresentationFullScreen;
-    [[TabBarViewController takeCurrentVC] presentViewController:imagePicker animated:YES completion:nil];
-     
-    
-//    LFImagePickerController *imagePicker = [[LFImagePickerController alloc] initWithMaxImagesCount:9 delegate:self];
-//    imagePicker.allowTakePicture = NO; // 隐藏拍照按钮
-//    //imagePicker.maxVideosCount = 1; // 解除混合选择- 要么1个视频，要么9个图片
-//    //imagePicker.sortAscendingByCreateDate = NO;
-//    imagePicker.supportAutorotate = YES; // 适配横屏
-//    //imagePicker.imageCompressSize = 200; // 标清图压缩大小
-//    //imagePicker.thumbnailCompressSize = 20; // 缩略图压缩大小
-//    imagePicker.allowPickingType = LFPickingMediaTypePhoto | LFPickingMediaTypeGif;
-//    //imagePicker.autoPlayLivePhoto = NO; // 自动播放live photo
-//    //imagePicker.autoSelectCurrentImage = NO; // 关闭自动选中
-//    //imagePicker.defaultAlbumName = @"动图"; // 指定默认显示相册
-//    //imagePicker.displayImageFilename = YES; // 显示文件名称
-//    //imagePicker.thumbnailCompressSize = 0.f; // 不需要缩略图
-//    if ([UIDevice currentDevice].systemVersion.floatValue >= 8.0f) {
-//        imagePicker.syncAlbum = YES; // 实时同步相册
-//    }
+//    // MaxImagesCount  可以选着的最大条目数
+//    TZImagePickerController *imagePicker = [[TZImagePickerController alloc] initWithMaxImagesCount:9 delegate:self];
+//    // 是否显示可选原图按钮
+//    imagePicker.allowPickingOriginalPhoto = YES;
+//    // 是否允许显示视频
+//    imagePicker.allowPickingVideo = NO;
+//    // 是否允许显示图片
+//    imagePicker.allowPickingImage = YES;
+//    //相册导航栏颜色
+//    imagePicker.naviBgColor = [UIColor whiteColor];
+//    imagePicker.barItemTextColor = [UIColor blackColor];
+//    imagePicker.naviTitleColor = [UIColor whiteColor];
+//    imagePicker.oKButtonTitleColorNormal = [UIColor blackColor];
+//    imagePicker.oKButtonTitleColorDisabled = [UIColor blackColor];
+//    // 设置 模态弹出模式。 iOS 13默认非全屏
 //    imagePicker.modalPresentationStyle = UIModalPresentationFullScreen;
 //    [[TabBarViewController takeCurrentVC] presentViewController:imagePicker animated:YES completion:nil];
+     
+    
+    LFImagePickerController *imagePicker = [[LFImagePickerController alloc] initWithMaxImagesCount:9 delegate:self];
+    imagePicker.allowTakePicture = YES; // 隐藏拍照按钮
+    //imagePicker.maxVideosCount = 1; // 解除混合选择- 要么1个视频，要么9个图片
+    //imagePicker.sortAscendingByCreateDate = NO;
+    imagePicker.supportAutorotate = YES; // 适配横屏
+    //imagePicker.imageCompressSize = 200; // 标清图压缩大小
+    //imagePicker.thumbnailCompressSize = 20; // 缩略图压缩大小
+    imagePicker.allowPickingType = LFPickingMediaTypePhoto | LFPickingMediaTypeGif;
+    //imagePicker.autoPlayLivePhoto = NO; // 自动播放live photo
+    //imagePicker.autoSelectCurrentImage = NO; // 关闭自动选中
+    //imagePicker.defaultAlbumName = @"动图"; // 指定默认显示相册
+    //imagePicker.displayImageFilename = YES; // 显示文件名称
+    //imagePicker.thumbnailCompressSize = 0.f; // 不需要缩略图
+    if ([UIDevice currentDevice].systemVersion.floatValue >= 8.0f) {
+        imagePicker.syncAlbum = YES; // 实时同步相册
+    }
+    imagePicker.modalPresentationStyle = UIModalPresentationFullScreen;
+    [[TabBarViewController takeCurrentVC] presentViewController:imagePicker animated:YES completion:nil];
 }
 
 - (void)removeButClick:(UIButton *)sender{

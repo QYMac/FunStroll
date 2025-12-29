@@ -6,6 +6,7 @@
 //
 
 #import "UserModel.h"
+#import "AFNetworkingManage+Login.h"
 
 #define szp_uesrDefault [NSUserDefaults standardUserDefaults]
 
@@ -35,6 +36,38 @@ static UserModel * instance = nil;
     return instance;
 }
 
+
+// 更新用户token
++ (void)updateUserLoginToken{
+    
+    if ([UserModel sharedUserModel].isAutoLogin == NO) {
+        return;
+    }
+    
+    // 执行登录
+    NSString *phoneNumberText = @"15678833047";
+    NSString *phoneNumber = [NSString stringWithFormat:@"APP-OneClick@%@",phoneNumberText];
+    [AFNetworkingManage LoginMobile:phoneNumber grant_type:@"mobile" scope:@"app-server" success:^(id  _Nonnull responseObject) {
+        
+        // 储存用户信息
+        NSDictionary *dict = [CheckTool replaceNullWithDictionary:responseObject];
+        NSString *refresh_token = [CheckTool replaceNullValue:dict[@"refresh_token"]];
+        NSString *access_token = [CheckTool replaceNullValue:dict[@"access_token"]];
+        NSString *username = [CheckTool replaceNullValue:dict[@"username"]];
+        NSString *user_id = [CheckTool replaceNullValue:dict[@"user_id"]];
+        NSString *token_type = [CheckTool replaceNullValue:dict[@"token_type"]];
+        [UserModel saveObject:refresh_token forKey:kRefreshToken];
+        [UserModel saveObject:access_token forKey:kAccessToken];
+        [UserModel saveObject:username forKey:kUserName];
+        [UserModel saveObject:user_id forKey:kUserId];
+        [UserModel saveObject:token_type forKey:kTokenType];
+        [UserModel saveObject:phoneNumberText forKey:kPhoneNumber];
+        [UserModel sharedUserModel].isAutoLogin = YES;
+        
+    } failureHandler:^(NSError * _Nonnull error) {
+        NSLog(@"%@",error);
+    }];
+}
 
 #pragma mark - 数组本地储存
 +(void)saveObject:(id)obj forKey:(NSString *)key {

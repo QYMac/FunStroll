@@ -98,9 +98,6 @@
 // 通知相关
 #define kCurrentLocation @"CurrentLocation"  // 通知定位当前位置
 
-
-
-
 #import "MapNavigationController.h"
 #import "MapNavigationController.h" // 地图导航
 

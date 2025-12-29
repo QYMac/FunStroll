@@ -13,7 +13,7 @@
 + (void)homeCurrent:(NSString *)current size:(NSString *)size keyword:(NSString *)keyword success:(SuccessHandler)success failureHandler:(FailureHandler)failure{
     NSString *url = @"/app/appPost/homePage";
     NSDictionary *parameters = @{@"current":current,@"size":size,@"keyword":keyword};
-    [self requestWithUrl:url params:parameters requestType:@"GET" isBody:NO successHanler:success failureHandler:failure];
+    [self requestWithUrl:url params:parameters requestType:@"GET" isBody:NO isToken:YES successHanler:success failureHandler:failure];
 }
 
 @end

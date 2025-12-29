@@ -44,8 +44,35 @@ static UserModel * instance = nil;
         return;
     }
     
+    // 更新 token 需要未登录状态去查寻更新，API这样写，我不是很理解 ？？？
+    // Authorization = Basic YXBwOmFwcA== （固定）
+    NSString *refresh_token = [UserModel getObjectForKey:kRefreshToken];
+    [AFNetworkingManage LoginRefresh_token:refresh_token grant_type:@"refresh_token" scope:@"app-server" success:^(id  _Nonnull responseObject) {
+        
+        NSDictionary *dict = [CheckTool replaceNullWithDictionary:responseObject];
+        NSString *code = [CheckTool replaceNullValue:dict[@"code"]];
+        if ([code intValue] == 1) {
+            [self loginAccount];
+        } else {
+            // 储存用户信息
+            NSString *refresh_token = [CheckTool replaceNullValue:dict[@"refresh_token"]];
+            NSString *access_token = [CheckTool replaceNullValue:dict[@"access_token"]];
+            NSString *token_type = [CheckTool replaceNullValue:dict[@"token_type"]];
+            [UserModel saveObject:refresh_token forKey:kRefreshToken];
+            [UserModel saveObject:access_token forKey:kAccessToken];
+            [UserModel saveObject:token_type forKey:kTokenType];
+        }
+        
+    } failureHandler:^(NSError * _Nonnull error) {
+        NSLog(@"%@",error);
+        
+    }];
+    
+}
+
++ (void)loginAccount{
     // 执行登录
-    NSString *phoneNumberText = @"15678833047";
+    NSString *phoneNumberText =[UserModel getObjectForKey:kPhoneNumber];
     NSString *phoneNumber = [NSString stringWithFormat:@"APP-OneClick@%@",phoneNumberText];
     [AFNetworkingManage LoginMobile:phoneNumber grant_type:@"mobile" scope:@"app-server" success:^(id  _Nonnull responseObject) {
         

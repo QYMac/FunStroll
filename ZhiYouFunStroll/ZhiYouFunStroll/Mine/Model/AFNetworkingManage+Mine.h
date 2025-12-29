@@ -11,7 +11,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface AFNetworkingManage (Mine)
 
-+ (void)GetAlibabaCloudTokenPlatform:(NSString *)platform success:(SuccessHandler)success failureHandler:(FailureHandler)failure;
 
 
 @end

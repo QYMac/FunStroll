@@ -18,6 +18,7 @@ typedef void (^FailureHandler)(NSError *error);
              params:(NSDictionary *)params
          requestType:(NSString *)requestType
                 isBody:(BOOL)isBody
+               isToken:(BOOL)isToken
       successHanler:(SuccessHandler)success
      failureHandler:(FailureHandler)failure;
 

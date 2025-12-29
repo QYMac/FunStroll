@@ -8,32 +8,7 @@
 #import "AlicomFusionAuthTokenManager.h"
 #import "AlicomFusionDemoUtil.h"
 #import "AFNetworkingManage+Login.h"
-#import <CoreTelephony/CTTelephonyNetworkInfo.h>
-#import <CoreTelephony/CTCarrier.h>
-
-// 用于检测是否有SIM卡
-extern NSString* const kCTSMSMessageReceivedNotification;
-extern NSString* const kCTSMSMessageReplaceReceivedNotification;
-extern NSString* const kCTSIMSupportSIMStatusNotInserted;
-extern NSString* const kCTSIMSupportSIMStatusReady;
-
-id CTTelephonyCenterGetDefault(void);
-void CTTelephonyCenterAddObserver(id,id,CFNotificationCallback,NSString*,void*,int);
-void CTTelephonyCenterRemoveObserver(id,id,NSString*,void*);
-int CTSMSMessageGetUnreadCount(void);
-
-int CTSMSMessageGetRecordIdentifier(void * msg);
-NSString * CTSIMSupportGetSIMStatus(void);
-NSString * CTSIMSupportCopyMobileSubscriberIdentity(void);
-
-id  CTSMSMessageCreate(void* unknow,NSString* number,NSString* text);
-void * CTSMSMessageCreateReply(void* unknow,void * forwardTo,NSString* text);
-
-void* CTSMSMessageSend(id server,id msg);
-
-NSString *CTSMSMessageCopyAddress(void *, void *);
-NSString *CTSMSMessageCopyText(void *, void *);
-
+#import "DeviceInfoHelper.h"
 
 #define AlicomColorHex(rgbValue) [UIColor \
 colorWithRed:((float)((rgbValue & 0xFF0000) >> 16)) / 255.0 \
@@ -43,6 +18,7 @@ blue:((float)(rgbValue & 0xFF)) / 255.0 alpha:1.0]
 #define ALICOM_FUSION_DEMO_SCREEN_WIDTH [[UIScreen mainScreen] bounds].size.width
 #define ALICOM_FUSION_DEMO_SCREEN_HEIGHT [[UIScreen mainScreen] bounds].size.height
 #define ALICOM_FUSION_DEMO_STATUS_BAR_HEIGHT ([AlicomFusionDemoUtil getDemoStatusBarHeight])
+
 
 @interface AlicomFusionAuthTokenManager ()<AlicomFusionAuthDelegate,AlicomFusionAuthUIDelegate>
 
@@ -65,21 +41,17 @@ blue:((float)(rgbValue & 0xFF)) / 255.0 alpha:1.0]
 
 - (void)oneClickLogin{
     
-    /*
-    BOOL noSim= [CTSIMSupportGetSIMStatus() isEqualToString:kCTSIMSupportSIMStatusNotInserted];
-    if (noSim == NO) {
+    if ([DeviceInfoHelper hasSIMCard] == NO) {
         [AlertWith showAlertWithMessageText:@"请插 SIM 卡"];
         return;
     }
-     */
+
     
     [ZSProgressHUD showHUDShowText:@"请稍等..."];
     
     // 快速访问模式
     //[self alicomFusionAuthHandlerToken:DEMO_TEMPORATY_TOKEN];
     //return;
-    
-    [UserModel sharedUserModel].isAutoLogin = NO;
     
     WeakSelf
     // 正常访问
@@ -94,40 +66,6 @@ blue:((float)(rgbValue & 0xFF)) / 255.0 alpha:1.0]
     }];
 }
 
-// 检测是否有SIM卡
-- (BOOL)hasSIMCard{
-    CTTelephonyNetworkInfo *networkInfo = [[CTTelephonyNetworkInfo alloc] init];
-    if (@available(iOS 12.0, *)) {
-        // iOS 12+ 支持双卡
-        NSDictionary<NSString *, CTCarrier *> *providers = [networkInfo serviceSubscriberCellularProviders];
-        
-        if (providers.count == 0) {
-            return NO; // 没有运营商信息，可能无SIM卡
-        }
-        
-        // 检查所有运营商
-        for (NSString *key in providers.allKeys) {
-            CTCarrier *carrier = providers[key];
-            if (carrier.mobileCountryCode.length > 0 &&
-                carrier.mobileNetworkCode.length > 0) {
-                return YES; // 有有效的运营商信息
-            }
-        }
-        return NO;
-    } else {
-        // iOS 12之前
-        CTCarrier *carrier = [networkInfo subscriberCellularProvider];
-        
-        if (carrier.mobileCountryCode &&
-            carrier.mobileNetworkCode &&
-            carrier.mobileCountryCode.length > 0 &&
-            carrier.mobileNetworkCode.length > 0 &&
-            ![carrier.mobileCountryCode isEqualToString:@"65535"]) { // 65535表示无SIM卡
-            return YES;
-        }
-        return NO;
-    }
-}
 
 - (void)alicomFusionAuthHandlerToken:(NSString *)token{
     WeakSelf
@@ -189,7 +127,7 @@ blue:((float)(rgbValue & 0xFF)) / 255.0 alpha:1.0]
             }];
             
         } failureHandler:^(NSError * _Nonnull error) {
-            
+            NSLog(@"%@",error);
         }];
     });
 

@@ -45,6 +45,7 @@
 		CC754EFE2EFBC8F4002DB1FA /* HomeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = CC754EFD2EFBC8F4002DB1FA /* HomeModel.m */; };
 		CC754F012EFBD395002DB1FA /* NSArray+Check.m in Sources */ = {isa = PBXBuildFile; fileRef = CC754F002EFBD395002DB1FA /* NSArray+Check.m */; };
 		CC754F202EFD34C2002DB1FA /* PhotoLocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CC754F1F2EFD34C2002DB1FA /* PhotoLocationManager.m */; };
+		CC754F832F0223D7002DB1FA /* DeviceInfoHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = CC754F822F0223D7002DB1FA /* DeviceInfoHelper.m */; };
 		CC8253662ED43097006BCE2A /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CC8253642ED43097006BCE2A /* ViewController.m */; };
 		CC8253672ED43097006BCE2A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CC8253602ED43097006BCE2A /* main.m */; };
 		CC8253682ED43097006BCE2A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CC82535B2ED43097006BCE2A /* AppDelegate.m */; };
@@ -230,6 +231,8 @@
 		CC754F002EFBD395002DB1FA /* NSArray+Check.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSArray+Check.m"; sourceTree = "<group>"; };
 		CC754F1E2EFD34C2002DB1FA /* PhotoLocationManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PhotoLocationManager.h; sourceTree = "<group>"; };
 		CC754F1F2EFD34C2002DB1FA /* PhotoLocationManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PhotoLocationManager.m; sourceTree = "<group>"; };
+		CC754F812F0223D7002DB1FA /* DeviceInfoHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DeviceInfoHelper.h; sourceTree = "<group>"; };
+		CC754F822F0223D7002DB1FA /* DeviceInfoHelper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DeviceInfoHelper.m; sourceTree = "<group>"; };
 		CC82535A2ED43097006BCE2A /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		CC82535B2ED43097006BCE2A /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		CC82535C2ED43097006BCE2A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -571,6 +574,8 @@
 		CC2F1CDA2EF2A367007E8992 /* AlicomFusionAuthTokenManager */ = {
 			isa = PBXGroup;
 			children = (
+				CC754F812F0223D7002DB1FA /* DeviceInfoHelper.h */,
+				CC754F822F0223D7002DB1FA /* DeviceInfoHelper.m */,
 				CC2F1CDB2EF2A399007E8992 /* AlicomFusionAuthTokenManager.h */,
 				CC2F1CDC2EF2A399007E8992 /* AlicomFusionAuthTokenManager.m */,
 			);
@@ -1590,6 +1595,7 @@
 				CC995A532EF1297200456825 /* LFImagePickerHeader.m in Sources */,
 				CC754EFE2EFBC8F4002DB1FA /* HomeModel.m in Sources */,
 				CC8253CB2ED5935F006BCE2A /* CommunityViewController.m in Sources */,
+				CC754F832F0223D7002DB1FA /* DeviceInfoHelper.m in Sources */,
 				CC9959AE2EEBE31900456825 /* NSString+TimeFormatter.m in Sources */,
 				CC8253AC2ED4411C006BCE2A /* ShoppingViewController.m in Sources */,
 				CC2F1CD42EF2872F007E8992 /* AFNetworkingManage+Mine.m in Sources */,

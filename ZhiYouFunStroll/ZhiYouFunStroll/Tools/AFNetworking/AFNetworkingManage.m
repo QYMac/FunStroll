@@ -11,7 +11,7 @@
 
 @implementation AFNetworkingManage
 
-+ (void)requestWithUrl:(NSString *)url params:(NSDictionary *)params requestType:(NSString *)requestType isBody:(BOOL)isBody successHanler:(SuccessHandler)success failureHandler:(FailureHandler)failure {
++ (void)requestWithUrl:(NSString *)url params:(NSDictionary *)params requestType:(NSString *)requestType isBody:(BOOL)isBody isToken:(BOOL)isToken successHanler:(SuccessHandler)success failureHandler:(FailureHandler)failure {
     
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript",@"text/html", nil];
@@ -42,9 +42,13 @@
     manager.requestSerializer = requestSerializer;
      */
     
+    NSDictionary *headersDictionary = [AFNetworkingHeaders headersDictionary];
+    if (isToken == NO) {
+        headersDictionary = [AFNetworkingHeaders noTokenHeadersDictionary];
+    }
     
     if ([requestType isEqualToString:@"GET"]) {
-        [manager GET:[NSString stringWithFormat:@"%@%@",BASE_URL,url] parameters:params headers:[AFNetworkingHeaders headersDictionary] progress:^(NSProgress * _Nonnull downloadProgress) {
+        [manager GET:[NSString stringWithFormat:@"%@%@",BASE_URL,url] parameters:params headers:headersDictionary progress:^(NSProgress * _Nonnull downloadProgress) {
             
         } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
             if (success) {
@@ -57,7 +61,7 @@
         }];
         
     }else{
-        [manager POST:[NSString stringWithFormat:@"%@%@",BASE_URL,url] parameters:params headers:[AFNetworkingHeaders headersDictionary] progress:^(NSProgress * _Nonnull uploadProgress) {
+        [manager POST:[NSString stringWithFormat:@"%@%@",BASE_URL,url] parameters:params headers:headersDictionary progress:^(NSProgress * _Nonnull uploadProgress) {
             
         } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
             if (success) {

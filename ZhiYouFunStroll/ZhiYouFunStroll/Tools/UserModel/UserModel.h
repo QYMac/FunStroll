@@ -22,7 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// 更新用户token
 + (void)updateUserLoginToken;
 
-/// 是否登录
+/// 是否已经登录
 @property (nonatomic,assign) BOOL isAutoLogin;
 /// 是否有网络
 @property (nonatomic,assign) BOOL isNetworkStatus;

@@ -6,8 +6,6 @@
 //
 
 #import "AddCommentCollectionCell.h"
-#import <ImageIO/ImageIO.h>
-#import <CoreLocation/CoreLocation.h>
 
 @interface AddCommentCollectionCell ()<TZImagePickerControllerDelegate,LFImagePickerControllerDelegate>
 
@@ -152,17 +150,6 @@
         [self.addImgList addObject:photos[i]];
     }
     
-    PHAsset *assetsL = [assets objectAtIndex:0];
-    // 检查是否有位置信息
-    if (assetsL.location) {
-        CLLocationCoordinate2D coordinate = assetsL.location.coordinate;
-        NSLog(@"经度: %f, 纬度: %f", coordinate.longitude, coordinate.latitude);
-        
-    } else {
-        NSLog(@"该图片没有位置信息");
-    }
-    
-    
     
     
     
@@ -173,52 +160,13 @@
     
 }
 
-// 方法1：从原始图片数据获取
-- (NSDictionary *)getImageMetadataFromData:(NSData *)imageData {
-    if (!imageData) return nil;
-    
-    CGImageSourceRef source = CGImageSourceCreateWithData((__bridge CFDataRef)imageData, NULL);
-    if (!source) return nil;
-    
-    CFDictionaryRef metadata = CGImageSourceCopyPropertiesAtIndex(source, 0, NULL);
-    NSDictionary *metadataDict = (__bridge_transfer NSDictionary *)metadata;
-    
-    CFRelease(source);
-    
-    return metadataDict;
-}
 
-// 获取位置信息
-- (CLLocation *)getLocationFromImageMetadata:(NSDictionary *)metadata {
-    if (!metadata) return nil;
-    
-    // 获取 GPS 信息
-    NSDictionary *gpsInfo = metadata[(NSString *)kCGImagePropertyGPSDictionary];
-    if (!gpsInfo) return nil;
-    
-    // 解析经纬度
-    NSString *latitudeRef = gpsInfo[(NSString *)kCGImagePropertyGPSLatitudeRef];
-    NSString *longitudeRef = gpsInfo[(NSString *)kCGImagePropertyGPSLongitudeRef];
-    NSNumber *latitude = gpsInfo[(NSString *)kCGImagePropertyGPSLatitude];
-    NSNumber *longitude = gpsInfo[(NSString *)kCGImagePropertyGPSLongitude];
-    
-    if (!latitude || !longitude) return nil;
-    
-    // 转换坐标
-    CLLocationDegrees lat = latitude.doubleValue;
-    CLLocationDegrees lng = longitude.doubleValue;
-    
-    if ([latitudeRef isEqualToString:@"S"]) lat = -lat;
-    if ([longitudeRef isEqualToString:@"W"]) lng = -lng;
-    
-    return [[CLLocation alloc] initWithLatitude:lat longitude:lng];
-}
 
 #pragma mark - LFImagePickerControllerDelegate
-- (void)lf_imagePickerController:(LFImagePickerController *)picker takePhotoHandler:(lf_takePhotoHandler)handler
-{
-    
-}
+//- (void)lf_imagePickerController:(LFImagePickerController *)picker takePhotoHandler:(lf_takePhotoHandler)handler
+//{
+//    
+//}
 
 - (void)lf_imagePickerController:(LFImagePickerController *)picker didFinishPickingResult:(NSArray <LFResultObject /* <LFResultImage/LFResultVideo> */*> *)results
 {

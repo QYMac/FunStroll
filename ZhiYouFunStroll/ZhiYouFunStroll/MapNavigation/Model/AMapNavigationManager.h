@@ -12,6 +12,8 @@ NS_ASSUME_NONNULL_BEGIN
 typedef void(^AMapNaviDriveRouteCompletion)(NSArray<AMapNaviRoute *> * _Nullable routes, NSError * _Nullable error);
 typedef void(^AMapNaviSimpleCompletion)(AMapNaviRoute * _Nullable route, NSError * _Nullable error);
 typedef void(^AMapTransitCompletion)(AMapRouteSearchResponse * _Nullable response, NSError * _Nullable error);
+typedef void(^AMapLocationAddressCompletion)(AMapReGeocode * _Nullable regeocode, CLLocationCoordinate2D coordinate, NSError * _Nullable error);
+
 
 typedef void(^ExitNavigationBlcok)(void); // 退出导航
 
@@ -103,6 +105,17 @@ typedef void(^ExitNavigationBlcok)(void); // 退出导航
 
 /// 实时公交导航
 - (void)onTransitGpsTap;
+
+
+/// 获取当前位置地址（需要定位权限）
+/// @param completion 完成回调，返回反地理编码结果和坐标
+- (void)getCurrentLocationAddressWithCompletion:(AMapLocationAddressCompletion)completion;
+
+/// 根据坐标获取地址信息（反地理编码）
+/// @param coordinate 坐标
+/// @param completion 完成回调，返回反地理编码结果
+- (void)getAddressForCoordinate:(CLLocationCoordinate2D)coordinate
+                      completion:(AMapLocationAddressCompletion)completion;
 
 
 

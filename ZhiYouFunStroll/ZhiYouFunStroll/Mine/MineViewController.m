@@ -7,10 +7,9 @@
 
 #import "MineViewController.h"
 #import "MineViewTableViewCell.h"
-#import "AFNetworkingManage+Mine.h"
 #import "LoginViewController.h"
 
-@interface MineViewController ()<UITableViewDelegate,UITableViewDataSource,AlicomFusionAuthDelegate,AlicomFusionAuthUIDelegate>
+@interface MineViewController ()<UITableViewDelegate,UITableViewDataSource>
 
 @property (nonatomic,strong) UITableView *tableView;
 @property (nonatomic,strong) UIImageView *bgImage;
@@ -19,10 +18,6 @@
 @property (nonatomic,strong) UIButton *loginBut;
 @property (nonatomic,strong) NSArray *titleList;
 @property (nonatomic,strong) NSArray *imgList;
-
-// 阿里云手机登录
-@property (nonatomic,nullable, strong) AlicomFusionAuthHandler *handler;
-@property (nonatomic, strong) AlicomFusionNumberAuthModel *authmodel;
 
 @end
 
@@ -128,17 +123,6 @@
     //TransitionAnimation *transition = [[TransitionAnimation alloc] init];
     LoginViewController *navc = [[LoginViewController alloc] init];
     [self.navigationController pushViewController:navc animated:YES];
-    
-    /*
-    WeakSelf
-    // 阿里云一键登录
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [[AlicomFusionAuthTokenManager shareInstance] oneClickLogin];
-        [AlicomFusionAuthTokenManager shareInstance].loginOutclickBlcok = ^{
-            weakSelf.tableView.hidden = NO;
-        };
-    });
-     */
     
 }
 

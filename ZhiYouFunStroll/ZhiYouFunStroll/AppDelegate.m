@@ -18,11 +18,14 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    //[UserModel clearObjectForKey:kUserId];
     if ([UserModel getObjectForKey:kUserId] != nil) {
         [UserModel sharedUserModel].isAutoLogin = YES;
     } else {
         [UserModel sharedUserModel].isAutoLogin = NO;
     }
+    
+    /// 项目催的太紧了，两个星期50个界面，现在项目有些界面和功能只能说能用，建议后续优化项目 - 纯牛马，懒得写那么好了
     
     TabBarViewController *tabVc = [[TabBarViewController alloc] init];
     [self.window setRootViewController:tabVc];

@@ -12,6 +12,8 @@ NS_ASSUME_NONNULL_BEGIN
 @interface HomeViewDetailsController : UIViewController
 
 @property (nonatomic,strong) NSString *titleText;
+@property (nonatomic,strong) NSString *imageURL;
+@property (nonatomic,strong) NSString *userNameText;
 
 @end
 

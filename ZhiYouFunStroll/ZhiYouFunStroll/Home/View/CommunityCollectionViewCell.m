@@ -6,6 +6,13 @@
 //
 
 #import "CommunityCollectionViewCell.h"
+#import "AFNetworkingManage+Home.h"
+
+@interface CommunityCollectionViewCell ()
+
+@property (nonatomic,strong) HomeModel *dataModel;
+
+@end
 
 @implementation CommunityCollectionViewCell
 
@@ -13,32 +20,51 @@
     self = [super initWithFrame:frame];
     if (self){
         self.contentView.backgroundColor = [UIColor whiteColor];
-        self.contentView.layer.cornerRadius = 6;
+        self.contentView.layer.cornerRadius = 10;
         self.contentView.layer.masksToBounds = YES;
-        self.contentView.layer.borderWidth = 1;
-        self.contentView.layer.borderColor = RGB(240, 240, 240).CGColor;
+        //self.contentView.layer.borderWidth = 1;
+        //self.contentView.layer.borderColor = RGB(240, 240, 240).CGColor;
         
-        self.avatarImage.layer.cornerRadius = 20;
-        self.avatarImage.layer.masksToBounds = YES;
-        [self.contentView addSubview:self.avatarImage];
-        [self.avatarImage mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.height.width.mas_equalTo(40);
-            make.bottom.mas_equalTo(-12.5);
-            make.left.mas_equalTo(10);
+        [self.contentView addSubview:self.homeImage];
+        self.homeImage.layer.cornerRadius = 10;
+        self.homeImage.layer.masksToBounds = YES;
+        [self.homeImage mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.height.mas_equalTo(self.frame.size.width);
+            make.left.right.top.mas_equalTo(0);
         }];
         
         [self.contentView addSubview:self.titleL];
         [self.titleL mas_makeConstraints:^(MASConstraintMaker *make) {
             make.height.mas_equalTo(40);
-            make.bottom.mas_equalTo(self.avatarImage.mas_top).offset(-10);
-            make.left.mas_equalTo(10);
-            make.right.mas_equalTo(-10);
+            make.top.mas_equalTo(self.homeImage.mas_bottom).offset(10);
+            make.left.mas_equalTo(0);
+            make.right.mas_equalTo(0);
         }];
         
-        [self.contentView addSubview:self.homeImage];
-        [self.homeImage mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.bottom.mas_equalTo(self.titleL.mas_top).offset(-10);
-            make.left.right.top.mas_equalTo(0);
+        self.avatarImage.layer.cornerRadius = 25/2;
+        self.avatarImage.layer.masksToBounds = YES;
+        [self.contentView addSubview:self.avatarImage];
+        [self.avatarImage mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.height.width.mas_equalTo(25);
+            make.top.mas_equalTo(self.titleL.mas_bottom).offset(7.5);
+            make.left.mas_equalTo(self.titleL.mas_left).offset(0);
+        }];
+        
+    
+        [self.contentView addSubview:self.likeBut];
+        [self.likeBut mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.width.mas_equalTo(50);
+            make.height.mas_equalTo(15);
+            make.centerY.mas_equalTo(self.avatarImage);
+            make.right.mas_equalTo(0);
+        }];
+      
+        [self.contentView addSubview:self.nameL];
+        [self.nameL mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.height.mas_equalTo(20);
+            make.centerY.mas_equalTo(self.avatarImage);
+            make.left.mas_equalTo(self.avatarImage.mas_right).offset(5);
+            make.right.mas_equalTo(self.likeBut.mas_left).offset(-5);
         }];
         
         /*
@@ -50,22 +76,6 @@
             make.right.mas_equalTo(-10);
         }];
          */
-        
-        [self.contentView addSubview:self.likeBut];
-        [self.likeBut mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.width.mas_equalTo(50);
-            make.height.mas_equalTo(15);
-            make.centerY.mas_equalTo(self.avatarImage);
-            make.right.mas_equalTo(-10);
-        }];
-        
-        [self.contentView addSubview:self.nameL];
-        [self.nameL mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.height.mas_equalTo(20);
-            make.centerY.mas_equalTo(self.avatarImage);
-            make.left.mas_equalTo(self.avatarImage.mas_right).offset(10);
-            make.right.mas_equalTo(self.likeBut.mas_left).offset(-5);
-        }];
         
         /*
         [self.contentView addSubview:self.timeL];
@@ -80,41 +90,88 @@
     return self;
 }
 
-- (void)setTitleText:(NSString *)titleText{
-    NSString *titleStr = [CheckTool replaceNullValue:titleText];
-    self.titleL.text = titleStr;
-    // 计算文字行数
-    NSInteger num = [LabelSpacing needLinesWithWidth:self.frame.size.width - 20 textStr:titleStr font:12];
+- (void)setModel:(HomeModel *)model{
+    
+    self.dataModel = model;
+    
+    NSString *titleStr = [CheckTool replaceNullValue:model.title];
+    NSInteger num = [LabelSpacing needLinesWithWidth:self.frame.size.width textStr:titleStr font:12];
     // 最多两行
-    if (num > 2) {
+    if (num >= 2) {
         num = 2;
     }
-    
     [self.titleL mas_updateConstraints:^(MASConstraintMaker *make) {
         make.height.mas_equalTo(num * 15);
     }];
     
+    self.titleL.text = titleStr;
+    NSString *coverImage = [CheckTool replaceNullValue:model.coverImage];
+    [self.homeImage sd_setImageWithURL:[NSURL URLWithString:coverImage] placeholderImage:[UIImage imageNamed:@""]];
+    self.nameL.text = [CheckTool replaceNullValue:model.userNickname];
+    [self.likeBut setTitle:[CheckTool replaceNullValue:model.likeCountFormatted] forState:UIControlStateNormal];
+    NSString *userAvatar = [CheckTool replaceNullValue:model.userAvatar];
+    [self.avatarImage sd_setImageWithURL:[NSURL URLWithString:userAvatar] placeholderImage:[UIImage imageNamed:@""]];
+    
+    if (model.Liked == YES) {
+        self.likeBut.selected = YES;
+        [self.likeBut setImage:[UIImage imageNamed:@"like_off"] forState:UIControlStateNormal];
+    } else {
+        self.likeBut.selected = NO;
+        [self.likeBut setImage:[UIImage imageNamed:@"like_on"] forState:UIControlStateNormal];
+    }
 }
 
 #pragma mark - 按钮点击
 - (void)likeButClick:(UIButton *)sender{
-    if (sender.selected == NO) {
-        sender.selected = YES;
-        [sender setImage:[UIImage imageNamed:@"like_off"] forState:UIControlStateNormal];
-    } else {
-        sender.selected = NO;
-        [sender setImage:[UIImage imageNamed:@"like_on"] forState:UIControlStateNormal];
+    
+    // 未登录不能点击
+    if ([UserModel sharedUserModel].isAutoLogin == NO) {
+        return;
     }
+    
+    NSString *postId = [CheckTool replaceNullValue:self.dataModel.postId];
+    [AFNetworkingManage homeLikePostId:postId success:^(id  _Nonnull responseObject) {
+        
+        NSDictionary *dict = [CheckTool replaceNullWithDictionary:responseObject];
+        BOOL isLick = dict[@"data"];
+        
+        if (isLick == YES) {
+            sender.selected = YES;
+            [sender setImage:[UIImage imageNamed:@"like_on"] forState:UIControlStateNormal];
+        } else {
+            sender.selected = NO;
+            [sender setImage:[UIImage imageNamed:@"like_off"] forState:UIControlStateNormal];
+        }
+        
+    } failureHandler:^(NSError * _Nonnull error) {
+        [AlertWith showAlertWithMessageText:[AFNetworkingErrorHelper getFriendlyErrorMessage:error]];
+    }];
 }
 
 - (void)collectionButClick:(UIButton *)sender{
-    if (sender.selected == NO) {
-        sender.selected = YES;
-        [sender setImage:[UIImage imageNamed:@"collection_off"] forState:UIControlStateNormal];
-    } else {
-        sender.selected = NO;
-        [sender setImage:[UIImage imageNamed:@"collection_on"] forState:UIControlStateNormal];
+    
+    // 未登录不能点击
+    if ([UserModel sharedUserModel].isAutoLogin == NO) {
+        return;
     }
+    
+    NSString *postId = [CheckTool replaceNullValue:self.dataModel.postId];
+    [AFNetworkingManage homeCollectPostId:postId success:^(id  _Nonnull responseObject) {
+        
+        NSDictionary *dict = [CheckTool replaceNullWithDictionary:responseObject];
+        BOOL isCollection = dict[@"data"];
+        
+        if (isCollection == YES) {
+            sender.selected = YES;
+            [sender setImage:[UIImage imageNamed:@"collection_on"] forState:UIControlStateNormal];
+        } else {
+            sender.selected = NO;
+            [sender setImage:[UIImage imageNamed:@"collection_off"] forState:UIControlStateNormal];
+        }
+        
+    } failureHandler:^(NSError * _Nonnull error) {
+        [AlertWith showAlertWithMessageText:[AFNetworkingErrorHelper getFriendlyErrorMessage:error]];
+    }];
 }
 
 
@@ -124,7 +181,7 @@
         _homeImage = [[UIImageView alloc]init];
         _homeImage.backgroundColor = RGB(240, 240, 240);
 
-        _homeImage.contentMode = UIViewContentModeScaleToFill;
+        _homeImage.contentMode = UIViewContentModeScaleAspectFill;
     }
     return _homeImage;
 }
@@ -133,7 +190,7 @@
     if (!_avatarImage) {
         _avatarImage = [[UIImageView alloc]init];
         _avatarImage.backgroundColor = RGB(240, 240, 240);
-        _avatarImage.contentMode = UIViewContentModeScaleToFill;
+        _avatarImage.contentMode = UIViewContentModeScaleAspectFill;
     }
     return _avatarImage;
 }
@@ -144,8 +201,7 @@
         _titleL.textColor = [UIColor blackColor];
         _titleL.text = @"卡片标题";
         _titleL.numberOfLines = 2;
-        //_titleL.textAlignment = NSTextAlignmentCenter;
-        _titleL.font = [UIFont systemFontOfSize:12];
+        _titleL.font = [UIFont systemFontOfSize:13];
     }
     return _titleL;
 }
@@ -155,7 +211,7 @@
         _nameL = [[UILabel alloc]init];
         _nameL.textColor = [UIColor blackColor];
         _nameL.text = @"用户昵称";
-        _nameL.font = [UIFont boldSystemFontOfSize:12];
+        _nameL.font = [UIFont boldSystemFontOfSize:10];
     }
     return _nameL;
 }
@@ -180,7 +236,7 @@
         _likeBut.selected = NO;
         [_likeBut addTarget:self action:@selector(likeButClick:) forControlEvents:UIControlEventTouchUpInside];
         _likeBut.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
-        [_likeBut setImagePositionWithType:SSImagePositionTypeLeft spacing:5];;
+        [_likeBut setImagePositionWithType:SSImagePositionTypeLeft spacing:5];
         
     }
     return _likeBut;
@@ -190,8 +246,12 @@
     if (!_collectionBut) {
         _collectionBut = [UIButton buttonWithType:UIButtonTypeCustom];
         [_collectionBut setImage:[UIImage imageNamed:@"collection_on"] forState:UIControlStateNormal];
+        [_collectionBut setTitle:@"9999" forState:UIControlStateNormal];
+        [_collectionBut setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        _collectionBut.titleLabel.font = [UIFont systemFontOfSize:10];
         _collectionBut.selected = NO;
         [_collectionBut addTarget:self action:@selector(collectionButClick:) forControlEvents:UIControlEventTouchUpInside];
+        [_collectionBut setImagePositionWithType:SSImagePositionTypeLeft spacing:5];;
     }
     return _collectionBut;
 }

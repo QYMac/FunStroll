@@ -22,6 +22,8 @@ typedef void(^removeImgButBlcok)(NSMutableArray *addImageList);
 @property(nonatomic,strong) addImgButtonBlcok addImgButtonBlcok;
 @property(nonatomic,strong) removeImgButBlcok removeImgButBlcok;
 
+@property (nonatomic,copy) void(^addButClickBlcok)(void);
+
 - (void)AddCommentIndexPath:(NSIndexPath *)indexPath imageList:(NSMutableArray *)imageList;
 
 @end

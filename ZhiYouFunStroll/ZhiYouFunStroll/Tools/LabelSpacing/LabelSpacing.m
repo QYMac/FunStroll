@@ -58,7 +58,7 @@
     label.attributedText = attributedString;
 }
 
-- (CGFloat)getTextHeightWithText:(NSString *)text font:(UIFont *)font maxWidth:(CGFloat)maxWidth {
++ (CGFloat)getTextHeightWithText:(NSString *)text font:(UIFont *)font maxWidth:(CGFloat)maxWidth {
     
     if (!text || text.length == 0) {
         return 0;

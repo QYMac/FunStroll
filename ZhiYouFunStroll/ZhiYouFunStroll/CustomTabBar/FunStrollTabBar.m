@@ -11,6 +11,7 @@
 
 @property (nonatomic, strong) UIButton *middleBtn;
 @property (nonatomic, strong) UIButton *sendBtn;
+@property (nonatomic, strong) UIButton *tabBarBut;
 
 @end
 
@@ -20,18 +21,10 @@
     
     [super layoutSubviews];
     
-    //self.translucent = NO;// tabBar 不透明
+    self.translucent = NO;// tabBar 不透明
 
+    
     [self addSubview:self.sendBtn];
-    
-    self.tabImage.contentMode = UIViewContentModeScaleAspectFit;
-    self.tabImage.image = [UIImage imageNamed:@"tabBarImage"];
-    
-    self.tabImage.frame = CGRectMake(0, -15, kWidth, self.frame.size.height);
-    [self insertSubview:self.tabImage atIndex:0];
-    
-    self.tabBgImage.frame = CGRectMake(0, 50, kWidth, self.frame.size.height);
-    [self insertSubview:self.tabBgImage atIndex:1];
     
     //[self.sendBtn setImagePositionWithType:SSImagePositionTypeTop spacing:4];
     // 其他位置按钮
@@ -52,6 +45,33 @@
         }
     }
     
+    /*
+    self.bgView.layer.cornerRadius = 50/2;
+    self.bgView.frame = CGRectMake(20, 5, kWidth - 40, 50);
+    [self addSubview:self.bgView];
+    
+    self.bgView.layer.masksToBounds = NO;
+    self.bgView.layer.shadowColor = [UIColor blackColor].CGColor;//阴影颜色
+    self.bgView.layer.shadowOffset = CGSizeMake(0, 0);//偏移距离
+    self.bgView.layer.shadowOpacity = 0.2;//不透明度
+    self.bgView.layer.shadowRadius = 5;//半径
+    
+    CGFloat tabBarButWidth = kWidth - 80;
+    for (int i = 0; i < 5; i++) {
+        self.tabBarBut = [UIButton buttonWithType:UIButtonTypeCustom];
+        [self.tabBarBut setImage:[UIImage imageNamed:@"shopping_off"] forState:UIControlStateNormal];
+        self.tabBarBut.frame = CGRectMake((tabBarButWidth/5*i) + 20, 0, tabBarButWidth/5, 50);
+        [self.tabBarBut addTarget:self action:@selector(tabBarButClick:) forControlEvents:UIControlEventTouchUpInside];
+        self.tabBarBut.tag = 100 + i;
+        [self.bgView addSubview:self.tabBarBut];
+    }
+     */
+}
+
+- (void)tabBarButClick:(UIButton *)sender{
+    if (self.tabBarButClickBlcok) {
+        self.tabBarButClickBlcok(sender.tag);
+    }
 }
 
 //发布
@@ -61,21 +81,21 @@
         self.didClickPublishBtn(sender.selected);
     }
     
+    
     if (sender.selected == NO) {
         sender.selected = YES;
-        [UIView animateWithDuration:0.3 animations:^{
-            sender.transform = CGAffineTransformMakeRotation(M_PI/4);
-        } completion:^(BOOL finished) {
-            
-        }];
+//        [UIView animateWithDuration:0.3 animations:^{
+//            sender.transform = CGAffineTransformMakeRotation(M_PI/4);
+//        } completion:^(BOOL finished) {
+//            
+//        }];
     } else {
         sender.selected = NO;
-        [UIView animateWithDuration:0.3 animations:^{
-            //sender.transform = CGAffineTransformMakeRotation(-M_PI/3);
-            sender.transform = CGAffineTransformIdentity;
-        } completion:^(BOOL finished) {
-            
-        }];
+//        [UIView animateWithDuration:0.3 animations:^{
+//            sender.transform = CGAffineTransformIdentity;
+//        } completion:^(BOOL finished) {
+//            
+//        }];
     }
 }
 
@@ -101,29 +121,28 @@
 - (UIButton *)sendBtn{
     if (!_sendBtn) {
         _sendBtn = [[UIButton alloc] init];
-        [_sendBtn setBackgroundImage:[UIImage imageNamed:@"addInfo"] forState:UIControlStateNormal];
         [_sendBtn addTarget:self action:@selector(didClickPublishBtn:) forControlEvents:UIControlEventTouchUpInside];
         _sendBtn.adjustsImageWhenHighlighted = NO;
-        _sendBtn.size = CGSizeMake(60*DDHorizontalFlexibleRatio(), 60*DDHorizontalFlexibleRatio());
+        _sendBtn.backgroundColor = RGB(51, 51, 51);
+        [_sendBtn setTitle:@"+" forState:UIControlStateNormal];
+        _sendBtn.titleLabel.font = [UIFont boldSystemFontOfSize:25];
+        _sendBtn.size = CGSizeMake(56, 43);
         _sendBtn.centerX = kWidth / 2;
-        _sendBtn.centerY = 2.0;
+        _sendBtn.centerY = (tabBarHeight-bottomHeight)/2 + 7.5;
+        _sendBtn.layer.cornerRadius = 9;
+        _sendBtn.layer.masksToBounds = YES;
         _middleBtn = _sendBtn;
     }
     return _sendBtn;
 }
 
-- (UIImageView *)tabImage{
-    if (!_tabImage) {
-        _tabImage = [[UIImageView alloc] init];
+
+- (UIView *)bgView{
+    if (!_bgView) {
+        _bgView = [[UIView alloc] init];
+        _bgView.backgroundColor = [UIColor whiteColor];
     }
-    return _tabImage;
-}
-- (UIImageView *)tabBgImage{
-    if (!_tabBgImage) {
-        _tabBgImage = [[UIImageView alloc] init];
-        _tabBgImage.backgroundColor = [UIColor whiteColor];
-    }
-    return _tabBgImage;
+    return _bgView;
 }
 
 @end

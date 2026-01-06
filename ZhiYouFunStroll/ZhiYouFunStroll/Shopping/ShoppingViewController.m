@@ -201,7 +201,7 @@
         _searcTextField.rightView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 15, 0)];
         _searcTextField.rightViewMode = UITextFieldViewModeAlways;
         [_searcTextField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
-        [_searcTextField.keyboardToolbar.doneBarButton setTarget:self action:@selector(doneActionDoneAction)];
+        //[_searcTextField.keyboardToolbar.doneBarButton setTarget:self action:@selector(doneActionDoneAction)];
     }
     
     return _searcTextField;

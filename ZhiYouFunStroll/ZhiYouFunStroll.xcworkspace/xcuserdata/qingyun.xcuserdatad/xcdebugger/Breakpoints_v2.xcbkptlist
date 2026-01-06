@@ -74,8 +74,8 @@
             filePath = "ZhiYouFunStroll/Login/LoginUserViewController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "538"
-            endingLineNumber = "538"
+            startingLineNumber = "568"
+            endingLineNumber = "568"
             landmarkName = "-testBut3Click"
             landmarkType = "7">
          </BreakpointContent>
@@ -90,8 +90,8 @@
             filePath = "ZhiYouFunStroll/Login/LoginUserViewController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "540"
-            endingLineNumber = "540"
+            startingLineNumber = "570"
+            endingLineNumber = "570"
             landmarkName = "-testBut3Click"
             landmarkType = "7">
          </BreakpointContent>
@@ -99,32 +99,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "CAADE0CB-A681-4889-B4F3-BBEE9CBD8931"
-            shouldBeEnabled = "Yes"
+            uuid = "3768D324-5B03-410B-AF1F-9A64497062C1"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "ZhiYouFunStroll/Login/AlicomFusionAuthTokenManager/DeviceInfoHelper.m"
+            filePath = "ZhiYouFunStroll/Tools/XHInputView/XHInputView.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "239"
-            endingLineNumber = "239"
-            landmarkName = "+isNumericString:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "5542103A-DBE5-49DD-8A74-2545501563CE"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ZhiYouFunStroll/Login/AlicomFusionAuthTokenManager/DeviceInfoHelper.m"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "243"
-            endingLineNumber = "243"
-            landmarkName = "+isNumericString:"
+            startingLineNumber = "368"
+            endingLineNumber = "368"
+            landmarkName = "-textViewDidChange:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

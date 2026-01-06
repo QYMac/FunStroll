@@ -18,13 +18,16 @@ NS_ASSUME_NONNULL_BEGIN
 + (void)LoginToken:(NSString *)token success:(SuccessHandler)success failureHandler:(FailureHandler)failure;
 
 /// 一键登录接口获取用户信息
-+ (void)LoginMobile:(NSString *)mobile grant_type:(NSString *)grant_type scope:(NSString *)scope success:(SuccessHandler)success failureHandler:(FailureHandler)failure;
++ (void)LoginMobile:(NSString *)mobile grant_type:(NSString *)grant_type scope:(NSString *)scope loginLocation:(NSString *)loginLocation deviceInfo:(NSString *)deviceInfo success:(SuccessHandler)success failureHandler:(FailureHandler)failure;
 
 /// 获取验证码
 + (void)LoginMobile:(NSString *)mobile success:(SuccessHandler)success failureHandler:(FailureHandler)failure;
 
 /// 验证码登录
-+ (void)LoginMobile:(NSString *)mobile code:(NSString *)code grant_type:(NSString *)grant_type scope:(NSString *)scope success:(SuccessHandler)success failureHandler:(FailureHandler)failure;
++ (void)LoginMobile:(NSString *)mobile code:(NSString *)code grant_type:(NSString *)grant_type scope:(NSString *)scope loginLocation:(NSString *)loginLocation deviceInfo:(NSString *)deviceInfo success:(SuccessHandler)success failureHandler:(FailureHandler)failure;
+
+/// 账号密码登录
++ (void)LoginUsername:(NSString *)username password:(NSString *)password grant_type:(NSString *)grant_type scope:(NSString *)scope mobile:(NSString *)mobile loginLocation:(NSString *)loginLocation deviceInfo:(NSString *)deviceInfo success:(SuccessHandler)success failureHandler:(FailureHandler)failure;
 
 /// 更新token
 + (void)LoginRefresh_token:(NSString *)refresh_token grant_type:(NSString *)grant_type scope:(NSString *)scope success:(SuccessHandler)success failureHandler:(FailureHandler)failure;

@@ -71,29 +71,52 @@ static UserModel * instance = nil;
 }
 
 + (void)loginAccount{
-    // 执行登录
-    NSString *phoneNumberText =[UserModel getObjectForKey:kPhoneNumber];
-    NSString *phoneNumber = [NSString stringWithFormat:@"APP-OneClick@%@",phoneNumberText];
-    [AFNetworkingManage LoginMobile:phoneNumber grant_type:@"mobile" scope:@"app-server" success:^(id  _Nonnull responseObject) {
-        
+    
+    NSString *refresh_token = [UserModel getObjectForKey:kRefreshToken];
+    [AFNetworkingManage LoginRefresh_token:refresh_token grant_type:@"refresh_token" scope:@"app-server" success:^(id  _Nonnull responseObject) {
         // 储存用户信息
         NSDictionary *dict = [CheckTool replaceNullWithDictionary:responseObject];
         NSString *refresh_token = [CheckTool replaceNullValue:dict[@"refresh_token"]];
         NSString *access_token = [CheckTool replaceNullValue:dict[@"access_token"]];
-        NSString *username = [CheckTool replaceNullValue:dict[@"username"]];
-        NSString *user_id = [CheckTool replaceNullValue:dict[@"user_id"]];
         NSString *token_type = [CheckTool replaceNullValue:dict[@"token_type"]];
         [UserModel saveObject:refresh_token forKey:kRefreshToken];
         [UserModel saveObject:access_token forKey:kAccessToken];
-        [UserModel saveObject:username forKey:kUserName];
-        [UserModel saveObject:user_id forKey:kUserId];
         [UserModel saveObject:token_type forKey:kTokenType];
-        [UserModel saveObject:phoneNumberText forKey:kPhoneNumber];
-        [UserModel sharedUserModel].isAutoLogin = YES;
         
     } failureHandler:^(NSError * _Nonnull error) {
         NSLog(@"%@",error);
     }];
+    
+    /*
+    // 先获取位置再去登录
+    [[LocationAddressHelper shared] getCurrentAddressWithCompletion:^(AMapReGeocode * _Nullable regeocode, CLLocationCoordinate2D coordinate, NSError * _Nullable error) {
+        NSString *loginLocationStr = [CheckTool replaceNullValue:regeocode.addressComponent.province];
+        NSString *deviceInfoStr = [DeviceInfoHelper getDeviceModelName];
+        // 执行登录
+        NSString *phoneNumberText =[UserModel getObjectForKey:kPhoneNumber];
+        NSString *phoneNumber = [NSString stringWithFormat:@"APP-OneClick@%@",phoneNumberText];
+        [AFNetworkingManage LoginMobile:phoneNumber grant_type:@"mobile" scope:@"app-server" loginLocation:loginLocationStr deviceInfo:deviceInfoStr success:^(id  _Nonnull responseObject) {
+            
+            // 储存用户信息
+            NSDictionary *dict = [CheckTool replaceNullWithDictionary:responseObject];
+            NSString *refresh_token = [CheckTool replaceNullValue:dict[@"refresh_token"]];
+            NSString *access_token = [CheckTool replaceNullValue:dict[@"access_token"]];
+            NSString *username = [CheckTool replaceNullValue:dict[@"username"]];
+            NSString *user_id = [CheckTool replaceNullValue:dict[@"user_id"]];
+            NSString *token_type = [CheckTool replaceNullValue:dict[@"token_type"]];
+            [UserModel saveObject:refresh_token forKey:kRefreshToken];
+            [UserModel saveObject:access_token forKey:kAccessToken];
+            [UserModel saveObject:username forKey:kUserName];
+            [UserModel saveObject:user_id forKey:kUserId];
+            [UserModel saveObject:token_type forKey:kTokenType];
+            [UserModel saveObject:phoneNumberText forKey:kPhoneNumber];
+            [UserModel sharedUserModel].isAutoLogin = YES;
+            
+        } failureHandler:^(NSError * _Nonnull error) {
+            NSLog(@"%@",error);
+        }];
+    }];
+     */
 }
 
 #pragma mark - 数组本地储存

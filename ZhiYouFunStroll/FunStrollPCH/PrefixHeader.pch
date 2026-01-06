@@ -28,7 +28,7 @@
 #define kWidth [UIScreen mainScreen].bounds.size.width
 #define kHeight [UIScreen mainScreen].bounds.size.height
 
-//屏幕适配--iPhoneX全系
+//屏幕适配--iPhoneX以上全系
 #define IS_IPHONE (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
 #define IS_IOS_11  ([[[UIDevice currentDevice] systemVersion] floatValue] >= 11.f)
 #define IS_IPHONE_X (IS_IOS_11 && IS_IPHONE && (MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height) >= 375 && MAX([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height) >= 812))
@@ -53,7 +53,7 @@
 #import "MJRefresh.h" // 刷新控件
 #import "UIView+ZFView.h" // 设置部分圆角
 #import "SetShadow.h" // 设置阴影
-#import "IQKeyboardManager.h" //键盘相关
+//#import "IQKeyboardManager.h" //键盘相关
 #import "ServiceStarView.h" // 评分控件
 #import "TabBarViewController.h" // tabBar
 #import "TZImagePickerController.h" // 图片选择
@@ -68,6 +68,11 @@
 #import "NSArray+Check.h" // 防止数组越界
 #import "FMDBManager.h" // 本地数据
 #import "FMDBTool.h" // 本地数据
+#import "DeviceInfoHelper.h" // 获取SIM卡是否存在和手机型号信息
+#import "LocationAddressHelper.h" // 定位当前位置
+#import "AFNetworkingErrorHelper.h" // 网络请求错误信息
+#import "XHInputView.h" // 键盘相关
+#import "KYPhotoBrowserController.h" // 图片预览
 
 //加载控件
 #import "UIView+MBProgressHUD.h"
@@ -115,10 +120,11 @@
 #define kUserName @"kUserName" // username
 #define kUserId @"kUserId" // user_id
 #define kTokenType @"kTokenType" // token_type
-#define kPhoneNumber @"kPhoneNumber" // PhoneNumber
-
+#define kPhoneNumber @"kPhoneNumber" // phoneNumber
+#define kAccount @"kAccount" // account
 
 // FMDB表名
 #define kHomePageList @"kHomePageList" //本地首页列表
+#define kCommentData @"kCommentData" //帖子评论数据
 
 #endif /* PrefixHeader_pch */

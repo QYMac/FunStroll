@@ -22,10 +22,10 @@
         
         [self.contentView addSubview:self.commentImg];
         [self.commentImg mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(10);
-            make.right.mas_equalTo(0);
-            make.left.mas_equalTo(0);
-            make.bottom.mas_equalTo(-10);
+            make.top.mas_equalTo(5);
+            make.right.mas_equalTo(-5);
+            make.left.mas_equalTo(5);
+            make.bottom.mas_equalTo(-5);
         }];
         
         
@@ -41,8 +41,8 @@
         [self.removeImgBut mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.mas_equalTo(0);
             make.right.mas_equalTo(0);
-            make.width.mas_equalTo(20);
-            make.height.mas_equalTo(20);
+            make.width.mas_equalTo(15);
+            make.height.mas_equalTo(15);
         }];
         
     }
@@ -53,14 +53,17 @@
     
     self.addImgList = [NSMutableArray arrayWithArray:imageList];
     
-    if (indexPath.row == 0) {
+    if (indexPath.row == imageList.count) {
+        self.addImgButton.hidden = NO;
         self.commentImg.hidden = YES;
         self.removeImgBut.hidden = YES;
     }else{
         self.addImgButton.hidden = YES;
-        UIImage *image = imageList[indexPath.row-1];
+        self.commentImg.hidden = NO;
+        self.removeImgBut.hidden = NO;
+        UIImage *image = imageList[indexPath.row];
         self.commentImg.image = image;
-        self.removeImgBut.tag = indexPath.row - 1;
+        self.removeImgBut.tag = indexPath.row;
     }
 }
 
@@ -71,6 +74,10 @@
     if (self.addImgList.count >= 9) {
         [AlertWith showAlertWithMessageText:@"最多只能选择9张照片"];
         return;
+    }
+    
+    if (self.addButClickBlcok) {
+        self.addButClickBlcok();
     }
     
     
@@ -191,7 +198,9 @@
 
 - (void)lf_imagePickerControllerDidCancel:(LFImagePickerController *)picker
 {
-    
+    if (self.addImgButtonBlcok) {
+        self.addImgButtonBlcok(self.addImgList);
+    }
 }
 
 #pragma mark - 懒加载
@@ -201,7 +210,7 @@
         _commentImg = [[UIImageView alloc]init];
         _commentImg.layer.cornerRadius = 6;
         _commentImg.layer.masksToBounds = YES;
-        _commentImg.backgroundColor = RGB(240, 240, 240);
+        //_commentImg.backgroundColor = RGB(244, 244, 244);
         _commentImg.contentMode = UIViewContentModeScaleAspectFill;
     }
     return _commentImg;
@@ -212,7 +221,7 @@
         _addImgButton = [UIButton buttonWithType:UIButtonTypeCustom];
         _addImgButton.layer.cornerRadius = 5;
         _addImgButton.layer.masksToBounds = YES;
-        UIImage * image = [[UIImage imageNamed:@"addImage"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+        UIImage * image = [[UIImage imageNamed:@"hone_addImge"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
         [_addImgButton setImage:image forState:UIControlStateNormal];
         [_addImgButton addTarget:self action:@selector(addImgButtonClick:) forControlEvents:UIControlEventTouchUpInside];
     }
@@ -222,7 +231,7 @@
 - (UIButton *)removeImgBut{
     if (!_removeImgBut) {
         _removeImgBut = [UIButton buttonWithType:UIButtonTypeCustom];
-        UIImage * image = [[UIImage imageNamed:@"removeImage"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+        UIImage * image = [[UIImage imageNamed:@"home_shanchu"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
         [_removeImgBut setImage:image forState:UIControlStateNormal];
         [_removeImgBut addTarget:self action:@selector(removeButClick:) forControlEvents:UIControlEventTouchUpInside];
     }

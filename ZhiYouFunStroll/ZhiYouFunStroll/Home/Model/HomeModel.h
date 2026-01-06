@@ -22,6 +22,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,strong) NSString *postId;
 @property (nonatomic,strong) NSString *likeCount;
 @property (nonatomic,strong) NSString *likeCountFormatted;
+@property (nonatomic,strong) NSString *userNickname;
+@property (nonatomic,strong) NSString *userAvatar;
+@property (nonatomic,assign) BOOL Liked;
+@property (nonatomic,assign) BOOL collected;
 
 @end
 

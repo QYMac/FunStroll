@@ -61,6 +61,8 @@
 @property (nonatomic, strong) CLLocationManager *locationManager;    // 用于位置跟踪
 @property (nonatomic, assign) BOOL isTransitNavigating;               // 是否正在公交导航
 
+@property (nonatomic, copy) AMapLocationAddressCompletion locationAddressCompletion; // 返回当前位置
+
 
 @end
 
@@ -1542,8 +1544,15 @@ static AMapNavigationManager *_sharedManager;
 }
 
 - (void)AMapSearchRequest:(id)request didFailWithError:(NSError *)error {
-    if (self.transitCompletion) {
-        self.transitCompletion(nil, error);
+    if ([request isKindOfClass:[AMapTransitRouteSearchRequest class]]) {
+        if (self.transitCompletion) {
+            self.transitCompletion(nil, error);
+        }
+    } else if ([request isKindOfClass:[AMapReGeocodeSearchRequest class]]) {
+        if (self.locationAddressCompletion) {
+            self.locationAddressCompletion(nil, kCLLocationCoordinate2DInvalid, error);
+            self.locationAddressCompletion = nil;
+        }
     }
 }
 
@@ -1728,6 +1737,7 @@ static AMapNavigationManager *_sharedManager;
         [self.locationManager stopUpdatingLocation];
         self.isTransitNavigating = NO;
     }
+
 }
 
 @end

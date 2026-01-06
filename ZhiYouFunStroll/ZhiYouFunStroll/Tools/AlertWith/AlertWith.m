@@ -11,7 +11,7 @@
 
 // 标题
 + (void)showAlertWithMessageText:(NSString *)message{
-    UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"温馨提示" message:message preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"温馨提示" message:[CheckTool replaceNullValue:message] preferredStyle:UIAlertControllerStyleAlert];
     [alert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:nil]];
     [[TabBarViewController takeCurrentVC] presentViewController:alert animated:YES completion:nil];
 }
@@ -45,7 +45,7 @@
 
 // 标题和内容
 + (void)showAlertWithMessageText:(NSString *)message contentText:(NSString *)contentText{
-    UIAlertController * alert = [UIAlertController alertControllerWithTitle:message message:contentText preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertController * alert = [UIAlertController alertControllerWithTitle:[CheckTool replaceNullValue:message] message:[CheckTool replaceNullValue:contentText] preferredStyle:UIAlertControllerStyleAlert];
     [alert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:nil]];
     [[TabBarViewController takeCurrentVC] presentViewController:alert animated:YES completion:nil];
 }

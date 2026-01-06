@@ -8,7 +8,6 @@
 #import "AlicomFusionAuthTokenManager.h"
 #import "AlicomFusionDemoUtil.h"
 #import "AFNetworkingManage+Login.h"
-#import "DeviceInfoHelper.h"
 
 #define AlicomColorHex(rgbValue) [UIColor \
 colorWithRed:((float)((rgbValue & 0xFF0000) >> 16)) / 255.0 \
@@ -98,7 +97,7 @@ blue:((float)(rgbValue & 0xFF)) / 255.0 alpha:1.0]
             NSDictionary *dict1 = dict[@"verifyWithModel"];
             NSString *phoneNumber = [NSString stringWithFormat:@"APP-OneClick@%@",[CheckTool replaceNullValue:dict1[@"phoneNumber"]]];
             NSString *phoneNumberText = [CheckTool replaceNullValue:dict1[@"phoneNumber"]];
-            [AFNetworkingManage LoginMobile:phoneNumber grant_type:@"mobile" scope:@"app-server" success:^(id  _Nonnull responseObject) {
+            [AFNetworkingManage LoginMobile:phoneNumber grant_type:@"mobile" scope:@"app-server" loginLocation:self.loginLocationStr deviceInfo:self.deviceInfoStr success:^(id  _Nonnull responseObject) {
                 
                 // 储存用户信息
                 NSDictionary *dict = [CheckTool replaceNullWithDictionary:responseObject];
@@ -124,10 +123,12 @@ blue:((float)(rgbValue & 0xFF)) / 255.0 alpha:1.0]
                 
             } failureHandler:^(NSError * _Nonnull error) {
                 NSLog(@"%@",error);
+                [AlertWith showAlertWithMessageText:@"一键登录失败，请尝试其它登录方式"];
             }];
             
         } failureHandler:^(NSError * _Nonnull error) {
             NSLog(@"%@",error);
+            [AlertWith showAlertWithMessageText:@"一键登录失败，请尝试其它登录方式"];
         }];
     });
 

@@ -22,12 +22,13 @@ target 'ZhiYouFunStroll' do
   #---刷新控件
   pod 'MJRefresh'
   #---键盘相关
-  pod 'IQKeyboardManager'
+  #pod 'IQKeyboardManager'
   #---图片选择
   pod 'TZImagePickerController'
   #pod 'LFImagePickerController/LFMediaEdit' //因为要自定义拍照界面，所有手动导入更改UI
   pod 'LFMediaEditingController'
   pod 'LFAssetExportSession'
+  pod 'YYWebImage'
   #---高德地图
   #pod 'AMap3DMap-NO-IDFA' #pod 'AMap2DMap' #2D地图SDK (2D和3D不能同时使用)
   pod 'AMapSearch-NO-IDFA' #搜索功能
@@ -45,6 +46,7 @@ target 'ZhiYouFunStroll' do
   pod 'MBProgressHUD'
   #---网络请求
   pod 'AFNetworking'
+  
   # Pods for ZhiYouFunStroll
 
 end

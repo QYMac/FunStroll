@@ -13,6 +13,7 @@
 #import "ShoppingViewController.h"
 #import "MineViewController.h"
 #import "PublishListView.h"
+#import "ItineraryViewController.h"
 
 @interface TabBarViewController ()<UITabBarControllerDelegate>
 
@@ -29,11 +30,12 @@
     //创建tabbar中间的tabbarItem
     [self setUpMidelTabbarItem];
     
+    /*
     // 在自定义 TabBar 或 TabBarController 中设置
     if (@available(iOS 13.0, *)) {
         UITabBarAppearance *appearance = [[UITabBarAppearance alloc] init];
         [appearance configureWithOpaqueBackground];
-        [appearance setBackgroundColor:[UIColor clearColor]]; // 设置你的背景色
+        [appearance setBackgroundColor:[UIColor whiteColor]]; // 设置你的背景色
         [appearance setBackgroundEffect:nil]; // 关键：移除模糊效果
         // 移除阴影和分割线
         appearance.shadowColor = [UIColor clearColor];
@@ -44,13 +46,13 @@
             self.tabBar.scrollEdgeAppearance = appearance;
         }
     } else {
-        self.tabBar.backgroundColor = [UIColor clearColor];
+        self.tabBar.backgroundColor = [UIColor whiteColor];
         self.tabBar.backgroundImage = [[UIImage alloc] init];
     }
+     */
     
     self.tabBar.tintColor = [UIColor blackColor];
     self.delegate = self;
-
 }
 
 #pragma mark - UITabBarControllerDelegate
@@ -71,12 +73,12 @@
     // 探索
     ExploreViewController *ExploreVc = [[ExploreViewController alloc] init];
     [self setChildVC:ExploreVc title:@"探索" image:@"tansuo_on" selectedImage:@"tansuo_off"];
-    // 商城
-    ShoppingViewController *ShoppingVc = [[ShoppingViewController alloc] init];
-    [self setChildVC:ShoppingVc title:@"商城" image:@"shopping_on" selectedImage:@"shopping_off"];
+    // 行程
+    ItineraryViewController *ShoppingVc = [[ItineraryViewController alloc] init];
+    [self setChildVC:ShoppingVc title:@"行程" image:@"xingCheng_on" selectedImage:@"xingCheng_off"];
     // 我的
     MineViewController *MineVc = [[MineViewController alloc] init];
-    [self setChildVC:MineVc title:@"我的" image:@"my_on" selectedImage:@"my_off"];
+    [self setChildVC:MineVc title:@"行程" image:@"my_on" selectedImage:@"my_off"];
     
 }
 

@@ -12,8 +12,8 @@
 
 #import <UIKit/UIKit.h>
 
-static const CGFloat baseScreenWidth = 414.f;
-static const CGFloat baseScreenHeight = 736.f;
+static const CGFloat baseScreenWidth = 390.f;
+static const CGFloat baseScreenHeight = 844.f;
 
 #define DD_INLINE   static inline
 // 内联函数：函数的栈只分配一次

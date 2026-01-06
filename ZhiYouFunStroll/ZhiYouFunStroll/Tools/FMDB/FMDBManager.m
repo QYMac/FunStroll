@@ -9,11 +9,12 @@
 
 @implementation FMDBManager
 
+#pragma mark - 储存
 // 储存首页列表数据
-+ (void)saveHomeList:(NSDictionary *)homeList andHandle:(void (^ _Nullable)(BOOL isSuccess))handle{
-    
-    [FMDBTool deleteDataWithTab:kHomePageList key:@"" value:@"" andHandle:^(BOOL isSuccess) {
-        [FMDBTool saveDataListWithTabName:kHomePageList dataList:@[homeList] andHandle:^(BOOL isSuccess) {
++ (void)saveHomeList:(NSArray *)homeList andHandle:(void (^ _Nullable)(BOOL isSuccess))handle{
+    // 因为首页的数据会随时更新清空表再存新的
+    [FMDBTool clearTableWithTab:kHomePageList andHandle:^(BOOL isSuccess) {
+        [FMDBTool saveDataListWithTabName:kHomePageList dataList:homeList andHandle:^(BOOL isSuccess) {
             if (isSuccess == YES) {
                 NSLog(@"储存首页列表成功！");
             } else {
@@ -21,6 +22,36 @@
             }
             handle(isSuccess);
         }];
+    }];
+}
+
+// 储存帖子评论数据
++ (void)saveCommentDict:(NSDictionary*)commentDict andHandle:(void (^ _Nullable)(BOOL isSuccess))handle{
+    [FMDBTool clearTableWithTab:kCommentData andHandle:^(BOOL isSuccess) {
+        [FMDBTool saveDataListWithTabName:kCommentData dataList:@[commentDict] andHandle:^(BOOL isSuccess) {
+            if (isSuccess == YES) {
+                NSLog(@"储存帖子评论成功！");
+            } else {
+                NSLog(@"储存帖子评论失败！");
+            }
+            handle(isSuccess);
+        }];
+    }];
+}
+
+#pragma mark - 查询
++ (void)searchHomeDataListKeyword:(NSString *)keyword andHandle:(void (^ _Nullable)(NSArray * _Nullable homeList))handle{
+    
+    NSString *conditionStr = [NSString stringWithFormat:@"WHERE title LIKE '%%%@%%';",keyword];
+    [FMDBTool searchObjWithTable:kHomePageList condition:conditionStr andHandle:^(NSArray * _Nullable dataArray) {
+        handle(dataArray);
+    }];
+}
+
+/// 查询帖子评论数据
++ (void)searchCommentAndHandle:(void (^ _Nullable)(NSArray * _Nullable commentList))handle{
+    [FMDBTool searchObjWithTable:kCommentData condition:@"" andHandle:^(NSArray * _Nullable dataArray) {
+        handle(dataArray);
     }];
 }
 

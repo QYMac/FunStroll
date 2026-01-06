@@ -35,7 +35,7 @@ NS_ASSUME_NONNULL_BEGIN
 @param text 文本内容
 @param font 文字的 font
 */
-- (CGFloat)getTextHeightWithText:(NSString *)text font:(UIFont *)font maxWidth:(CGFloat)maxWidth;
++ (CGFloat)getTextHeightWithText:(NSString *)text font:(UIFont *)font maxWidth:(CGFloat)maxWidth;
 
 @end
 

@@ -81,10 +81,16 @@
     [[AlicomFusionAuthTokenManager shareInstance].handler stopSceneWithTemplateId:LOGIN_TEMPLATEID];
     [[AlicomFusionAuthTokenManager shareInstance].handler destroy];
     [AlicomFusionAuthTokenManager shareInstance].handler = nil;
-    [[AlicomFusionAuthTokenManager shareInstance] oneClickLogin];
     [AlicomFusionAuthTokenManager shareInstance].loginOutclickBlcok = ^{
         
     };
+    
+    // 先获取位置再去登录
+    [[LocationAddressHelper shared] getCurrentAddressWithCompletion:^(AMapReGeocode * _Nullable regeocode, CLLocationCoordinate2D coordinate, NSError * _Nullable error) {
+        [AlicomFusionAuthTokenManager shareInstance].loginLocationStr = [CheckTool replaceNullValue:regeocode.addressComponent.province];
+        [AlicomFusionAuthTokenManager shareInstance].deviceInfoStr = [DeviceInfoHelper getDeviceModelName];
+        [[AlicomFusionAuthTokenManager shareInstance] oneClickLogin];
+    }];
 }
 
 - (void)passwordLoginButClick:(UIButton *)sender{

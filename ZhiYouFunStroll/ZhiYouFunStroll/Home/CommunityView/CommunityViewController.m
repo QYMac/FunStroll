@@ -38,7 +38,7 @@
 
 // 获取首页列表数据
 - (void)AFNetworkingHomePage{
-    [AFNetworkingManage homeCurrent:self.currentStr size:self.sizeStr keyword:self.keywordStr success:^(id  _Nonnull responseObject) {
+    [AFNetworkingManage homeListCurrent:self.currentStr size:self.sizeStr keyword:self.keywordStr success:^(id  _Nonnull responseObject) {
         NSLog(@"%@",responseObject);
         [FMDBManager saveHomeList:[CheckTool replaceNullWithDictionary:responseObject] andHandle:^(BOOL isSuccess) {
             
@@ -211,7 +211,7 @@
  */
 - (UIEdgeInsets)waterflowLayout:(GeneralWaterfallFlowLayout *)waterflowLayout edgeInsetsInCollectionView:(UICollectionView *)collectionView
 {
-    return UIEdgeInsetsMake(10, 10, tabBarHeight + 10, 10);
+    return UIEdgeInsetsMake(10, 10, tabBarHeight + 50, 10);
 }
 
 

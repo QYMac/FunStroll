@@ -6,21 +6,13 @@
 //
 
 #import "HomeViewController.h"
-#import "ScenicSpotViewController.h"
-#import "DeliciousFoodViewController.h"
-#import "CommunityViewController.h"
-#import "AFNetworkingManage+Login.h"
-#import "PhotoLocationManager.h"
+#import "HomeView.h"
+#import "AFNetworkingManage+Home.h"
 
 @interface HomeViewController ()
 
-@property (nonatomic,strong) SwitchPageView *pageView;
-@property (nonatomic,strong) UIButton *addresBut;// 定位按钮
-@property (nonatomic,strong) UIButton *searchBut;// 搜索按钮
-
-// 测试
-@property (strong,nonatomic) NSTimer *timer;
-@property (assign,nonatomic) int index;
+@property (nonatomic,strong) HomeView *homeView;
+@property (nonatomic,strong) NSMutableArray *dataList;
 
 @end
 
@@ -28,11 +20,32 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    
+    NSLog(@"Width=====%fHeight=====%f",kWidth,kHeight);
+    
     self.view.backgroundColor = [UIColor whiteColor];
-    [self refreshToken]; // 刷新token，进入app就刷新，保持最新的
-    [self initSwitchPageView];
+    // 刷新token，进入app就刷新，保持最新的
+    [self refreshToken];
+    // 首页列表
+    [self setupHomeView];
+    // 请求首页数据
+    [self AFNetworkingHomeDataListCurrent:1 size:20 keywordStr:@""];
+}
 
+- (void)setupHomeView{
+    [self.view addSubview:self.homeView];
+    [self.homeView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.bottom.left.right.mas_equalTo(0);
+    }];
+    
+    WeakSelf
+    [self.homeView setUpdateHomeDataListBlcok:^(NSInteger current, NSInteger size, NSString * _Nonnull keywordStr, BOOL isUpdtataTop) {
+        if (isUpdtataTop == YES) {
+            [weakSelf.dataList removeAllObjects];
+        }
+        // 请求首页数据
+        [weakSelf AFNetworkingHomeDataListCurrent:current size:size keywordStr:keywordStr];
+    }];
 }
 
 // 刷新toekn
@@ -40,112 +53,55 @@
     [UserModel updateUserLoginToken];
 }
 
-// 创建分页列表
-- (void)initSwitchPageView{
-    NSMutableArray *titles = [NSMutableArray array];
-    NSMutableArray *controllers = [NSMutableArray array];
-    [controllers addObject:[CommunityViewController new]];
-    [titles addObject:@"社区广场"];
-    [controllers addObject:[DeliciousFoodViewController new]];
-    [titles addObject:@"美食"];
-    [controllers addObject:[ScenicSpotViewController new]];
-    [titles addObject:@"景点"];
-    
-    self.pageView = [[SwitchPageView alloc]initWithFrame:CGRectMake(0, statusBarHeight+10, kWidth,kHeight-statusBarHeight-10) titles:titles controllers:controllers];
-    self.pageView.titleViewHeight = 35;
-    self.pageView.titleButtonWidth = kWidth/5;
-    self.pageView.selectTitleFont = [UIFont boldSystemFontOfSize:16];
-    self.pageView.defaultTitleFont = [UIFont boldSystemFontOfSize:16];
-    self.pageView.defaultTitleColor = RGB(173, 173, 173);
-    self.pageView.selectTitleColor = [UIColor blackColor];
-    self.pageView.lineColor = RGB(255, 176, 79);
-    self.pageView.lineHeight = 3;
-    self.pageView.marginToLfet = kWidth/controllers.count - kWidth/5/2;
-    [self.view addSubview:self.pageView];
-    
-    CGSize size = [self.addresBut.titleLabel.text sizeWithAttributes:@{NSFontAttributeName:self.addresBut.titleLabel.font}];// 计算文字size
-    [self.view addSubview:self.addresBut];
-    [self.addresBut mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.width.mas_equalTo(size.width+30);
-        make.left.mas_equalTo(15);
-        make.height.mas_equalTo(25);
-        make.top.mas_equalTo(statusBarHeight + 10 + self.pageView.titleViewHeight+15);
-    }];
-    
-    self.searchBut.layer.cornerRadius = 32/2;
-    self.searchBut.layer.masksToBounds = YES;
-    self.searchBut.layer.borderWidth = 1;
-    self.searchBut.layer.borderColor = RGB(193, 193, 193).CGColor;
-    [self.view addSubview:self.searchBut];
-    [self.searchBut mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.mas_equalTo(-15);
-        make.left.mas_equalTo(self.addresBut.mas_right).offset(15);
-        make.height.mas_equalTo(32);
-        make.centerY.mas_equalTo(self.addresBut);
-    }];
 
-}
-
-#pragma mark - 定时器，用于测试
-- (void)timerValida{
-    self.index ++;
-}
-
-#pragma mark - 按钮点击
-
-- (void)addresButClick:(UIButton *)sender{
-    [ZSProgressHUD showDpromptText:@"请等待..."];
-    self.index = 1;
-    self.timer =  [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(timerValida) userInfo:nil repeats:YES];
-    [[PhotoLocationManager shared] fetchPhotosWithLocationWithCompletion:^(NSArray<PhotoLocationInfo *> * _Nonnull photos, NSError * _Nullable error) {
-        [[PhotoLocationManager shared] batchReverseGeocodeForPhotos:photos completion:^(NSArray<PhotoLocationInfo *> * _Nonnull photos, NSError * _Nullable error) {
-            //关闭定时器
-            [self.timer setFireDate:[NSDate distantFuture]];
-            self.timer = nil;
-            for (PhotoLocationInfo *model in photos) {
-                NSLog(@"formattedAddress=%@",model.formattedAddress);
-                [AlertWith showAlertWithMessageText:[NSString stringWithFormat:@"查询全部照片信息用时 %d 秒",self.index]];
+// 获取首页列表数据
+- (void)AFNetworkingHomeDataListCurrent:(NSInteger)current size:(NSInteger)size keywordStr:(NSString *)keywordStr{
+    WeakSelf
+    if ([UserModel sharedUserModel].isNetworkStatus == NO) {
+        [FMDBManager searchHomeDataListKeyword:keywordStr andHandle:^(NSArray * _Nullable homeList) {
+            HomeModel *model = [[HomeModel alloc] init];
+            if (homeList.count > 0 && current == 1) {
+                model.records = homeList;
             }
-            [ZSProgressHUD hideAllHUDAnimated:YES];
+            weakSelf.homeView.homeModel = model;
         }];
-    }];
-}
-
-- (void)searchButClick:(UIButton *)sender{
-    
-}
-
-// 懒加载
-- (UIButton *)addresBut{
-    if (!_addresBut) {
-        _addresBut = [UIButton buttonWithType:UIButtonTypeSystem];
-        UIImage *addresImage = [[UIImage imageNamed:@"addres_home"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-        [_addresBut setImage:addresImage forState:UIControlStateNormal];
-        [_addresBut setTitle:@"广东" forState:UIControlStateNormal];
-        [_addresBut setTintColor:[UIColor blackColor]];
-        [_addresBut addTarget:self action:@selector(addresButClick:) forControlEvents:UIControlEventTouchUpInside];
-        _addresBut.titleLabel.font = [UIFont systemFontOfSize:15];
-        [_addresBut setImagePositionWithType:SSImagePositionTypeLeft spacing:5];
+    } else {
+        NSString *currentStr = [NSString stringWithFormat:@"%ld",current];
+        NSString *sizeStr = [NSString stringWithFormat:@"%ld",size];
+        [AFNetworkingManage homeListCurrent:currentStr size:sizeStr keyword:keywordStr success:^(id  _Nonnull responseObject) {
+            
+            NSLog(@"%@",responseObject);
+            HomeModel *model = [HomeModel yy_modelWithDictionary:responseObject];
+            if (model.records.count > 0) {
+                [weakSelf.dataList addObjectsFromArray:model.records];
+                [FMDBManager saveHomeList:weakSelf.dataList andHandle:^(BOOL isSuccess) {
+                    weakSelf.homeView.homeModel = model;
+                }];
+            } else {
+                weakSelf.homeView.homeModel = model;
+            }
+            
+        } failureHandler:^(NSError * _Nonnull error) {
+            NSLog(@"%@",error);
+            HomeModel *model;
+            weakSelf.homeView.homeModel = model;
+        }];
     }
-    return _addresBut;
 }
 
-- (UIButton *)searchBut{
-    if (!_searchBut) {
-        _searchBut = [UIButton buttonWithType:UIButtonTypeSystem];
-        //UIImage *searchImage = [[UIImage imageNamed:@"search_home"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-        //[_searchBut setImage:searchImage forState:UIControlStateNormal];
-        _searchBut.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-        [_searchBut setTitle:@"         搜想去的地方~" forState:UIControlStateNormal];
-        _searchBut.titleLabel.font = [UIFont systemFontOfSize:15];
-        [_searchBut setTintColor:RGB(196, 196, 196)];
-        [_searchBut addTarget:self action:@selector(searchButClick:) forControlEvents:UIControlEventTouchUpInside];
-        //[_searchButsetImagePositionWithType:SSImagePositionTypeLeft spacing:5];
-        UIImageView *soushuoImg = [[UIImageView alloc]initWithFrame:CGRectMake(10, 7.5, 17, 17)];
-        soushuoImg.image = [UIImage imageNamed:@"search_home"];
-        [_searchBut addSubview:soushuoImg];
+#pragma mark - 懒加载
+- (HomeView *)homeView{
+    if (!_homeView) {
+        _homeView = [[HomeView alloc] init];
     }
-    return _searchBut;
+    return _homeView;
+}
+
+- (NSMutableArray *)dataList{
+    if (!_dataList) {
+        _dataList = [[NSMutableArray alloc] init];
+    }
+    return _dataList;
 }
 
 // 在 viewWillAppear: 方法中隐藏

@@ -348,40 +348,70 @@
             return;
         }
         
-        grant_type = @"mobile";// 登录类型
+        grant_type = @"password";// 登录类型
     }
     
-    [self loginGrant_type:grant_type username:self.userName.text password:self.password.text verification_code:self.validation.text];
+    [ZSProgressHUD showHUDShowText:@"登录中..."];
+    WeakSelf
+    // 先获取位置再去登录
+    [[LocationAddressHelper shared] getCurrentAddressWithCompletion:^(AMapReGeocode * _Nullable regeocode, CLLocationCoordinate2D coordinate, NSError * _Nullable error) {
+        NSString *loginLocationStr = [CheckTool replaceNullValue:regeocode.addressComponent.province];
+        NSString *deviceInfoStr = [DeviceInfoHelper getDeviceModelName];
+        [weakSelf loginGrant_type:grant_type username:weakSelf.userName.text password:weakSelf.password.text verification_code:weakSelf.validation.text loginLocation:loginLocationStr deviceInfo:deviceInfoStr];
+    }];
+}
+
+- (void)loginGrant_type:(NSString *)grant_type username:(NSString *)username password:(NSString *)password verification_code:(NSString *)verification_code loginLocation:(NSString *)loginLocation deviceInfo:(NSString *)deviceInfo{
+    
+    WeakSelf
+    if ([grant_type isEqualToString:@"mobile"]) {
+        NSString *iphoneNumber = [NSString stringWithFormat:@"APP-SMS@%@",username];
+        [AFNetworkingManage LoginMobile:iphoneNumber code:verification_code grant_type:grant_type scope:@"app-server" loginLocation:loginLocation deviceInfo:deviceInfo success:^(id  _Nonnull responseObject) {
+            [ZSProgressHUD hideAllHUDAnimated:YES];
+            // 储存用户信息
+            NSDictionary *dict = [CheckTool replaceNullWithDictionary:responseObject];
+            [weakSelf saveUserInfoData:dict grant_type:grant_type];
+        } failureHandler:^(NSError * _Nonnull error) {
+            [AlertWith showAlertWithMessageText:[AFNetworkingErrorHelper getFriendlyErrorMessage:error]];
+            [ZSProgressHUD hideAllHUDAnimated:YES];
+        }];
+    } else {
+        [AFNetworkingManage LoginUsername:username password:password grant_type:grant_type scope:@"app-server" mobile:@"" loginLocation:loginLocation deviceInfo:deviceInfo success:^(id  _Nonnull responseObject) {
+            [ZSProgressHUD hideAllHUDAnimated:YES];
+            // 储存用户信息
+            NSDictionary *dict = [CheckTool replaceNullWithDictionary:responseObject];
+            [weakSelf saveUserInfoData:dict grant_type:grant_type];
+        } failureHandler:^(NSError * _Nonnull error) {
+            [AlertWith showAlertWithMessageText:[AFNetworkingErrorHelper getFriendlyErrorMessage:error]];
+            [ZSProgressHUD hideAllHUDAnimated:YES];
+        }];
+    }
     
 }
 
-- (void)loginGrant_type:(NSString *)grant_type username:(NSString *)username password:(NSString *)password verification_code:(NSString *)verification_code{
-    
-    [ZSProgressHUD showHUDShowText:@"登录中..."];
-    NSString *iphoneNumber = [NSString stringWithFormat:@"APP-SMS@%@",self.userName.text];
-    [AFNetworkingManage LoginMobile:iphoneNumber code:verification_code grant_type:@"mobile" scope:@"app-server" success:^(id  _Nonnull responseObject) {
-        [ZSProgressHUD hideAllHUDAnimated:YES];
-        
-        // 储存用户信息
-        NSDictionary *dict = [CheckTool replaceNullWithDictionary:responseObject];
-        NSString *refresh_token = [CheckTool replaceNullValue:dict[@"refresh_token"]];
-        NSString *access_token = [CheckTool replaceNullValue:dict[@"access_token"]];
-        NSString *username = [CheckTool replaceNullValue:dict[@"username"]];
-        NSString *user_id = [CheckTool replaceNullValue:dict[@"user_id"]];
-        NSString *token_type = [CheckTool replaceNullValue:dict[@"token_type"]];
-        [UserModel saveObject:refresh_token forKey:kRefreshToken];
-        [UserModel saveObject:access_token forKey:kAccessToken];
-        [UserModel saveObject:username forKey:kUserName];
-        [UserModel saveObject:user_id forKey:kUserId];
-        [UserModel saveObject:token_type forKey:kTokenType];
+- (void)saveUserInfoData:(NSDictionary *)dict grant_type:(NSString *)grant_type{
+    [ZSProgressHUD hideAllHUDAnimated:YES];
+    // 储存用户信息
+    NSString *refresh_token = [CheckTool replaceNullValue:dict[@"refresh_token"]];
+    NSString *access_token = [CheckTool replaceNullValue:dict[@"access_token"]];
+    NSString *username = [CheckTool replaceNullValue:dict[@"username"]];
+    NSString *user_id = [CheckTool replaceNullValue:dict[@"user_id"]];
+    NSString *token_type = [CheckTool replaceNullValue:dict[@"token_type"]];
+    NSString *iphoneNumber = [CheckTool replaceNullValue:self.userName.text];
+    [UserModel saveObject:refresh_token forKey:kRefreshToken];
+    [UserModel saveObject:access_token forKey:kAccessToken];
+    [UserModel saveObject:username forKey:kUserName];
+    [UserModel saveObject:user_id forKey:kUserId];
+    [UserModel saveObject:token_type forKey:kTokenType];
+    [UserModel saveObject:iphoneNumber forKey:kPhoneNumber];
+    /*
+    if ([grant_type isEqualToString:@"mobile"]) {
         [UserModel saveObject:iphoneNumber forKey:kPhoneNumber];
-        [UserModel sharedUserModel].isAutoLogin = YES;
-        
-    } failureHandler:^(NSError * _Nonnull error) {
-        [AlertWith showAlertWithMessageText:@"登录失败，请重试"];
-        [ZSProgressHUD hideAllHUDAnimated:YES];
-    }];
-    
+    } else {
+        [UserModel saveObject:iphoneNumber forKey:kAccount];
+    }
+     */
+    [UserModel sharedUserModel].isAutoLogin = YES;
 }
 
 // 切换验证或密码登录

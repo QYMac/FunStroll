@@ -20,12 +20,10 @@
     if (isBody == YES) {
         manager.requestSerializer = [AFJSONRequestSerializer serializer];
     }
-    //去空值
+    
     AFJSONResponseSerializer *response = [AFJSONResponseSerializer serializer];
-    response.removesKeysWithNullValues = YES;
+    //response.removesKeysWithNullValues = YES; // 去空值
     manager.responseSerializer = response;
-    //移除 NULL 值
-    ((AFJSONResponseSerializer *)manager.responseSerializer).removesKeysWithNullValues = YES;
     
     /*
     AFHTTPRequestSerializer *requestSerializer =  [AFJSONRequestSerializer serializer];

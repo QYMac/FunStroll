@@ -35,6 +35,16 @@ static const UIEdgeInsets General_EdgeInsets_ = {20, 10, 10, 10};
 
 @implementation GeneralWaterfallFlowLayout
 
+- (instancetype)init {
+    self = [super init];
+    if (self) {
+        _headerHeight = 50;
+        _searcHeight = statusBarHeight + 15 + 50;
+        _headerLabelHeight = 50;
+    }
+    return self;
+}
+
 /**
  *  刷新布局的时候回重新调用
  */
@@ -60,6 +70,20 @@ static const UIEdgeInsets General_EdgeInsets_ = {20, 10, 10, 10};
         [self.lmj_AtrbsArray addObject:[self layoutAttributesForItemAtIndexPath:[NSIndexPath indexPathForItem:i inSection:0]]];
     }
     
+    // 手动添加头部属性
+    for (NSInteger section = 0; section < [self.collectionView numberOfSections]; section++) {
+        UICollectionViewLayoutAttributes *headerAttr =
+        [UICollectionViewLayoutAttributes layoutAttributesForSupplementaryViewOfKind:UICollectionElementKindSectionHeader withIndexPath:[NSIndexPath indexPathForItem:0 inSection:section]];
+        // 计算头部位置 始终固定在顶部
+        CGFloat scrollY = self.collectionView.contentOffset.y;
+        if (scrollY >= _searcHeight - (_headerHeight - _headerLabelHeight)) {
+            scrollY += _searcHeight - (_headerHeight - _headerLabelHeight);
+        }
+        CGFloat y = MAX(0, scrollY);  // 不能小于0
+        headerAttr.frame = CGRectMake(0, y, kWidth, _headerHeight);
+        headerAttr.zIndex = 999;
+        [self.lmj_AtrbsArray addObject:headerAttr];
+    }
 }
 
 
@@ -99,7 +123,7 @@ static const UIEdgeInsets General_EdgeInsets_ = {20, 10, 10, 10};
     // 是第一行
     if (minColH == self.edgeInsets.top) {
         
-        y = self.edgeInsets.top;
+        y = self.edgeInsets.top + _headerHeight;
     }
     
     // 赋值frame
@@ -111,6 +135,9 @@ static const UIEdgeInsets General_EdgeInsets_ = {20, 10, 10, 10};
     return atrbs;
 }
 
+- (BOOL)shouldInvalidateLayoutForBoundsChange:(CGRect)newBounds {
+    return YES; // 重新计算
+}
 
 - (NSArray<UICollectionViewLayoutAttributes *> *)layoutAttributesForElementsInRect:(CGRect)rect
 {
@@ -218,5 +245,7 @@ static const UIEdgeInsets General_EdgeInsets_ = {20, 10, 10, 10};
 {
     return [[self alloc] initWithDelegate:delegate];
 }
+
+
 
 @end

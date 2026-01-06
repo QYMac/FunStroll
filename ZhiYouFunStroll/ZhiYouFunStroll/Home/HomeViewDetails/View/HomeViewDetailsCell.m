@@ -16,7 +16,7 @@
         self.selectionStyle = UITableViewCellSelectionStyleNone;//去除cell的点击效果
         self.backgroundColor = [UIColor clearColor];
         
-        
+        [self initEvaluationListView];
         
     }
     return self;
@@ -24,68 +24,25 @@
 
 
 - (void)setIndexPath:(NSIndexPath *)indexPath isAllList:(BOOL)isAllList{
-    self.oneBgOneView.hidden = YES;
-    self.towBgOneView.hidden = YES;
-    if (indexPath.section == 0 && isAllList == NO) {
-        self.oneBgOneView.hidden = NO;
-        [self initEvaluationButView];
-    } else {
-        self.towBgOneView.hidden = NO;
-        [self initEvaluationListView];
-    }
+    
 }
 
-
-- (void)initEvaluationButView{
-    [self.contentView addSubview:self.oneBgOneView];
-    [self.oneBgOneView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(0);
-        make.bottom.mas_equalTo(0);
-        make.left.mas_equalTo(10);
-        make.right.mas_equalTo(-10);
-        make.height.mas_equalTo(90);
-    }];
-    
-    [self.oneBgOneView addSubview:self.titleL];
-    [self.titleL mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(10);
-        make.left.mas_equalTo(10);
-        make.width.mas_equalTo(100);
-        make.height.mas_equalTo(20);
-    }];
-    
-    [self.oneBgOneView addSubview:self.evaluationBut];
-    [self.evaluationBut mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.titleL.mas_bottom).offset(10);
-        make.left.mas_equalTo(60);
-        make.right.mas_equalTo(-60);
-        make.height.mas_equalTo(35);
-    }];
-    
-    [self.oneBgOneView insertSubview:self.fgView atIndex:99];
-    [self.fgView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.mas_equalTo(-1);
-        make.left.mas_equalTo(0);
-        make.right.mas_equalTo(0);
-        make.height.mas_equalTo(1);
-    }];
-}
-
+// 初始化UI
 - (void)initEvaluationListView{
     [self.contentView addSubview:self.towBgOneView];
     [self.towBgOneView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.bottom.mas_equalTo(0);
-        make.left.mas_equalTo(10);
-        make.right.mas_equalTo(-10);
+        make.left.mas_equalTo(0);
+        make.right.mas_equalTo(0);
     }];
     
-    self.avatarImage.layer.cornerRadius = 20;
+    self.avatarImage.layer.cornerRadius = 32/2;
     self.avatarImage.layer.masksToBounds = YES;
     [self.towBgOneView addSubview:self.avatarImage];
     [self.avatarImage mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.height.width.mas_equalTo(40);
+        make.height.width.mas_equalTo(32);
         make.top.mas_equalTo(15);
-        make.left.mas_equalTo(10);
+        make.left.mas_equalTo(15);
     }];
     
     [self.towBgOneView addSubview:self.nameL];
@@ -96,45 +53,46 @@
         make.height.mas_equalTo(20);
     }];
     
+    [self.towBgOneView addSubview:self.contentL];
+    [self.contentL mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(self.nameL.mas_left).offset(0);
+        make.top.mas_equalTo(self.nameL.mas_bottom).offset(5);
+        make.right.mas_equalTo(-15);
+    }];
+    [self.contentL layoutIfNeeded];
+    
+    
     [self.towBgOneView addSubview:self.timeL];
     [self.timeL mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.mas_equalTo(-200);
-        make.top.mas_equalTo(self.nameL.mas_bottom).offset(0);
-        make.left.mas_equalTo(self.nameL.mas_left).offset(0);
+        make.width.mas_equalTo(90);
+        make.top.mas_equalTo(self.contentL.mas_bottom).offset(10);
+        make.left.mas_equalTo(self.contentL.mas_left).offset(0);
         make.height.mas_equalTo(20);
     }];
     
     [self.towBgOneView addSubview:self.likeBut];
     [self.likeBut mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.width.mas_equalTo(22.5);
-        make.height.mas_equalTo(15);
+        make.width.mas_equalTo(100);
+        make.height.mas_equalTo(20);
         make.centerY.mas_equalTo(self.timeL);
         make.right.mas_equalTo(-15);
     }];
     
-    [self.towBgOneView addSubview:self.numBut];
-    [self.numBut mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(self.timeL.mas_right).offset(10);
-        make.height.mas_equalTo(15);
+    [self.towBgOneView addSubview:self.replyBut];
+    [self.replyBut mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.width.mas_equalTo(35);
+        make.height.mas_equalTo(20);
         make.centerY.mas_equalTo(self.timeL);
-        make.right.mas_equalTo(self.likeBut.mas_left).offset(-10);
+        make.left.mas_equalTo(self.timeL.mas_right).offset(-5);
     }];
     
-    [self.towBgOneView addSubview:self.contentL];
-    [self.contentL mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(self.avatarImage.mas_left).offset(0);
-        make.top.mas_equalTo(self.avatarImage.mas_bottom).offset(15);
-        make.right.mas_equalTo(-15);
-    }];
-    
-    [self.contentL layoutIfNeeded];;
-    CGFloat tagImgX = 10;
-    CGFloat contentImgWidth = (kWidth - 60)/3;
+    CGFloat tagImgX = 15 + 32 + 15;
+    CGFloat contentImgWidth = (kWidth - 15 - 32 - 15 - 35)/3;
     CGFloat tagImgY = 85 + self.contentL.frame.size.height;
     NSArray *imageList = @[@"",@"",@"",@"",@"",@"",@"",@"",@""];
     for (int i = 0; i < imageList.count; i++) {
-        if (tagImgX + contentImgWidth> kWidth - 30) {
-            tagImgX = 10;
+        if (tagImgX + contentImgWidth > kWidth) {
+            tagImgX = 15 + 32 + 15;
             tagImgY += (contentImgWidth+10);
         }
         _contentImg = [[UIImageView alloc] init];
@@ -160,10 +118,10 @@
 - (void)likeButClick:(UIButton *)sender{
     if (sender.selected == NO) {
         sender.selected = YES;
-        [sender setImage:[UIImage imageNamed:@"like_off"] forState:UIControlStateNormal];
+        [sender setImage:[UIImage imageNamed:@"home_dianZan"] forState:UIControlStateNormal];
     } else {
         sender.selected = NO;
-        [sender setImage:[UIImage imageNamed:@"like_on"] forState:UIControlStateNormal];
+        [sender setImage:[UIImage imageNamed:@"home_dianZan"] forState:UIControlStateNormal];
     }
 }
 
@@ -171,45 +129,11 @@
     
 }
 
+- (void)replyButClick{
+    
+}
+
 #pragma mark - 懒加载
-- (UIView *)oneBgOneView{
-    if (!_oneBgOneView) {
-        _oneBgOneView = [[UIView alloc]init];
-        _oneBgOneView.backgroundColor = [UIColor whiteColor];
-    }
-    return _oneBgOneView;
-}
-
-- (UILabel *)titleL{
-    if (!_titleL) {
-        _titleL = [[UILabel alloc]init];
-        _titleL.text = @"用户评价";
-        _titleL.font = [UIFont systemFontOfSize:14];
-        _titleL.textColor = [UIColor blackColor];
-    }
-    return _titleL;
-}
-
-- (UIButton *)evaluationBut{
-    if (!_evaluationBut) {
-        _evaluationBut = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_evaluationBut setBackgroundImage:[UIImage imageNamed:@"home_PJ"] forState:UIControlStateNormal];
-        [_evaluationBut setTitle:@"立即评价获得积分！" forState:UIControlStateNormal];
-        [_evaluationBut setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        _evaluationBut.titleLabel.font = [UIFont systemFontOfSize:14];
-        [_evaluationBut addTarget:self action:@selector(evaluationButClick:) forControlEvents:UIControlEventTouchUpInside];
-    }
-    return _evaluationBut;
-}
-
-- (UIView *)fgView{
-    if (!_fgView) {
-        _fgView = [[UIView alloc]init];
-        _fgView.backgroundColor = RGB(240, 240, 240);
-    }
-    return _fgView;
-}
-
 - (UIView *)towBgOneView{
     if (!_towBgOneView) {
         _towBgOneView = [[UIView alloc]init];
@@ -230,7 +154,7 @@
 - (UILabel *)nameL{
     if (!_nameL) {
         _nameL = [[UILabel alloc]init];
-        _nameL.textColor = [UIColor blackColor];
+        _nameL.textColor = RGB(182, 182, 182);
         _nameL.text = @"用户昵称";
         _nameL.font = [UIFont boldSystemFontOfSize:12];
     }
@@ -240,9 +164,9 @@
 - (UILabel *)timeL{
     if (!_timeL) {
         _timeL = [[UILabel alloc]init];
-        _timeL.textColor = RGB(173, 173, 173);
-        _timeL.text = @"2025.11.26";
-        _timeL.font = [UIFont systemFontOfSize:10];
+        _timeL.textColor = RGB(153, 153, 153);
+        _timeL.text = @"1小时前 广东";
+        _timeL.font = [UIFont systemFontOfSize:12];
     }
     return _timeL;
 }
@@ -250,9 +174,14 @@
 - (UIButton *)likeBut{
     if (!_likeBut) {
         _likeBut = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_likeBut setImage:[UIImage imageNamed:@"like_on"] forState:UIControlStateNormal];
+        [_likeBut setImage:[UIImage imageNamed:@"home_dianZan"] forState:UIControlStateNormal];
         _likeBut.selected = NO;
+        [_likeBut setTitle:@"3000" forState:UIControlStateNormal];
         [_likeBut addTarget:self action:@selector(likeButClick:) forControlEvents:UIControlEventTouchUpInside];
+        [_likeBut setTitleColor:RGB(51, 51, 51) forState:UIControlStateNormal];
+        _likeBut.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
+        _likeBut.titleLabel.font = [UIFont systemFontOfSize:12];
+        [_likeBut setImagePositionWithType:SSImagePositionTypeLeft spacing:5];
     }
     return _likeBut;
 }
@@ -272,12 +201,24 @@
     return _numBut;
 }
 
+- (UIButton *)replyBut{
+    if (!_replyBut) {
+        _replyBut = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_replyBut setTitle:@"回复" forState:UIControlStateNormal];
+        [_replyBut setTitleColor:RGB(51, 51, 51) forState:UIControlStateNormal];
+        _replyBut.titleLabel.font = [UIFont systemFontOfSize:12];
+        [_replyBut addTarget:self action:@selector(replyButClick) forControlEvents:UIControlEventTouchUpInside];
+        _replyBut.hidden = YES;
+    }
+    return _replyBut;
+}
+
 - (UILabel *)contentL{
     if (!_contentL) {
         _contentL = [[UILabel alloc]init];
         _contentL.text = @"非常有意思的景点，非常推荐";
-        _contentL.font = [UIFont systemFontOfSize:14];
-        _contentL.textColor = [UIColor blackColor];
+        _contentL.font = [UIFont systemFontOfSize:12];
+        _contentL.textColor = RGB(51, 51, 51);
         _contentL.numberOfLines = 0;
     }
     return _contentL;

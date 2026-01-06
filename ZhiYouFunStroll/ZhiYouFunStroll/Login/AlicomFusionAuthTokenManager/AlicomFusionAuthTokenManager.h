@@ -22,6 +22,8 @@ typedef void(^loginOutBlcok)(void);
 @property (nonatomic, strong) AlicomFusionNumberAuthModel *authmodel;
 
 @property(nonatomic,strong) loginOutBlcok loginOutclickBlcok;
+@property(nonatomic,strong) NSString *loginLocationStr; // 当前位置（城市）
+@property(nonatomic,strong) NSString *deviceInfoStr; // 设备型号
 
 @end
 

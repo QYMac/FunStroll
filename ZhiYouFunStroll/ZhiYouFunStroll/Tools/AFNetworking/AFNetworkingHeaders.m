@@ -33,10 +33,6 @@
     [parameters setObject:@"1" forKey:@"TENANT-ID"];
     [parameters setObject:@"Y" forKey:@"CLIENT-TOC"];
     [parameters setObject:@"Y" forKey:@"CLIENT-ONE-CLICK"];
-    //获取版本号
-    //NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
-    //NSString *app_Version = [infoDictionary objectForKey:@"CFBundleShortVersionString"];
-    //[parameters setObject:app_Version forKey:@"app-version"];
     return parameters;
 }
 

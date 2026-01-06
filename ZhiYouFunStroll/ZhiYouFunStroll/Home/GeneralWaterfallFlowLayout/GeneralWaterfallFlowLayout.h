@@ -50,6 +50,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (instancetype)flowLayoutWithDelegate:(id<GeneralWaterfallFlowLayoutDelegate>)delegate;
 
+@property (nonatomic, assign) CGFloat headerHeight;
+@property (nonatomic, assign) CGFloat searcHeight;
+@property (nonatomic, assign) CGFloat headerLabelHeight;
+
 @end
 
 NS_ASSUME_NONNULL_END

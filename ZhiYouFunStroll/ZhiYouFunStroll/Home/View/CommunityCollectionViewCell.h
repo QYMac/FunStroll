@@ -6,6 +6,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "HomeModel.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -19,6 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,strong) UIButton *collectionBut;
 @property (nonatomic,strong) UIButton *likeBut;
 @property (nonatomic,strong) NSString *titleText;
+@property (nonatomic,strong) HomeModel *model;
 
 @end
 

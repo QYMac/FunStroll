@@ -52,7 +52,7 @@ static CGFloat keyboardAnimationDuration = 0.5;
 
 
 /** 发送按钮点击回调 */
-@property (nonatomic, copy) BOOL(^sendBlcok)(NSString *text);
+@property (nonatomic, copy) BOOL(^sendBlcok)(NSString *text,NSArray *images);
 
 @end
 
@@ -64,7 +64,7 @@ static CGFloat keyboardAnimationDuration = 0.5;
         [_textView removeObserver:self forKeyPath:@"contentSize"];
     }
 }
-+(void)showWithStyle:(InputViewStyle)style configurationBlock:(void(^)(XHInputView *inputView))configurationBlock sendBlock:(BOOL(^)(NSString *text))sendBlock{
++(void)showWithStyle:(InputViewStyle)style configurationBlock:(void(^)(XHInputView *inputView))configurationBlock sendBlock:(BOOL(^)(NSString *text,NSArray *images))sendBlock{
     XHInputView *inputView = [[XHInputView alloc] initWithStyle:style];
     UIWindow *window = [UIApplication sharedApplication].delegate.window;
     [window addSubview:inputView];
@@ -457,7 +457,7 @@ static CGFloat keyboardAnimationDuration = 0.5;
 }
 -(void)sendButtonClick:(UIButton *)button{
     if(self.sendBlcok){
-        BOOL hideKeyBoard = self.sendBlcok(self.textView.text);
+        BOOL hideKeyBoard = self.sendBlcok(self.textView.text,self.imgList);
         if(hideKeyBoard){
             [self hide];
         }

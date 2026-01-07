@@ -84,6 +84,6 @@ typedef NS_ENUM(NSInteger,InputViewStyle) {
  @param configurationBlock 请在此block中设置XHInputView属性
  @param sendBlock 发送按钮点击回调
  */
-+(void)showWithStyle:(InputViewStyle)style configurationBlock:(void(^)(XHInputView *inputView))configurationBlock sendBlock:(BOOL(^)(NSString *text))sendBlock;
++(void)showWithStyle:(InputViewStyle)style configurationBlock:(void(^)(XHInputView *inputView))configurationBlock sendBlock:(BOOL(^)(NSString *text,NSArray *images))sendBlock;
 
 @end

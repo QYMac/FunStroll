@@ -73,6 +73,7 @@
 #import "AFNetworkingErrorHelper.h" // 网络请求错误信息
 #import "XHInputView.h" // 键盘相关
 #import "KYPhotoBrowserController.h" // 图片预览
+#import "DateHelper.h" // 时间格式化
 
 //加载控件
 #import "UIView+MBProgressHUD.h"

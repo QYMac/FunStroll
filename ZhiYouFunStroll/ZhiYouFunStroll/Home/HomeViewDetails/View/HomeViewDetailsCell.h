@@ -6,6 +6,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CommentListModel.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -20,8 +21,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,strong) UIButton *likeBut;
 @property (nonatomic,strong) UILabel *contentL;
 @property (nonatomic,strong) UIImageView *contentImg;
-
-- (void)setIndexPath:(NSIndexPath *)indexPath isAllList:(BOOL)isAllList;
+@property (nonatomic,strong) CommentItem *model;
+@property (nonatomic,strong) NSMutableArray *imgList;
 
 @end
 

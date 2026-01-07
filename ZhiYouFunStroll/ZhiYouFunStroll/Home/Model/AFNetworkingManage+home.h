@@ -20,6 +20,15 @@ NS_ASSUME_NONNULL_BEGIN
 /// 帖子收藏，取消收藏
 + (void)homeCollectPostId:(NSString *)postId success:(SuccessHandler)success failureHandler:(FailureHandler)failure;
 
+/// 获取帖子详情
++ (void)homeGetDetailsPostId:(NSString *)postId success:(SuccessHandler)success failureHandler:(FailureHandler)failure;
+
+/// 获取评论列表
++ (void)homeGetDetailsCommentPostId:(NSString *)postId current:(NSString *)current size:(NSString *)size sortType:(NSString *)sortType userId:(NSString *)userId keyword:(NSString *)keyword success:(SuccessHandler)success failureHandler:(FailureHandler)failure;
+
+/// 添加评论
++ (void)homeAddCommentPostId:(NSString *)postId parentCommentId:(NSString *)parentCommentId content:(NSString *)content resources:(NSArray *)resources success:(SuccessHandler)success failureHandler:(FailureHandler)failure;
+
 @end
 
 NS_ASSUME_NONNULL_END

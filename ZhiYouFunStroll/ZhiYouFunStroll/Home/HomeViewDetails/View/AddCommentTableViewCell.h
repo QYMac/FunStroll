@@ -6,6 +6,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CommentListModel.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -17,6 +18,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,strong) UIButton *expressionBut;
 @property (nonatomic,strong) UIButton *addImgBut;
 @property (nonatomic,strong) UIView *bgView;
+@property (nonatomic,strong) NSString *imgURL;
+@property (nonatomic,strong) CommentListModel *model;
 
 @end
 

@@ -73,4 +73,58 @@
     }
 }
 
+
+// 带有上传图片的请求
++ (void)requestImageWithUrl:(NSString *)url params:(NSDictionary *)params requestType:(NSString *)requestType imageList:(NSArray *)imageList successHanler:(SuccessHandler)success failureHandler:(FailureHandler)failure{
+    
+    //表单请求，上传文件
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    //manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/html",@"text/plain",nil];
+    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript",@"text/html", nil];
+    manager.requestSerializer = [AFHTTPRequestSerializer serializer];
+    manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+    
+    /*
+    NSDictionary *httpHeader = [AFNetworkingHeaders headersDictionary];
+    AFHTTPRequestSerializer *requestSerializer =  [AFJSONRequestSerializer serializer];
+    NSDictionary *headerFieldValueDictionary = httpHeader;
+    if (headerFieldValueDictionary != nil) {
+        for (NSString *httpHeaderField in headerFieldValueDictionary.allKeys) {
+            NSString *value = headerFieldValueDictionary[httpHeaderField];
+            [requestSerializer setValue:value forHTTPHeaderField:httpHeaderField];
+            [requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+            [requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+            //[manager.requestSerializer setValue:value forHTTPHeaderField:httpHeaderField];
+        }
+    }
+    manager.requestSerializer = requestSerializer;
+     */
+    
+    [manager POST:[NSString stringWithFormat:@"%@%@",BASE_URL,url] parameters:params headers:[AFNetworkingHeaders headersDictionary] constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData){
+        for (int i = 0; i < imageList.count; i++) {
+            UIImage *image = [imageList objectAtIndexCheck:i];
+            NSData *imageData = UIImageJPEGRepresentation(image, 0.5);
+            // 在网络开发中，上传文件时，是文件不允许被覆盖，文件重名
+            // 可以在上传时使用当前的系统事件作为文件名
+            NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+            // 设置时间格式
+            formatter.dateFormat = @"yyyyMMddHHmmss";
+            NSString *str = [formatter stringFromDate:[NSDate date]];
+            NSString *fileName = [NSString stringWithFormat:@"images/blog/%@%dfile.png",str,i];
+            //将图片以表单形式上传
+            [formData appendPartWithFileData:imageData name:@"images" fileName:fileName mimeType:@"image/png"];
+        }
+    } progress:^(NSProgress * _Nonnull uploadProgress) {
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        if (success) {
+            success(responseObject);
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        if (failure) {
+            failure(error);
+        }
+    }];
+}
+
 @end

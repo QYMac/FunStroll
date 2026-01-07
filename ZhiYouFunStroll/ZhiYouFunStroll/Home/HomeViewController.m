@@ -70,7 +70,7 @@
         NSString *sizeStr = [NSString stringWithFormat:@"%ld",size];
         [AFNetworkingManage homeListCurrent:currentStr size:sizeStr keyword:keywordStr success:^(id  _Nonnull responseObject) {
             
-            NSLog(@"%@",responseObject);
+            //NSLog(@"%@",responseObject);
             HomeModel *model = [HomeModel yy_modelWithDictionary:responseObject];
             if (model.records.count > 0) {
                 [weakSelf.dataList addObjectsFromArray:model.records];

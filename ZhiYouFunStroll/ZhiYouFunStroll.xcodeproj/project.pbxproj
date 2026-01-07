@@ -50,6 +50,11 @@
 		CC676BFF2F0CB4E100574EF8 /* KYPhotoZoomView.m in Sources */ = {isa = PBXBuildFile; fileRef = CC676BFC2F0CB4E100574EF8 /* KYPhotoZoomView.m */; };
 		CC676C002F0CB4E100574EF8 /* KYPhotoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = CC676BFA2F0CB4E100574EF8 /* KYPhotoModel.m */; };
 		CC676C012F0CB4E100574EF8 /* KYPhotoBrowserManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CC676BF62F0CB4E100574EF8 /* KYPhotoBrowserManager.m */; };
+		CC676C182F0CE12F00574EF8 /* ResponseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = CC676C172F0CE12F00574EF8 /* ResponseModel.m */; };
+		CC676C192F0CE12F00574EF8 /* ResourceModel.m in Sources */ = {isa = PBXBuildFile; fileRef = CC676C152F0CE12F00574EF8 /* ResourceModel.m */; };
+		CC676C1A2F0CE12F00574EF8 /* PostDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = CC676C132F0CE12F00574EF8 /* PostDataModel.m */; };
+		CC676C212F0CF10100574EF8 /* DateHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = CC676C202F0CF10100574EF8 /* DateHelper.m */; };
+		CC676C392F0CFAE000574EF8 /* CommentListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = CC676C382F0CFAE000574EF8 /* CommentListModel.m */; };
 		CC754ED52EF3EB4D002DB1FA /* LoginUserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CC754ED42EF3EB4D002DB1FA /* LoginUserViewController.m */; };
 		CC754ED92EF3F055002DB1FA /* UserModel.m in Sources */ = {isa = PBXBuildFile; fileRef = CC754ED82EF3F055002DB1FA /* UserModel.m */; };
 		CC754EE22EF3F1DC002DB1FA /* UIView+GoodView.m in Sources */ = {isa = PBXBuildFile; fileRef = CC754EE02EF3F1DC002DB1FA /* UIView+GoodView.m */; };
@@ -257,6 +262,16 @@
 		CC676BFA2F0CB4E100574EF8 /* KYPhotoModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KYPhotoModel.m; sourceTree = "<group>"; };
 		CC676BFB2F0CB4E100574EF8 /* KYPhotoZoomView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KYPhotoZoomView.h; sourceTree = "<group>"; };
 		CC676BFC2F0CB4E100574EF8 /* KYPhotoZoomView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KYPhotoZoomView.m; sourceTree = "<group>"; };
+		CC676C122F0CE12F00574EF8 /* PostDataModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PostDataModel.h; sourceTree = "<group>"; };
+		CC676C132F0CE12F00574EF8 /* PostDataModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PostDataModel.m; sourceTree = "<group>"; };
+		CC676C142F0CE12F00574EF8 /* ResourceModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ResourceModel.h; sourceTree = "<group>"; };
+		CC676C152F0CE12F00574EF8 /* ResourceModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ResourceModel.m; sourceTree = "<group>"; };
+		CC676C162F0CE12F00574EF8 /* ResponseModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ResponseModel.h; sourceTree = "<group>"; };
+		CC676C172F0CE12F00574EF8 /* ResponseModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ResponseModel.m; sourceTree = "<group>"; };
+		CC676C1F2F0CF10100574EF8 /* DateHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DateHelper.h; sourceTree = "<group>"; };
+		CC676C202F0CF10100574EF8 /* DateHelper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DateHelper.m; sourceTree = "<group>"; };
+		CC676C372F0CFAE000574EF8 /* CommentListModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CommentListModel.h; sourceTree = "<group>"; };
+		CC676C382F0CFAE000574EF8 /* CommentListModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CommentListModel.m; sourceTree = "<group>"; };
 		CC754ED32EF3EB4D002DB1FA /* LoginUserViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LoginUserViewController.h; sourceTree = "<group>"; };
 		CC754ED42EF3EB4D002DB1FA /* LoginUserViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LoginUserViewController.m; sourceTree = "<group>"; };
 		CC754ED72EF3F055002DB1FA /* UserModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UserModel.h; sourceTree = "<group>"; };
@@ -778,6 +793,30 @@
 			path = CKYPhotoBrowser;
 			sourceTree = "<group>";
 		};
+		CC676C112F0CE12700574EF8 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				CC676C162F0CE12F00574EF8 /* ResponseModel.h */,
+				CC676C172F0CE12F00574EF8 /* ResponseModel.m */,
+				CC676C122F0CE12F00574EF8 /* PostDataModel.h */,
+				CC676C132F0CE12F00574EF8 /* PostDataModel.m */,
+				CC676C142F0CE12F00574EF8 /* ResourceModel.h */,
+				CC676C152F0CE12F00574EF8 /* ResourceModel.m */,
+				CC676C372F0CFAE000574EF8 /* CommentListModel.h */,
+				CC676C382F0CFAE000574EF8 /* CommentListModel.m */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		CC676C1E2F0CF0FC00574EF8 /* DateHelper */ = {
+			isa = PBXGroup;
+			children = (
+				CC676C1F2F0CF10100574EF8 /* DateHelper.h */,
+				CC676C202F0CF10100574EF8 /* DateHelper.m */,
+			);
+			path = DateHelper;
+			sourceTree = "<group>";
+		};
 		CC754ED62EF3EFE3002DB1FA /* UserModel */ = {
 			isa = PBXGroup;
 			children = (
@@ -885,6 +924,7 @@
 		CC8253852ED43512006BCE2A /* Tools */ = {
 			isa = PBXGroup;
 			children = (
+				CC676C1E2F0CF0FC00574EF8 /* DateHelper */,
 				CC676BE12F0CB4B900574EF8 /* CKYPhotoBrowser */,
 				CC5AE6292F0B58BC0004B0A5 /* XHInputView */,
 				CC5AE6192F0A51BF0004B0A5 /* DCCycleScrollView */,
@@ -1109,6 +1149,7 @@
 		CC82545A2ED98630006BCE2A /* HomeViewDetails */ = {
 			isa = PBXGroup;
 			children = (
+				CC676C112F0CE12700574EF8 /* Model */,
 				CC82545E2EDD1FBD006BCE2A /* View */,
 				CC82545B2ED98665006BCE2A /* HomeViewDetailsController.h */,
 				CC82545C2ED98665006BCE2A /* HomeViewDetailsController.m */,
@@ -1640,6 +1681,7 @@
 				CC9959AB2EEBADB600456825 /* MapNavigationCollectionViewCell.m in Sources */,
 				CC2F1CE42EF3CB29007E8992 /* WKWebViewController.m in Sources */,
 				CC2F1CE02EF3CAAC007E8992 /* LoginViewController.m in Sources */,
+				CC676C212F0CF10100574EF8 /* DateHelper.m in Sources */,
 				CC8254882EDE8BA8006BCE2A /* MovEncodeToMpegTool.m in Sources */,
 				CC754EEE2EF3F452002DB1FA /* AFNetworkingManage+Login.m in Sources */,
 				CC8253A82ED44100006BCE2A /* ExploreViewController.m in Sources */,
@@ -1727,6 +1769,9 @@
 				CC995A512EF1297200456825 /* LFAlbum.m in Sources */,
 				CC995A522EF1297200456825 /* LFPhotoPreviewVideoCell.m in Sources */,
 				CC995A532EF1297200456825 /* LFImagePickerHeader.m in Sources */,
+				CC676C182F0CE12F00574EF8 /* ResponseModel.m in Sources */,
+				CC676C192F0CE12F00574EF8 /* ResourceModel.m in Sources */,
+				CC676C1A2F0CE12F00574EF8 /* PostDataModel.m in Sources */,
 				CC754EFE2EFBC8F4002DB1FA /* HomeModel.m in Sources */,
 				CC8253CB2ED5935F006BCE2A /* CommunityViewController.m in Sources */,
 				CC5AE5DD2F025C080004B0A5 /* DeviceInfoHelper.m in Sources */,
@@ -1744,6 +1789,7 @@
 				CC676BFE2F0CB4E100574EF8 /* KYPhotoGestureHandle.m in Sources */,
 				CC676BFF2F0CB4E100574EF8 /* KYPhotoZoomView.m in Sources */,
 				CC676C002F0CB4E100574EF8 /* KYPhotoModel.m in Sources */,
+				CC676C392F0CFAE000574EF8 /* CommentListModel.m in Sources */,
 				CC676C012F0CB4E100574EF8 /* KYPhotoBrowserManager.m in Sources */,
 				CC57C9412EE12836006A38C3 /* PublishListViewCell.m in Sources */,
 				CC8253D12ED593DE006BCE2A /* ScenicSpotViewController.m in Sources */,

@@ -14,6 +14,7 @@ typedef void (^FailureHandler)(NSError *error);
 
 @interface AFNetworkingManage : NSObject
 
+/// 普通网络请求
 + (void)requestWithUrl:(NSString *)url
              params:(NSDictionary *)params
          requestType:(NSString *)requestType
@@ -22,6 +23,14 @@ typedef void (^FailureHandler)(NSError *error);
       successHanler:(SuccessHandler)success
      failureHandler:(FailureHandler)failure;
 
+
+/// 带有上传图片的请求
++ (void)requestImageWithUrl:(NSString *)url
+             params:(NSDictionary *)params
+         requestType:(NSString *)requestType
+                  imageList:(NSArray *)imageList
+      successHanler:(SuccessHandler)success
+     failureHandler:(FailureHandler)failure;
 
 @end
 

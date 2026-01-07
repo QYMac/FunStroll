@@ -37,6 +37,9 @@ NS_ASSUME_NONNULL_BEGIN
 */
 + (CGFloat)getTextHeightWithText:(NSString *)text font:(UIFont *)font maxWidth:(CGFloat)maxWidth;
 
+///  设置 label 行间距
++ (void)setLineSpacing:(CGFloat)spacing label:(UILabel *)label;
+
 @end
 
 NS_ASSUME_NONNULL_END

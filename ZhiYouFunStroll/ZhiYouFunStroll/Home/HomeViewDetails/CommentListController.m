@@ -98,8 +98,6 @@
         cell = [[HomeViewDetailsCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
     }
     
-    [cell setIndexPath:indexPath isAllList:YES];
-    
     return cell;
 }
 

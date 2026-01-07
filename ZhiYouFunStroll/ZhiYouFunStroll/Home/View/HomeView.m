@@ -48,7 +48,7 @@
         [self.collectionView.mj_footer endRefreshing];
         [self.dataList addObjectsFromArray:homeModel.records];
         [self.collectionView reloadData];
-        if (homeModel.records.count >= 20) {
+        if (homeModel.records.count >= self.size) {
             [self MJRefreshFooter];
         }
     } else {
@@ -180,6 +180,7 @@
     HomeViewDetailsController *navc = [[HomeViewDetailsController alloc]init];
     navc.imageURL = [CheckTool replaceNullValue:model.userAvatar];
     navc.userNameText = [CheckTool replaceNullValue:model.userNickname];
+    navc.postId = [CheckTool replaceNullValue:model.postId];
     [[TabBarViewController takeCurrentVC].navigationController pushViewController:navc animated:YES];
     
 }

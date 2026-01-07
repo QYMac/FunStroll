@@ -9,7 +9,7 @@
 
 @interface ImageTableViewCell ()<DCCycleScrollViewDelegate,KYPhotoBrowserControllerDelegate>
 
-@property (nonatomic,strong) NSArray *imageList;
+@property (nonatomic,strong) NSMutableArray *imageArray;
 
 @end
 
@@ -26,7 +26,6 @@
             make.left.mas_equalTo(0);
             make.right.mas_equalTo(0);
             make.bottom.mas_equalTo(0);
-            make.height.mas_equalTo(600);
             make.top.mas_equalTo(0);
         }];
         
@@ -51,7 +50,7 @@
         [self.titleL mas_makeConstraints:^(MASConstraintMaker *make) {
             make.right.mas_equalTo(-15);
             make.left.mas_equalTo(15);
-            make.top.mas_equalTo(self.bannerView.mas_bottom).offset(35);
+            make.top.mas_equalTo(self.bannerView.mas_bottom).offset(25);
         }];
         
         [self.bgView addSubview:self.contentL];
@@ -91,15 +90,61 @@
     return self;
 }
 
-- (void)setDataArray:(NSArray *)dataArray{
-    self.imageList = dataArray;
-    self.bannerView.dataList = dataArray;
+- (void)setModel:(ResponseModel *)model{
+    [self.imageArray removeAllObjects];
+    for (ResourceModel *resourceModel in model.data.resources) {
+        NSString *resourceUrl = [CheckTool replaceNullValue:resourceModel.resourceUrl];
+        [self.imageArray addObject:resourceUrl];
+    }
+    
+    self.bannerView.dataList = self.imageArray;
+    if (self.imageArray.count != 0) {
+        self.severalBg.hidden = NO;
+        self.imageSeveralL.text = [NSString stringWithFormat:@"1/%ld",self.imageArray.count];
+    } else {
+        self.severalBg.hidden = YES;
+    }
+    self.titleL.text = [CheckTool replaceNullValue:model.data.title];
+    
+    // 使用 NSPredicate 过滤
+    NSString *text = [CheckTool replaceNullValue:model.data.content];
+    NSArray *hashtags = [[text componentsSeparatedByString:@" "]
+                         filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"SELF BEGINSWITH[c] '#'"]];
+    
+    NSString *resultText = text;
+    for (NSString *hashtag in hashtags) {
+        resultText = [resultText stringByReplacingOccurrencesOfString:hashtag withString:@""];
+    }
+    self.contentL.text = resultText;
+    [LabelSpacing setLineSpacing:5 label:self.contentL];
+    
+    NSString *topicLText = @"";
+    for (NSString *str in hashtags) {
+        if (topicLText.length == 0) {
+            topicLText = [NSString stringWithFormat:@"%@",str];
+        } else {
+            topicLText = [NSString stringWithFormat:@"%@ %@",topicLText,str];
+        }
+    }
+    self.topicL.text = topicLText;
+    
+    
+    NSString *createTime = [CheckTool replaceNullValue:model.data.createTime];
+    NSString *province = [[CheckTool replaceNullValue:model.data.province] stringByReplacingOccurrencesOfString:@"省" withString:@""];
+    NSString *createTimeStr = [NSString stringWithFormat:@"编辑于%@  %@",[DateHelper formatDateString:createTime],province];
+    self.timeL.text = [CheckTool replaceNullValue:createTimeStr];
+    
 }
 
 #pragma mark - DCCycleScrollViewDelegate
 /** 点击图片回调 */
 - (void)cycleScrollView:(DCCycleScrollView *)cycleScrollView didSelectItemAtIndex:(NSInteger)index{
-    [KYPhotoBrowserController showPhotoBrowserWithImages:self.imageList currentImageIndex:0 delegate:self];
+    [KYPhotoBrowserController showPhotoBrowserWithImages:self.imageArray currentImageIndex:0 delegate:self];
+}
+
+/**当图片手动滑动或自动切换时回调，返回当前页码，用于外部自定义pageControl时，切换当前页使用*/
+- (void)cycleScrollView:(DCCycleScrollView *)cycleScrollView currentPageIndex:(NSInteger)index{
+    self.imageSeveralL.text = [NSString stringWithFormat:@"%ld/%ld",index+1,self.imageArray.count];
 }
 
 #pragma mark - 懒加载
@@ -178,6 +223,7 @@
         _topicL.text = @"#攻略 #旅游";
         _topicL.font = [UIFont systemFontOfSize:14];
         _topicL.textColor = RGB(58, 175, 6);
+        _topicL.numberOfLines = 0;
     }
     return _topicL;
 }
@@ -198,6 +244,14 @@
         _fgView.backgroundColor = RGB(229, 229, 229);
     }
     return _fgView;
+}
+
+
+- (NSMutableArray *)imageArray{
+    if (!_imageArray) {
+        _imageArray = [[NSMutableArray alloc] init];
+    }
+    return _imageArray;
 }
 
 @end

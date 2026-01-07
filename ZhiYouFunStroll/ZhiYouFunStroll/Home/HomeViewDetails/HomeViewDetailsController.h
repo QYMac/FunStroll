@@ -14,6 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,strong) NSString *titleText;
 @property (nonatomic,strong) NSString *imageURL;
 @property (nonatomic,strong) NSString *userNameText;
+@property (nonatomic,strong) NSString *postId;
 
 @end
 

@@ -65,7 +65,6 @@ static UserModel * instance = nil;
         
     } failureHandler:^(NSError * _Nonnull error) {
         NSLog(@"%@",error);
-        
     }];
     
 }

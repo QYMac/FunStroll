@@ -75,4 +75,18 @@
     return ceil(rect.size.height);
 }
 
+//  设置 label 行间距
++ (void)setLineSpacing:(CGFloat)spacing label:(UILabel *)label{
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+    paragraphStyle.lineSpacing = spacing; // 行间距设为10
+    
+    NSString *textStr = [CheckTool replaceNullValue:label.text];
+    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:textStr];
+    [attributedString addAttribute:NSParagraphStyleAttributeName
+                             value:paragraphStyle
+                             range:NSMakeRange(0, textStr.length)];
+
+    label.attributedText = attributedString;
+}
+
 @end

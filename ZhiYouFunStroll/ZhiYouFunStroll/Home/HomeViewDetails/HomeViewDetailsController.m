@@ -11,6 +11,9 @@
 #import "AddCommentController.h"
 #import "ImageTableViewCell.h"
 #import "AddCommentTableViewCell.h"
+#import "AFNetworkingManage+Home.h"
+#import "ResponseModel.h"
+#import "CommentListModel.h"
 
 @interface HomeViewDetailsController ()<UITableViewDelegate,UITableViewDataSource,XHInputViewDelagete>
 
@@ -25,6 +28,13 @@
 @property (nonatomic,strong) UIButton *addcommentBut;
 @property (nonatomic,strong) UIButton *dianZanBut;
 @property (nonatomic,strong) UIButton *pingLunBut;
+@property (nonatomic,strong) ResponseModel *responseModel;
+@property (nonatomic,strong) CommentListModel *commentListModel;
+
+@property (nonatomic,strong) NSMutableArray *dataList; // 数据源
+@property (nonatomic,assign) NSInteger current; // 分页
+@property (nonatomic,assign) NSInteger size; // 列数
+
 
 @end
 
@@ -37,9 +47,65 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = RGB(244, 244, 244);
+    self.current = 1;
+    self.size = 20;
+    [self AFNetworkingHomeDetails];
     [self setupHomeViewDetailsUI];
 }
 
+// 获取帖子详情数据
+- (void)AFNetworkingHomeDetails{
+    [ZSProgressHUD showHUDShowText:@"加载中..."];
+    WeakSelf
+    dispatch_group_t homeGetDetailsGroup = dispatch_group_create();
+    dispatch_group_async(homeGetDetailsGroup, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        dispatch_group_enter(homeGetDetailsGroup);
+        [AFNetworkingManage homeGetDetailsPostId:self.postId success:^(id  _Nonnull responseObject) {
+            NSDictionary *dict = [CheckTool replaceNullWithDictionary:responseObject];
+            weakSelf.responseModel = [ResponseModel yy_modelWithJSON:dict];
+            dispatch_group_leave(homeGetDetailsGroup);
+        } failureHandler:^(NSError * _Nonnull error) {
+            dispatch_group_leave(homeGetDetailsGroup);
+        }];
+        
+        dispatch_group_enter(homeGetDetailsGroup);
+        [weakSelf searchCommentListAndHandle:^(BOOL isSuccess) {
+            dispatch_group_leave(homeGetDetailsGroup);
+        }];
+        
+        dispatch_group_notify(homeGetDetailsGroup, dispatch_get_main_queue(), ^{
+            [ZSProgressHUD hideAllHUDAnimated:YES];
+            [weakSelf.tableView reloadData];
+        });
+        
+    });
+}
+
+// 获取评论列表数据
+- (void)searchCommentListAndHandle:(void (^ _Nullable)(BOOL isSuccess))handle{
+    NSString *currentStr = [NSString stringWithFormat:@"%ld",self.current];
+    NSString *sizeStr = [NSString stringWithFormat:@"%ld",self.size];
+    WeakSelf
+    [AFNetworkingManage homeGetDetailsCommentPostId:self.postId current:currentStr size:sizeStr sortType:@"" userId:@"" keyword:@"" success:^(id  _Nonnull responseObject) {
+        NSDictionary *dict = [CheckTool replaceNullWithDictionary:responseObject];
+        weakSelf.commentListModel = [CommentListModel yy_modelWithJSON:dict];
+        if (weakSelf.commentListModel.records.count > 0) {
+            [weakSelf.dataList addObjectsFromArray:weakSelf.commentListModel.records];
+            if (weakSelf.dataList.count >= self.size) {
+                [weakSelf MJRefreshFooter];
+            }
+        }
+        if (handle) {
+            handle(YES);
+        }
+    } failureHandler:^(NSError * _Nonnull error) {
+        if (handle) {
+            handle(NO);
+        }
+    }];
+}
+
+// 初始化UI
 - (void)setupHomeViewDetailsUI{
     
     [self.view addSubview:self.backBut];
@@ -131,6 +197,29 @@
     }];
 }
 
+- (void)MJRefreshFooter{
+    
+    if (self.tableView.mj_footer) {
+        return;
+    }
+    
+    // 上拉刷新
+    WeakSelf
+    MJRefreshAutoNormalFooter *footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
+        weakSelf.current += 1;
+        [weakSelf searchCommentListAndHandle:^(BOOL isSuccess) {
+            if (weakSelf.commentListModel.records.count == 0) {
+                [self.tableView.mj_footer endRefreshingWithNoMoreData];
+            } else {
+                [self.tableView.mj_footer endRefreshing];
+            }
+        }];
+    }];
+    [footer setTitle:@"已经到底了" forState:MJRefreshStateNoMoreData];
+    self.tableView.mj_footer = footer;
+
+}
+
 #pragma mark - tableViewDelegate\UITableViewDataSource
 // section数
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
@@ -147,7 +236,7 @@
     if (section == 0 || section == 1) {
         return 1;
     } else {
-        return 3;
+        return self.commentListModel.records.count;
     }
 }
 
@@ -158,13 +247,19 @@
         if (cell == nil) {
             cell = [[ImageTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
         }
-        cell.dataArray = @[@"http://47.121.183.217:9000/zytech/c13754dab01849e9b8896948e368e4bd.jpg",@"http://47.121.183.217:9000/zytech/c13754dab01849e9b8896948e368e4bd.jpg",@"http://47.121.183.217:9000/zytech/c13754dab01849e9b8896948e368e4bd.jpg",@"http://47.121.183.217:9000/zytech/c13754dab01849e9b8896948e368e4bd.jpg"];
+        
+        
+        cell.model = self.responseModel;
+        
         return cell;
     } else if (indexPath.section == 1) {
         AddCommentTableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
         if (cell == nil) {
             cell = [[AddCommentTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
         }
+        
+        cell.imgURL = [CheckTool replaceNullValue:self.imageURL];
+        cell.model = self.commentListModel;
 
         return cell;
     } else {
@@ -173,7 +268,7 @@
             cell = [[HomeViewDetailsCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
         }
         
-        [cell setIndexPath:indexPath isAllList:NO];
+        cell.model = [self.commentListModel.records objectAtIndexCheck:indexPath.row];
         
         return cell;
     }
@@ -233,10 +328,10 @@
         inputView.textViewBackgroundColor = RGB(244, 244, 244);
         /** 更多属性设置,详见XHInputView.h文件 */
         
-    } sendBlock:^BOOL(NSString *text) {
+    } sendBlock:^BOOL(NSString *text,NSArray *images) {
         if(text.length){
             //NSLog(@"输入的信息为:%@",text);
-            [self addText:text];
+            [self addText:text images:images];
             return YES;//return YES,收起键盘
         }else{
             //NSLog(@"显示提示框-请输入要评论的的内容");
@@ -247,8 +342,16 @@
     
 }
 
-- (void)addText:(NSString *)text{
-    
+- (void)addText:(NSString *)text images:(NSArray *)images{
+    if (images.count == 0 || images == nil) {
+        images = @[];
+    }
+    NSString *content = [CheckTool replaceNullValue:text];
+    [AFNetworkingManage homeAddCommentPostId:self.postId parentCommentId:@"" content:content resources:images success:^(id  _Nonnull responseObject) {
+        NSLog(@"%@",responseObject);
+    } failureHandler:^(NSError * _Nonnull error) {
+        NSLog(@"%@",error);
+    }];
 }
 
 #pragma mark - XHInputViewDelagete
@@ -377,6 +480,13 @@
         [_dianZanBut setImagePositionWithType:SSImagePositionTypeLeft spacing:5];
     }
     return _dianZanBut;
+}
+
+- (NSMutableArray *)dataList{
+    if (!_dataList) {
+        _dataList = [[NSMutableArray alloc] init];
+    }
+    return _dataList;
 }
 
 - (void)viewWillAppear:(BOOL)animated {

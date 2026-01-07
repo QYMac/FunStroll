@@ -22,10 +22,58 @@
     return self;
 }
 
-
-- (void)setIndexPath:(NSIndexPath *)indexPath isAllList:(BOOL)isAllList{
+- (void)setModel:(CommentItem *)model{
+    NSString *userAvatar = [CheckTool replaceNullValue:model.userAvatar];
+    [self.avatarImage sd_setImageWithURL:[NSURL URLWithString:userAvatar] placeholderImage:[UIImage imageNamed:@""]];
+    self.nameL.text = [CheckTool replaceNullValue:model.userNickname];
+    NSLog(@"content====%@",model.content);
+    self.contentL.text = [CheckTool replaceNullValue:model.content];
     
+    NSString *createTime = [CheckTool replaceNullValue:model.createTime];
+    NSString *province = [[CheckTool replaceNullValue:model.province] stringByReplacingOccurrencesOfString:@"省" withString:@""];
+    NSString *createTimeStr = [NSString stringWithFormat:@"%@  %@",[DateHelper relativeTimeString:createTime],province];
+    self.timeL.text = [CheckTool replaceNullValue:createTimeStr];
+    NSString *likesNumber = [NSString stringWithFormat:@"%ld",model.likesNumber];
+    [self.likeBut setTitle:[CheckTool replaceNullValue:likesNumber] forState:UIControlStateNormal];
+    
+    //[self.contentL layoutIfNeeded];
+    
+    [self.imgList removeAllObjects];
+    NSArray *resources = model.resources;
+    for (NSDictionary *dict in resources) {
+        NSString *resourceUrl = [CheckTool replaceNullValue:dict[@"resourceUrl"]];
+        [self.imgList addObject:resourceUrl];
+    }
+    
+    CGFloat tagImgX = 15 + 32 + 15;
+    CGFloat contentImgWidth = (kWidth - 15 - 32 - 15 - 35)/3;
+    CGFloat tagImgY = 90 + self.contentL.frame.size.height;
+    for (int i = 0; i < self.imgList.count; i++) {
+        if (tagImgX + contentImgWidth > kWidth) {
+            tagImgX = 15 + 32 + 15;
+            tagImgY += (contentImgWidth+10);
+        }
+        _contentImg = [[UIImageView alloc] init];
+        _contentImg.backgroundColor = RGB(240, 240, 240);
+        _contentImg.frame  = CGRectMake(tagImgX, tagImgY, contentImgWidth, contentImgWidth);
+        NSString *imgURL = [CheckTool replaceNullValue:[self.imgList objectAtIndexCheck:i]];
+        [_contentImg sd_setImageWithURL:[NSURL URLWithString:imgURL] placeholderImage:[UIImage imageNamed:@""]];
+        [self.towBgOneView addSubview:_contentImg];
+        
+        tagImgX = CGRectGetMaxX(_contentImg.frame)+10;
+        
+    }
+    if (_contentImg) {
+        [self.towBgOneView mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.bottom.mas_equalTo(_contentImg.mas_bottom).offset(15);
+        }];
+    } else {
+        [self.towBgOneView mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.bottom.mas_equalTo(self.timeL.mas_bottom).offset(15);
+        }];
+    }
 }
+
 
 // 初始化UI
 - (void)initEvaluationListView{
@@ -57,15 +105,14 @@
     [self.contentL mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.nameL.mas_left).offset(0);
         make.top.mas_equalTo(self.nameL.mas_bottom).offset(5);
-        make.right.mas_equalTo(-15);
+        make.right.mas_equalTo(self.nameL.mas_right).offset(0);
     }];
-    [self.contentL layoutIfNeeded];
     
     
     [self.towBgOneView addSubview:self.timeL];
     [self.timeL mas_makeConstraints:^(MASConstraintMaker *make) {
         make.width.mas_equalTo(90);
-        make.top.mas_equalTo(self.contentL.mas_bottom).offset(10);
+        make.top.mas_equalTo(self.contentL.mas_bottom).offset(5);
         make.left.mas_equalTo(self.contentL.mas_left).offset(0);
         make.height.mas_equalTo(20);
     }];
@@ -86,27 +133,6 @@
         make.left.mas_equalTo(self.timeL.mas_right).offset(-5);
     }];
     
-    CGFloat tagImgX = 15 + 32 + 15;
-    CGFloat contentImgWidth = (kWidth - 15 - 32 - 15 - 35)/3;
-    CGFloat tagImgY = 85 + self.contentL.frame.size.height;
-    NSArray *imageList = @[@"",@"",@"",@"",@"",@"",@"",@"",@""];
-    for (int i = 0; i < imageList.count; i++) {
-        if (tagImgX + contentImgWidth > kWidth) {
-            tagImgX = 15 + 32 + 15;
-            tagImgY += (contentImgWidth+10);
-        }
-        _contentImg = [[UIImageView alloc] init];
-        _contentImg.backgroundColor = RGB(240, 240, 240);
-        _contentImg.frame  = CGRectMake(tagImgX, tagImgY, contentImgWidth, contentImgWidth);
-        [self.towBgOneView addSubview:_contentImg];
-        
-        tagImgX = CGRectGetMaxX(_contentImg.frame)+10;
-        
-    }
-    
-    [self.towBgOneView mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.bottom.mas_equalTo(_contentImg.mas_bottom).offset(15);
-    }];
 }
 
 #pragma mark - 按钮点击事件
@@ -222,6 +248,13 @@
         _contentL.numberOfLines = 0;
     }
     return _contentL;
+}
+
+- (NSMutableArray *)imgList{
+    if (!_imgList) {
+        _imgList = [[NSMutableArray alloc] init];
+    }
+    return _imgList;
 }
 
 @end

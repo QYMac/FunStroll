@@ -82,6 +82,11 @@
     return self;
 }
 
+- (void)setModel:(CommentListModel *)model{
+    self.numCommentL.text = [NSString stringWithFormat:@"共%ld条评论",model.total];
+    [self.avatarImage sd_setImageWithURL:[NSURL URLWithString:self.imgURL] placeholderImage:[UIImage imageNamed:@""]];
+}
+
 #pragma mark - 按钮点击
 - (void)addButClick:(UIButton *)sender{
     if ([UserModel sharedUserModel].isAutoLogin == NO) {
@@ -119,7 +124,7 @@
         inputView.textViewBackgroundColor = RGB(244, 244, 244);
         /** 更多属性设置,详见XHInputView.h文件 */
         
-    } sendBlock:^BOOL(NSString *text) {
+    } sendBlock:^BOOL(NSString *text,NSArray *images) {
         if(text.length){
             //NSLog(@"输入的信息为:%@",text);
             [self addText:text];

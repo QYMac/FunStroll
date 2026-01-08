@@ -8,6 +8,7 @@
 #import "AppDelegate.h"
 #import "TabBarViewController.h"
 #import "AFNetworking.h"
+#import "LoginViewController.h"
 
 @interface AppDelegate ()
 

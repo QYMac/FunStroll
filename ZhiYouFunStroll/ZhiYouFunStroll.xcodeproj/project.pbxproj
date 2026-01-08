@@ -163,6 +163,8 @@
 		CC995A532EF1297200456825 /* LFImagePickerHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = CC9959BA2EF1297200456825 /* LFImagePickerHeader.m */; };
 		CC995A562EF13F6700456825 /* LFPhotoPreViewColletion.m in Sources */ = {isa = PBXBuildFile; fileRef = CC995A552EF13F6700456825 /* LFPhotoPreViewColletion.m */; };
 		CC995A592EF1429000456825 /* LFPhotoPreViewColletionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CC995A582EF1429000456825 /* LFPhotoPreViewColletionCell.m */; };
+		CCDE01362F0E2F9100C4C9D4 /* ArrayHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = CCDE01352F0E2F9100C4C9D4 /* ArrayHelper.m */; };
+		CCDE013C2F0E411700C4C9D4 /* ViewControllerTransitionHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = CCDE013B2F0E411700C4C9D4 /* ViewControllerTransitionHelper.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -496,6 +498,10 @@
 		CC995A552EF13F6700456825 /* LFPhotoPreViewColletion.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LFPhotoPreViewColletion.m; sourceTree = "<group>"; };
 		CC995A572EF1429000456825 /* LFPhotoPreViewColletionCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LFPhotoPreViewColletionCell.h; sourceTree = "<group>"; };
 		CC995A582EF1429000456825 /* LFPhotoPreViewColletionCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LFPhotoPreViewColletionCell.m; sourceTree = "<group>"; };
+		CCDE01342F0E2F9100C4C9D4 /* ArrayHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ArrayHelper.h; sourceTree = "<group>"; };
+		CCDE01352F0E2F9100C4C9D4 /* ArrayHelper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ArrayHelper.m; sourceTree = "<group>"; };
+		CCDE013A2F0E411700C4C9D4 /* ViewControllerTransitionHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewControllerTransitionHelper.h; sourceTree = "<group>"; };
+		CCDE013B2F0E411700C4C9D4 /* ViewControllerTransitionHelper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewControllerTransitionHelper.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -623,7 +629,6 @@
 			children = (
 				CC754EEB2EF3F446002DB1FA /* Model */,
 				CC5AE6082F03BF740004B0A5 /* LocationAddressHelper */,
-				CC2F1CE52EF3D01C007E8992 /* ViewTransitionAnimation */,
 				CC2F1CDA2EF2A367007E8992 /* AlicomFusionAuthTokenManager */,
 				CC2F1CDE2EF3CAAC007E8992 /* LoginViewController.h */,
 				CC2F1CDF2EF3CAAC007E8992 /* LoginViewController.m */,
@@ -654,6 +659,8 @@
 		CC2F1CE52EF3D01C007E8992 /* ViewTransitionAnimation */ = {
 			isa = PBXGroup;
 			children = (
+				CCDE013A2F0E411700C4C9D4 /* ViewControllerTransitionHelper.h */,
+				CCDE013B2F0E411700C4C9D4 /* ViewControllerTransitionHelper.m */,
 				CC2F1CE62EF3D05A007E8992 /* TransitionAnimation.h */,
 				CC2F1CE72EF3D05A007E8992 /* TransitionAnimation.m */,
 			);
@@ -924,6 +931,8 @@
 		CC8253852ED43512006BCE2A /* Tools */ = {
 			isa = PBXGroup;
 			children = (
+				CC2F1CE52EF3D01C007E8992 /* ViewTransitionAnimation */,
+				CCDE01332F0E2F8C00C4C9D4 /* ArrayHelper */,
 				CC676C1E2F0CF0FC00574EF8 /* DateHelper */,
 				CC676BE12F0CB4B900574EF8 /* CKYPhotoBrowser */,
 				CC5AE6292F0B58BC0004B0A5 /* XHInputView */,
@@ -1534,6 +1543,15 @@
 			path = class;
 			sourceTree = "<group>";
 		};
+		CCDE01332F0E2F8C00C4C9D4 /* ArrayHelper */ = {
+			isa = PBXGroup;
+			children = (
+				CCDE01342F0E2F9100C4C9D4 /* ArrayHelper.h */,
+				CCDE01352F0E2F9100C4C9D4 /* ArrayHelper.m */,
+			);
+			path = ArrayHelper;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1710,6 +1728,7 @@
 				CC8254902EDEB6B7006BCE2A /* ShoppingDetailsCell.m in Sources */,
 				CC8253C62ED590DC006BCE2A /* QYBadgeLabel.m in Sources */,
 				CC57C94E2EE2AC79006A38C3 /* WeatherViewCell.m in Sources */,
+				CCDE01362F0E2F9100C4C9D4 /* ArrayHelper.m in Sources */,
 				CC8253E62ED69F66006BCE2A /* CheckTool.m in Sources */,
 				CC8253EA2ED6A060006BCE2A /* LabelSpacing.m in Sources */,
 				CC82544F2ED821AD006BCE2A /* ShoppingCollectionViewCell.m in Sources */,
@@ -1751,6 +1770,7 @@
 				CC995A432EF1297200456825 /* LFWeakProxy.m in Sources */,
 				CC5AE60B2F03BF8E0004B0A5 /* LocationAddressHelper.m in Sources */,
 				CC995A442EF1297200456825 /* LFAsset.m in Sources */,
+				CCDE013C2F0E411700C4C9D4 /* ViewControllerTransitionHelper.m in Sources */,
 				CC995A452EF1297200456825 /* UIScrollView+LFDragAutoScroll.m in Sources */,
 				CC995A462EF1297200456825 /* LFToGIF.m in Sources */,
 				CC995A472EF1297200456825 /* LFResultInfo.m in Sources */,
@@ -1884,7 +1904,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 0.1.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -1993,7 +2013,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 0.1.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",

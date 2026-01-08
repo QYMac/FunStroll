@@ -74,6 +74,9 @@
 #import "XHInputView.h" // 键盘相关
 #import "KYPhotoBrowserController.h" // 图片预览
 #import "DateHelper.h" // 时间格式化
+#import "ArrayHelper.h" // 可变数组添加数据封装
+#import "ViewControllerTransitionHelper.h" // 转场动画
+//#import "TTTAttributedLabel.h" // 字体变色
 
 //加载控件
 #import "UIView+MBProgressHUD.h"

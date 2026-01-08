@@ -46,6 +46,8 @@ target 'ZhiYouFunStroll' do
   pod 'MBProgressHUD'
   #---网络请求
   pod 'AFNetworking'
+  #---部分字体变色并可以点击
+  #pod 'TTTAttributedLabel'
   
   # Pods for ZhiYouFunStroll
 

@@ -36,6 +36,9 @@ NS_ASSUME_NONNULL_BEGIN
 /// 创建时间（ISO 8601 格式，如 "2025-01-15T10:30:00"）
 @property (nonatomic, strong, nullable) NSString *createTime;
 
+/// 更新时间（ISO 8601 格式，如 "2025-01-15T10:30:00"）
+@property (nonatomic, strong, nullable) NSString *updateTime;
+
 /// 状态
 @property (nonatomic, strong, nullable) NSString *status;
 

@@ -26,7 +26,6 @@
     NSString *userAvatar = [CheckTool replaceNullValue:model.userAvatar];
     [self.avatarImage sd_setImageWithURL:[NSURL URLWithString:userAvatar] placeholderImage:[UIImage imageNamed:@""]];
     self.nameL.text = [CheckTool replaceNullValue:model.userNickname];
-    NSLog(@"content====%@",model.content);
     self.contentL.text = [CheckTool replaceNullValue:model.content];
     
     NSString *createTime = [CheckTool replaceNullValue:model.createTime];
@@ -65,11 +64,11 @@
     }
     if (_contentImg) {
         [self.towBgOneView mas_updateConstraints:^(MASConstraintMaker *make) {
-            make.bottom.mas_equalTo(_contentImg.mas_bottom).offset(15);
+            make.bottom.mas_equalTo(_contentImg.mas_bottom).offset(10);
         }];
     } else {
         [self.towBgOneView mas_updateConstraints:^(MASConstraintMaker *make) {
-            make.bottom.mas_equalTo(self.timeL.mas_bottom).offset(15);
+            make.bottom.mas_equalTo(self.timeL.mas_bottom).offset(10);
         }];
     }
 }

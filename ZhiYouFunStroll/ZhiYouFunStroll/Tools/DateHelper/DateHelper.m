@@ -105,10 +105,37 @@
     } else if (timeInterval > 0) {
         // 小于1分钟，显示秒数
         NSInteger seconds = (NSInteger)timeInterval;
-        return [NSString stringWithFormat:@"%ld秒前", (long)seconds];
+        if (seconds == 0) {
+            return @"刚刚";
+        } else {
+            return [NSString stringWithFormat:@"%ld秒前", (long)seconds];
+        }
     } else {
         // 时间相同或异常情况
         return @"刚刚";
+    }
+}
+
++ (NSString *)formatNumber:(NSInteger)number {
+    if (number > 9999) {
+        // 大于9999，转换为万单位
+        CGFloat wanValue = number / 10000.0;
+        
+        // 格式化小数部分，保留1-2位小数
+        // 如果小数部分为0，只显示整数部分
+        if (wanValue == floor(wanValue)) {
+            // 整数，不显示小数点
+            return [NSString stringWithFormat:@"%.0f万", wanValue];
+        } else {
+            // 有小数，保留1位小数（如果小数部分小于0.1，显示1位；否则显示2位）
+            // 例如：1.05万 -> 1.1万，1.15万 -> 1.2万
+            // 或者更精确：1.05万 -> 1.05万，1.15万 -> 1.15万
+            // 根据用户需求，通常显示1位小数即可
+            return [NSString stringWithFormat:@"%.1f万", wanValue];
+        }
+    } else {
+        // 小于等于9999，直接返回数字
+        return [NSString stringWithFormat:@"%ld", (long)number];
     }
 }
 

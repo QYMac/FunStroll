@@ -24,7 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,strong) NSString *likeCountFormatted;
 @property (nonatomic,strong) NSString *userNickname;
 @property (nonatomic,strong) NSString *userAvatar;
-@property (nonatomic,assign) BOOL Liked;
+@property (nonatomic,strong) NSString *liked;
 @property (nonatomic,assign) BOOL collected;
 
 @end

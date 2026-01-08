@@ -18,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (void)LoginToken:(NSString *)token success:(SuccessHandler)success failureHandler:(FailureHandler)failure;
 
 /// 一键登录接口获取用户信息
-+ (void)LoginMobile:(NSString *)mobile grant_type:(NSString *)grant_type scope:(NSString *)scope loginLocation:(NSString *)loginLocation deviceInfo:(NSString *)deviceInfo success:(SuccessHandler)success failureHandler:(FailureHandler)failure;
++ (void)LoginMobile:(NSString *)mobile grant_type:(NSString *)grant_type scope:(NSString *)scope loginLocation:(NSString *)loginLocation deviceInfo:(NSString *)deviceInfo code:(NSString *)code success:(SuccessHandler)success failureHandler:(FailureHandler)failure;
 
 /// 获取验证码
 + (void)LoginMobile:(NSString *)mobile success:(SuccessHandler)success failureHandler:(FailureHandler)failure;

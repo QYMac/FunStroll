@@ -20,14 +20,14 @@
 + (void)homeLikePostId:(NSString *)postId success:(SuccessHandler)success failureHandler:(FailureHandler)failure{
     NSString *url = [NSString stringWithFormat:@"/app/appPost/toggleLike/%@",postId];
     NSDictionary *parameters = @{};
-    [self requestWithUrl:url params:parameters requestType:@"POST" isBody:NO isToken:YES successHanler:success failureHandler:failure];
+    [self requestWithUrl:url params:parameters requestType:@"POST" isBody:YES isToken:YES successHanler:success failureHandler:failure];
 }
 
 /// 帖子收藏，取消收藏
 + (void)homeCollectPostId:(NSString *)postId success:(SuccessHandler)success failureHandler:(FailureHandler)failure{
     NSString *url = [NSString stringWithFormat:@"/app/appPost/toggleCollect/%@",postId];
     NSDictionary *parameters = @{};
-    [self requestWithUrl:url params:parameters requestType:@"POST" isBody:NO isToken:YES successHanler:success failureHandler:failure];
+    [self requestWithUrl:url params:parameters requestType:@"POST" isBody:YES isToken:YES successHanler:success failureHandler:failure];
 }
 
 /// 获取帖子详情
@@ -46,10 +46,10 @@
 
 /// 添加评论
 + (void)homeAddCommentPostId:(NSString *)postId parentCommentId:(NSString *)parentCommentId content:(NSString *)content resources:(NSArray *)resources success:(SuccessHandler)success failureHandler:(FailureHandler)failure{
-    NSString *url = @"/app/appPostComment/insertComment﻿";
-    NSDictionary *parameters = @{@"postId":postId,@"parentCommentId":parentCommentId,@"content":content,@"resources":resources};
+    NSString *url = @"/app/appPostComment/insertComment";
+    NSDictionary *parameters = @{@"postId":postId,@"content":content,@"parentCommentId":parentCommentId,@"resources":resources};
     //[self requestImageWithUrl:url params:parameters requestType:@"POST" imageList:resources successHanler:success failureHandler:failure];
-    [self requestWithUrl:url params:parameters requestType:@"POST" isBody:NO isToken:YES successHanler:success failureHandler:failure];
+    [self requestWithUrl:url params:parameters requestType:@"POST" isBody:YES isToken:YES successHanler:success failureHandler:failure];
 }
 
 @end

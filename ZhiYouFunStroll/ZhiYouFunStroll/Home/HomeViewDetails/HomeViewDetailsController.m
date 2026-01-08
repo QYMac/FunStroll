@@ -69,12 +69,15 @@
         }];
         
         dispatch_group_enter(homeGetDetailsGroup);
-        [weakSelf searchCommentListAndHandle:^(BOOL isSuccess) {
+        [weakSelf searchCommentListCurrent:weakSelf.current andHandle:^(BOOL isSuccess) {
             dispatch_group_leave(homeGetDetailsGroup);
         }];
         
         dispatch_group_notify(homeGetDetailsGroup, dispatch_get_main_queue(), ^{
             [ZSProgressHUD hideAllHUDAnimated:YES];
+            [weakSelf.pingLunBut setTitle:[NSString stringWithFormat:@"%ld",weakSelf.commentListModel.total] forState:UIControlStateNormal];
+            NSString *likeCountStr = [DateHelper formatNumber:weakSelf.responseModel.data.likeCount];
+            [weakSelf.dianZanBut setTitle:likeCountStr forState:UIControlStateNormal];
             [weakSelf.tableView reloadData];
         });
         
@@ -82,15 +85,15 @@
 }
 
 // 获取评论列表数据
-- (void)searchCommentListAndHandle:(void (^ _Nullable)(BOOL isSuccess))handle{
-    NSString *currentStr = [NSString stringWithFormat:@"%ld",self.current];
+- (void)searchCommentListCurrent:(NSInteger)current andHandle:(void (^ _Nullable)(BOOL isSuccess))handle{
+    NSString *currentStr = [NSString stringWithFormat:@"%ld",current];
     NSString *sizeStr = [NSString stringWithFormat:@"%ld",self.size];
     WeakSelf
     [AFNetworkingManage homeGetDetailsCommentPostId:self.postId current:currentStr size:sizeStr sortType:@"" userId:@"" keyword:@"" success:^(id  _Nonnull responseObject) {
         NSDictionary *dict = [CheckTool replaceNullWithDictionary:responseObject];
         weakSelf.commentListModel = [CommentListModel yy_modelWithJSON:dict];
         if (weakSelf.commentListModel.records.count > 0) {
-            [weakSelf.dataList addObjectsFromArray:weakSelf.commentListModel.records];
+            [ArrayHelper addItemsToMutableArray:weakSelf.dataList newItems:weakSelf.commentListModel.records uniqueKey:@"commentId" sortKey:@"createTime"];
             if (weakSelf.dataList.count >= self.size) {
                 [weakSelf MJRefreshFooter];
             }
@@ -207,7 +210,7 @@
     WeakSelf
     MJRefreshAutoNormalFooter *footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
         weakSelf.current += 1;
-        [weakSelf searchCommentListAndHandle:^(BOOL isSuccess) {
+        [weakSelf searchCommentListCurrent:weakSelf.current andHandle:^(BOOL isSuccess) {
             if (weakSelf.commentListModel.records.count == 0) {
                 [self.tableView.mj_footer endRefreshingWithNoMoreData];
             } else {
@@ -258,8 +261,14 @@
             cell = [[AddCommentTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
         }
         
+        cell.postId = [CheckTool replaceNullValue:self.postId];
         cell.imgURL = [CheckTool replaceNullValue:self.imageURL];
         cell.model = self.commentListModel;
+        
+        WeakSelf
+        cell.addCommentClickBlcok = ^(NSString * _Nonnull addText, NSArray * _Nonnull images) {
+            [weakSelf addText:addText images:images];
+        };
 
         return cell;
     } else {
@@ -346,11 +355,15 @@
     if (images.count == 0 || images == nil) {
         images = @[];
     }
+    WeakSelf
     NSString *content = [CheckTool replaceNullValue:text];
     [AFNetworkingManage homeAddCommentPostId:self.postId parentCommentId:@"" content:content resources:images success:^(id  _Nonnull responseObject) {
-        NSLog(@"%@",responseObject);
+        //NSLog(@"%@",responseObject);
+        [weakSelf searchCommentListCurrent:1 andHandle:^(BOOL isSuccess) {
+            [weakSelf.tableView reloadData];
+        }];
     } failureHandler:^(NSError * _Nonnull error) {
-        NSLog(@"%@",error);
+        [AlertWith showAlertWithMessageText:[AFNetworkingErrorHelper getFriendlyErrorMessage:error]];
     }];
 }
 
@@ -458,7 +471,7 @@
     if (!_pingLunBut) {
         _pingLunBut = [UIButton buttonWithType:UIButtonTypeCustom];
         [_pingLunBut setImage:[UIImage imageNamed:@"home_pingLun"] forState:UIControlStateNormal];
-        [_pingLunBut setTitle:@"10" forState:UIControlStateNormal];
+        [_pingLunBut setTitle:@"0" forState:UIControlStateNormal];
         [_pingLunBut setTitleColor:RGB(51, 51, 51) forState:UIControlStateNormal];
         _pingLunBut.titleLabel.font = [UIFont systemFontOfSize:12];
         [_pingLunBut addTarget:self action:@selector(pingLunButClick) forControlEvents:UIControlEventTouchUpInside];
@@ -472,7 +485,7 @@
     if (!_dianZanBut) {
         _dianZanBut = [UIButton buttonWithType:UIButtonTypeCustom];
         [_dianZanBut setImage:[UIImage imageNamed:@"home_dsc"] forState:UIControlStateNormal];
-        [_dianZanBut setTitle:@"10" forState:UIControlStateNormal];
+        [_dianZanBut setTitle:@"0" forState:UIControlStateNormal];
         [_dianZanBut setTitleColor:RGB(51, 51, 51) forState:UIControlStateNormal];
         _dianZanBut.titleLabel.font = [UIFont systemFontOfSize:12];
         [_dianZanBut addTarget:self action:@selector(dianZanButClick) forControlEvents:UIControlEventTouchUpInside];

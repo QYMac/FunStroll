@@ -28,6 +28,9 @@
     [self refreshToken];
     // 首页列表
     [self setupHomeView];
+    // 检查是否登录
+    [UserModel logoutView];
+    
     // 请求首页数据
     [self AFNetworkingHomeDataListCurrent:1 size:20 keywordStr:@""];
 }
@@ -70,7 +73,7 @@
         NSString *sizeStr = [NSString stringWithFormat:@"%ld",size];
         [AFNetworkingManage homeListCurrent:currentStr size:sizeStr keyword:keywordStr success:^(id  _Nonnull responseObject) {
             
-            //NSLog(@"%@",responseObject);
+            NSLog(@"%@",responseObject);
             HomeModel *model = [HomeModel yy_modelWithDictionary:responseObject];
             if (model.records.count > 0) {
                 [weakSelf.dataList addObjectsFromArray:model.records];
@@ -80,7 +83,6 @@
             } else {
                 weakSelf.homeView.homeModel = model;
             }
-            
         } failureHandler:^(NSError * _Nonnull error) {
             NSLog(@"%@",error);
             HomeModel *model;

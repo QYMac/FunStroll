@@ -7,10 +7,15 @@
 
 #import "UserModel.h"
 #import "AFNetworkingManage+Login.h"
+#import "LoginViewController.h"
 
 #define szp_uesrDefault [NSUserDefaults standardUserDefaults]
 
 static UserModel * instance = nil;
+
+@interface UserModel ()
+
+@end
 
 @implementation UserModel
 
@@ -40,7 +45,8 @@ static UserModel * instance = nil;
 // 更新用户token
 + (void)updateUserLoginToken{
     
-    if ([UserModel sharedUserModel].isAutoLogin == NO) {
+    // 未登录退回登录页面
+    if ([UserModel sharedUserModel].isAutoLogin == YES) {
         return;
     }
     
@@ -118,6 +124,18 @@ static UserModel * instance = nil;
      */
 }
 
+/// 退回登录页面
++ (void)logoutView{
+    // 未登录退回登录页面
+    if ([UserModel sharedUserModel].isAutoLogin == YES) {
+        TransitionAnimation *transition = [[TransitionAnimation alloc] init];
+        LoginViewController *navc = [[LoginViewController alloc] init];
+        navc.transitioningDelegate = transition;
+        navc.modalPresentationStyle = 0;
+        [[TabBarViewController takeCurrentVC].navigationController pushViewController:navc animated:YES];
+    }
+}
+
 #pragma mark - 数组本地储存
 +(void)saveObject:(id)obj forKey:(NSString *)key {
     if (!key || !obj) {
@@ -158,6 +176,17 @@ static UserModel * instance = nil;
         _isNetworkStatus = YES;
     }
     return _isNetworkStatus;
+}
+
+//app版本号
+- (NSString *)app_Version{
+    if (!_app_Version) {
+        //获取版本号
+        NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
+        NSString *appVersion = [infoDictionary objectForKey:@"CFBundleShortVersionString"];
+        _app_Version = [CheckTool replaceNullValue:appVersion];
+    }
+    return _app_Version;
 }
 
 @end

@@ -21,11 +21,15 @@ NS_ASSUME_NONNULL_BEGIN
 +(id)getObjectForKey:(NSString *)key;
 /// 更新用户token
 + (void)updateUserLoginToken;
+/// 退回登录页面
++ (void)logoutView;
 
 /// 是否已经登录
 @property (nonatomic,assign) BOOL isAutoLogin;
 /// 是否有网络
 @property (nonatomic,assign) BOOL isNetworkStatus;
+/// App 版本号
+@property (nonatomic,strong) NSString *app_Version;
 
 @end
 

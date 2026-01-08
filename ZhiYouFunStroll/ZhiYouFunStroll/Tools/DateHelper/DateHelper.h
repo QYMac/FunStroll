@@ -44,6 +44,13 @@ NS_ASSUME_NONNULL_BEGIN
 /// @return 相对时间描述
 + (NSString *)relativeTimeString:(NSString *)dateString defaultString:(nullable NSString *)defaultString;
 
+/// 格式化数字（大于9999显示为万单位）
+/// @param number 数字
+/// @return 格式化后的字符串：
+///         - 大于9999：返回 @"X.XX万" 格式，如 11000 -> @"1.1万"
+///         - 小于等于9999：返回数字字符串，如 9999 -> @"9999"
++ (NSString *)formatNumber:(NSInteger)number;
+
 @end
 
 NS_ASSUME_NONNULL_END

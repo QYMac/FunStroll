@@ -19,7 +19,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,strong) UIButton *addImgBut;
 @property (nonatomic,strong) UIView *bgView;
 @property (nonatomic,strong) NSString *imgURL;
+@property (nonatomic,strong) NSString *postId;
 @property (nonatomic,strong) CommentListModel *model;
+
+@property (nonatomic,copy) void(^addCommentClickBlcok)(NSString *addText,NSArray *images);
 
 @end
 

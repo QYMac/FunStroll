@@ -79,6 +79,7 @@ PODS:
   - SDWebImageFLPlugin (0.6.0):
     - FLAnimatedImage (>= 1.0.11)
     - SDWebImage/Core (~> 5.10)
+  - TTTAttributedLabel (2.0.0)
   - TZImagePickerController (3.8.9):
     - TZImagePickerController/Basic (= 3.8.9)
     - TZImagePickerController/Location (= 3.8.9)
@@ -108,6 +109,7 @@ DEPENDENCIES:
   - MJRefresh
   - SDWebImage
   - SDWebImageFLPlugin
+  - TTTAttributedLabel
   - TZImagePickerController
   - YYModel
   - YYWebImage
@@ -130,6 +132,7 @@ SPEC REPOS:
     - MJRefresh
     - SDWebImage
     - SDWebImageFLPlugin
+    - TTTAttributedLabel
     - TZImagePickerController
     - YYCache
     - YYImage
@@ -153,12 +156,13 @@ SPEC CHECKSUMS:
   MJRefresh: ff9e531227924c84ce459338414550a05d2aea78
   SDWebImage: d0184764be51240d49c761c37f53dd017e1ccaaf
   SDWebImageFLPlugin: 72efd2cfbf565bc438421abb426f4bcf7b670754
+  TTTAttributedLabel: 8cffe8e127e4e82ff3af1e5386d4cd0ad000b656
   TZImagePickerController: 456f470b5dea97b37226ec7a694994a8663340b2
   YYCache: 8105b6638f5e849296c71f331ff83891a4942952
   YYImage: 1e1b62a9997399593e4b9c4ecfbbabbf1d3f3b54
   YYModel: 2a7fdd96aaa4b86a824e26d0c517de8928c04b30
   YYWebImage: 5f7f36aee2ae293f016d418c7d6ba05c4863e928
 
-PODFILE CHECKSUM: 7727352d73d937649d981c4028a01ec50fd9f53e
+PODFILE CHECKSUM: 47273fd33469d3764492d1b14625212ab9574a03
 
 COCOAPODS: 1.16.2

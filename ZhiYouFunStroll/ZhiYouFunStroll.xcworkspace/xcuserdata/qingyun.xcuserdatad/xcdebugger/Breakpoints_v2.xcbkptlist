@@ -115,32 +115,48 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "1E2EABB1-CAAF-40F6-B93A-2D2B16B48661"
+            uuid = "601A219D-6EC6-43CC-88B0-7512079F953E"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "ZhiYouFunStroll/Home/HomeViewDetails/HomeViewDetailsController.m"
+            filePath = "ZhiYouFunStroll/Home/Model/AFNetworkingManage+Home.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "351"
-            endingLineNumber = "351"
-            landmarkName = "-addText:images:"
+            startingLineNumber = "23"
+            endingLineNumber = "23"
+            landmarkName = "+homeLikePostId:success:failureHandler:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "9712DCDF-80E7-433F-82E8-D800A7D2F5FC"
+            uuid = "B417B9D1-903B-4D83-9F06-367038ABC714"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ZhiYouFunStroll/Tools/AFNetworking/AFNetworkingManage.m"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "21"
+            endingLineNumber = "21"
+            landmarkName = "+requestWithUrl:params:requestType:isBody:isToken:successHanler:failureHandler:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "8DDC0C16-E0C7-47D7-9D85-C21EC690442C"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ZhiYouFunStroll/Home/HomeViewDetails/HomeViewDetailsController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "353"
-            endingLineNumber = "353"
-            landmarkName = "-addText:images:"
+            startingLineNumber = "94"
+            endingLineNumber = "94"
+            landmarkName = "-searchCommentListCurrent:andHandle:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

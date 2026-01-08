@@ -6,7 +6,7 @@
 //
 
 #import "AddCommentTableViewCell.h"
-
+#import "AFNetworkingManage+Home.h"
 
 @interface AddCommentTableViewCell ()<XHInputViewDelagete>
 
@@ -127,7 +127,7 @@
     } sendBlock:^BOOL(NSString *text,NSArray *images) {
         if(text.length){
             //NSLog(@"输入的信息为:%@",text);
-            [self addText:text];
+            [self addText:text images:images];
             return YES;//return YES,收起键盘
         }else{
             //NSLog(@"显示提示框-请输入要评论的的内容");
@@ -150,8 +150,13 @@
     /** 如果你工程中有配置IQKeyboardManager,并对XHInputView造成影响,请在XHInputView将要影藏时将其打开 */
 }
 
-- (void)addText:(NSString *)text{
-    
+- (void)addText:(NSString *)text images:(NSArray *)images{
+    if (images.count == 0 || images == nil) {
+        images = @[];
+    }
+    if (self.addCommentClickBlcok) {
+        self.addCommentClickBlcok(text,images);
+    }
 }
 
 #pragma mark - 懒加载

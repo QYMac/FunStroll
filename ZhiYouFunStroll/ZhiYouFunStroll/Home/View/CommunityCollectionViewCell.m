@@ -108,11 +108,14 @@
     NSString *coverImage = [CheckTool replaceNullValue:model.coverImage];
     [self.homeImage sd_setImageWithURL:[NSURL URLWithString:coverImage] placeholderImage:[UIImage imageNamed:@""]];
     self.nameL.text = [CheckTool replaceNullValue:model.userNickname];
-    [self.likeBut setTitle:[CheckTool replaceNullValue:model.likeCountFormatted] forState:UIControlStateNormal];
+    
+    NSString *likeCountStr = [DateHelper formatNumber:[model.likeCount intValue]];
+    [self.likeBut setTitle:likeCountStr forState:UIControlStateNormal];
+    
     NSString *userAvatar = [CheckTool replaceNullValue:model.userAvatar];
     [self.avatarImage sd_setImageWithURL:[NSURL URLWithString:userAvatar] placeholderImage:[UIImage imageNamed:@""]];
     
-    if (model.Liked == YES) {
+    if ([model.liked intValue] == 1) {
         self.likeBut.selected = YES;
         [self.likeBut setImage:[UIImage imageNamed:@"like_off"] forState:UIControlStateNormal];
     } else {
@@ -133,15 +136,25 @@
     [AFNetworkingManage homeLikePostId:postId success:^(id  _Nonnull responseObject) {
         
         NSDictionary *dict = [CheckTool replaceNullWithDictionary:responseObject];
-        BOOL isLick = dict[@"data"];
+        BOOL isLick = [dict[@"data"] intValue];
+        
+        NSLog(@"responseObject===%@",responseObject);
+        
+        NSInteger likeCount = [self.dataModel.likeCount intValue];
         
         if (isLick == YES) {
             sender.selected = YES;
-            [sender setImage:[UIImage imageNamed:@"like_on"] forState:UIControlStateNormal];
+            likeCount += 1;
+            [sender setImage:[UIImage imageNamed:@"like_off"] forState:UIControlStateNormal];
         } else {
             sender.selected = NO;
-            [sender setImage:[UIImage imageNamed:@"like_off"] forState:UIControlStateNormal];
+            likeCount -= 1;
+            [sender setImage:[UIImage imageNamed:@"like_on"] forState:UIControlStateNormal];
         }
+        
+        self.dataModel.likeCount = [NSString stringWithFormat:@"%ld",likeCount];
+        NSString *likeCountStr = [DateHelper formatNumber:likeCount];
+        [self.likeBut setTitle:likeCountStr forState:UIControlStateNormal];
         
     } failureHandler:^(NSError * _Nonnull error) {
         [AlertWith showAlertWithMessageText:[AFNetworkingErrorHelper getFriendlyErrorMessage:error]];
@@ -159,7 +172,7 @@
     [AFNetworkingManage homeCollectPostId:postId success:^(id  _Nonnull responseObject) {
         
         NSDictionary *dict = [CheckTool replaceNullWithDictionary:responseObject];
-        BOOL isCollection = dict[@"data"];
+        BOOL isCollection = [dict[@"data"] intValue];
         
         if (isCollection == YES) {
             sender.selected = YES;

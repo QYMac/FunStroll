@@ -24,9 +24,9 @@
 }
 
 // 一键登录接口获取用户信息
-+ (void)LoginMobile:(NSString *)mobile grant_type:(NSString *)grant_type scope:(NSString *)scope loginLocation:(NSString *)loginLocation deviceInfo:(NSString *)deviceInfo success:(SuccessHandler)success failureHandler:(FailureHandler)failure{
++ (void)LoginMobile:(NSString *)mobile grant_type:(NSString *)grant_type scope:(NSString *)scope loginLocation:(NSString *)loginLocation deviceInfo:(NSString *)deviceInfo code:(NSString *)code success:(SuccessHandler)success failureHandler:(FailureHandler)failure{
     NSString *url = @"/auth/oauth2/token";
-    NSDictionary *parameters = @{@"mobile":mobile,@"grant_type":grant_type,@"scope":scope,@"loginLocation":loginLocation,@"deviceInfo":deviceInfo};
+    NSDictionary *parameters = @{@"mobile":mobile,@"grant_type":grant_type,@"scope":scope,@"loginLocation":loginLocation,@"deviceInfo":deviceInfo,@"appVersion":[UserModel sharedUserModel].app_Version,@"code":code};
     [self requestWithUrl:url params:parameters requestType:@"POST" isBody:NO isToken:NO successHanler:success failureHandler:failure];
 }
 
@@ -40,14 +40,14 @@
 // 验证码登录
 + (void)LoginMobile:(NSString *)mobile code:(NSString *)code grant_type:(NSString *)grant_type scope:(NSString *)scope loginLocation:(NSString *)loginLocation deviceInfo:(NSString *)deviceInfo success:(SuccessHandler)success failureHandler:(FailureHandler)failure{
     NSString *url = @"/auth/oauth2/token";
-    NSDictionary *parameters = @{@"mobile":mobile,@"code":code,@"grant_type":grant_type,@"scope":scope,@"loginLocation":loginLocation,@"deviceInfo":deviceInfo};
+    NSDictionary *parameters = @{@"mobile":mobile,@"code":code,@"grant_type":grant_type,@"scope":scope,@"loginLocation":loginLocation,@"deviceInfo":deviceInfo,@"appVersion":[UserModel sharedUserModel].app_Version};
     [self requestWithUrl:url params:parameters requestType:@"POST" isBody:NO isToken:NO successHanler:success failureHandler:failure];
 }
 
 // 账号密码登录
 + (void)LoginUsername:(NSString *)username password:(NSString *)password grant_type:(NSString *)grant_type scope:(NSString *)scope mobile:(NSString *)mobile loginLocation:(NSString *)loginLocation deviceInfo:(NSString *)deviceInfo success:(SuccessHandler)success failureHandler:(FailureHandler)failure{
     NSString *url = @"/auth/oauth2/token";
-    NSDictionary *parameters = @{@"username":username,@"password":password,@"grant_type":grant_type,@"scope":scope,@"mobile":mobile,@"loginLocation":loginLocation,@"deviceInfo":deviceInfo};
+    NSDictionary *parameters = @{@"username":username,@"password":password,@"grant_type":grant_type,@"scope":scope,@"mobile":mobile,@"loginLocation":loginLocation,@"deviceInfo":deviceInfo,@"appVersion":[UserModel sharedUserModel].app_Version};
     [self requestWithUrl:url params:parameters requestType:@"POST" isBody:NO isToken:NO successHanler:success failureHandler:failure];
 }
 

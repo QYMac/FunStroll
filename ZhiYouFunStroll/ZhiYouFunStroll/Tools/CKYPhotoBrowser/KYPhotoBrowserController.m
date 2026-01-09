@@ -11,6 +11,7 @@
 #import "KYPhotoBrowserMacro.h"
 #import "KYPhotoZoomView.h"
 #import "KYPhotoGestureHandle.h"
+#import "PhotoLocationManager.h"
 
 typedef NS_ENUM(NSInteger, ZoomViewScrollDirection) {
     ZoomViewScrollDirectionDefault,
@@ -27,6 +28,8 @@ typedef NS_ENUM(NSInteger, ZoomViewScrollDirection) {
 @property (nonatomic, strong) NSMutableDictionary       *zoomViewCache;
 @property (nonatomic, assign) ZoomViewScrollDirection   direction;
 @property (nonatomic, strong) KYPhotoGestureHandle      *gestureHandle;
+@property (nonatomic, strong) UIButton *backBut;
+@property (nonatomic, strong) UIButton *saveBut;
 
 @end
 
@@ -90,10 +93,18 @@ typedef NS_ENUM(NSInteger, ZoomViewScrollDirection) {
     [self.view addSubview:_scrollView];
     
     _pageLabel = [[UILabel alloc] init];
-    _pageLabel.textColor = [UIColor grayColor];
+    _pageLabel.textColor = [UIColor whiteColor];
     _pageLabel.backgroundColor = [UIColor clearColor];
     _pageLabel.alpha = 0.8;
+    _pageLabel.font = [UIFont systemFontOfSize:17];
     [self.view addSubview:_pageLabel];
+    
+    self.backBut.frame = CGRectMake(15, statusBarHeight, 50, 50);
+    [self.view addSubview:self.backBut];
+    
+    self.saveBut.layer.cornerRadius = 30/2;
+    self.saveBut.frame = CGRectMake(kWidth - 108 - 15, kHeight - 45 - bottomHeight, 108, 30);
+    [self.view addSubview:self.saveBut];
 }
 
 - (void)setupGestureHandle
@@ -123,8 +134,8 @@ typedef NS_ENUM(NSInteger, ZoomViewScrollDirection) {
         [self.pageLabel setText:[NSString stringWithFormat:@"%ld/%ld", (long)_currentImageIndex + 1, (long)_imageCount]];
         [self.pageLabel sizeToFit];
         CGRect frame = self.pageLabel.frame;
-        frame.origin.y = [UIScreen mainScreen].bounds.size.height - 10 - frame.size.height;
-        frame.origin.x = [UIScreen mainScreen].bounds.size.width - 10 - frame.size.width;
+        frame.origin.y = statusBarHeight;
+        frame.origin.x = self.view.centerX;
         self.pageLabel.frame = frame;
     }
     if (index > -1 && index < _imageCount && _imageCount-index <= _images.count) {
@@ -153,13 +164,14 @@ typedef NS_ENUM(NSInteger, ZoomViewScrollDirection) {
         imageView = [self.delegate sourceImageViewForIndex:_currentImageIndex];
     }
     else {
+        
         [UIView animateWithDuration:KYPhotoBrowserShowImageAnimationDuration
                               delay:0
              usingSpringWithDamping:1.f
               initialSpringVelocity:1.f
                             options:0
                          animations:^{
-                            _coverView.alpha = 1;
+                            self.coverView.alpha = 1;
                          }
                          completion:^(BOOL finished) {
                             
@@ -200,7 +212,7 @@ typedef NS_ENUM(NSInteger, ZoomViewScrollDirection) {
     [UIView animateKeyframesWithDuration:KYPhotoBrowserShowImageAnimationDuration delay:0.f options:UIViewKeyframeAnimationOptionLayoutSubviews animations:^{
         
         tempImageView.frame = targetRect;
-        _coverView.alpha = 1;
+        self.coverView.alpha = 1;
     } completion:^(BOOL finished) {
         
         [tempImageView removeFromSuperview];
@@ -306,6 +318,24 @@ typedef NS_ENUM(NSInteger, ZoomViewScrollDirection) {
     return nil;
 }
 
+- (void)backButClick{
+    [self dismissAnimation:YES];
+}
+
+- (void)saveButClick{
+    KYPhotoModel *model = [self.images objectAtIndexCheck:_currentImageIndex];
+
+    NSString *imgURL = [CheckTool replaceNullValue:model.thumbURLString];
+    
+    [[PhotoLocationManager shared] saveNetworkImageToPhotoLibrary:imgURL completion:^(BOOL success, NSError * _Nullable error, NSString * _Nullable assetIdentifier) {
+        if (success == YES) {
+            [ZSProgressHUD showDpromptText:@"已保存"];
+        } else {
+            [ZSProgressHUD showDpromptText:@"保存图片失败"];
+        }
+    }];
+}
+
 #pragma mark - setter/getter
 - (NSMutableDictionary *)zoomViewCache
 {
@@ -313,6 +343,30 @@ typedef NS_ENUM(NSInteger, ZoomViewScrollDirection) {
         _zoomViewCache = [NSMutableDictionary dictionary];
     }
     return _zoomViewCache;
+}
+
+- (UIButton *)backBut{
+    if (!_backBut) {
+        _backBut = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_backBut setImage:[UIImage imageNamed:@"dismiss"] forState:UIControlStateNormal];
+        [_backBut addTarget:self action:@selector(backButClick) forControlEvents:UIControlEventTouchUpInside];
+        
+    }
+    return _backBut;
+}
+
+- (UIButton *)saveBut{
+    if (!_saveBut) {
+        _saveBut = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_saveBut setTitle:@"保存至本地" forState:UIControlStateNormal];
+        [_saveBut setImage:[UIImage imageNamed:@"xiazai"] forState:UIControlStateNormal];
+        [_saveBut setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        _saveBut.titleLabel.font = [UIFont systemFontOfSize:13];
+        [_saveBut addTarget:self action:@selector(saveButClick) forControlEvents:UIControlEventTouchUpInside];
+        _saveBut.backgroundColor = RGB(61, 61, 61);
+        [_saveBut setImagePositionWithType:SSImagePositionTypeLeft spacing:5];
+    }
+    return _saveBut;
 }
 
 @end

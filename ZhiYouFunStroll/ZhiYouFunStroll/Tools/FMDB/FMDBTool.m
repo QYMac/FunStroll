@@ -228,11 +228,13 @@ static FMDatabaseQueue *_dbQueue;
 /// 储存对象（单个）
 /// @param tabName tabName description
 /// @param dict dict description
-+ (void)saveDataListWithTabName:(NSString *)tabName dataDict:(NSDictionary *)dict
++ (void)saveDataListWithTabName:(NSString *)tabName dataDict:(NSDictionary *)dict andHandle:(void (^ _Nullable)(BOOL isSuccess))handle
 {
     NSArray *arr = @[dict];
     [self saveDataListWithTabName:tabName dataList:arr andHandle:^(BOOL isSuccess) {
-        
+        if (handle) {
+            handle(isSuccess);
+        }
     }];
 }
 

@@ -8,6 +8,10 @@
 #import "HomeViewDetailsCell.h"
 #import "AddCommentController.h"
 
+@interface HomeViewDetailsCell ()<KYPhotoBrowserControllerDelegate>
+
+@end
+
 @implementation HomeViewDetailsCell
 
 -(instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
@@ -46,7 +50,7 @@
     
     CGFloat tagImgX = 15 + 32 + 15;
     CGFloat contentImgWidth = (kWidth - 15 - 32 - 15 - 35)/3;
-    CGFloat tagImgY = 90 + self.contentL.frame.size.height;
+    CGFloat tagImgY = 75 + self.contentL.frame.size.height;
     for (int i = 0; i < self.imgList.count; i++) {
         if (tagImgX + contentImgWidth > kWidth) {
             tagImgX = 15 + 32 + 15;
@@ -56,7 +60,14 @@
         _contentImg.backgroundColor = RGB(240, 240, 240);
         _contentImg.frame  = CGRectMake(tagImgX, tagImgY, contentImgWidth, contentImgWidth);
         NSString *imgURL = [CheckTool replaceNullValue:[self.imgList objectAtIndexCheck:i]];
+        _contentImg.tag = i;
+        _contentImg.userInteractionEnabled = YES;
         [_contentImg sd_setImageWithURL:[NSURL URLWithString:imgURL] placeholderImage:[UIImage imageNamed:@""]];
+        // 添加点击手势
+        UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc]
+                                               initWithTarget:self
+                                               action:@selector(imageViewTapped:)];
+        [_contentImg addGestureRecognizer:tapGesture];
         [self.towBgOneView addSubview:_contentImg];
         
         tagImgX = CGRectGetMaxX(_contentImg.frame)+10;
@@ -155,6 +166,16 @@
 }
 
 - (void)replyButClick{
+    
+}
+
+// 点击事件处理方法
+- (void)imageViewTapped:(UITapGestureRecognizer *)gesture {
+    NSLog(@"图片被点击了");
+    
+    // 获取被点击的 imageView
+    UIImageView *tappedImageView = (UIImageView *)gesture.view;
+    [KYPhotoBrowserController showPhotoBrowserWithImages:self.imgList currentImageIndex:tappedImageView.tag delegate:self];
     
 }
 

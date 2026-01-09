@@ -8,6 +8,7 @@
 #import "UserModel.h"
 #import "AFNetworkingManage+Login.h"
 #import "LoginViewController.h"
+#import "TabBarViewController.h"
 
 #define szp_uesrDefault [NSUserDefaults standardUserDefaults]
 
@@ -127,13 +128,62 @@ static UserModel * instance = nil;
 /// 退回登录页面
 + (void)logoutView{
     // 未登录退回登录页面
-    if ([UserModel sharedUserModel].isAutoLogin == YES) {
+    if ([UserModel sharedUserModel].isAutoLogin == NO) {
+        /*
         TransitionAnimation *transition = [[TransitionAnimation alloc] init];
         LoginViewController *navc = [[LoginViewController alloc] init];
         navc.transitioningDelegate = transition;
         navc.modalPresentationStyle = 0;
         [[TabBarViewController takeCurrentVC].navigationController pushViewController:navc animated:YES];
+         */
+        
+        
+        UIWindow *window = [UIApplication sharedApplication].delegate.window;
+        if (window) {
+            // 创建新的根视图控制器
+            LoginViewController *newRootVC = [[LoginViewController alloc] init];
+            // 使用淡入淡出动画切换根视图
+            UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:newRootVC];
+            [window setRootViewController:navVC
+                        withAnimationType:TransitionAnimationTypeFade
+                                 duration:0.5
+                               completion:^{
+                NSLog(@"根视图切换完成（淡入淡出）");
+            }];
+        }
     }
+}
+
+/// 切换根视图到首页
++ (void)newRootHomeVC{
+    UIWindow *window = [UIApplication sharedApplication].delegate.window;
+    if (window) {
+        // 创建新的根视图控制器
+        TabBarViewController *newRootVC = [[TabBarViewController alloc] init];
+        // 使用淡入淡出动画切换根视图
+        [window setRootViewController:newRootVC
+                    withAnimationType:TransitionAnimationTypeFade
+                             duration:0.1
+                           completion:^{
+            NSLog(@"根视图切换完成（淡入淡出）");
+        }];
+    }
+    
+    /*
+    UIWindow *window = [UIApplication sharedApplication].delegate.window;
+    if (window) {
+        // 创建新的根视图控制器
+        TabBarViewController *newRootVC = [[TabBarViewController alloc] init];
+        // 使用淡入淡出动画切换根视图
+        UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:newRootVC];
+        [window setRootViewController:navVC
+                    withAnimationType:TransitionAnimationTypeFade
+                             duration:0.5
+                           completion:^{
+            NSLog(@"根视图切换完成（淡入淡出）");
+        }];
+    }
+     */
 }
 
 #pragma mark - 数组本地储存

@@ -93,7 +93,7 @@
 
     WeakSelf
     [tabBar setDidClickPublishBtn:^(BOOL isSelected) {
-        [weakSelf popViewAnimateIsSelected:isSelected];
+        //[weakSelf popViewAnimateIsSelected:isSelected];
     }];
 
 }

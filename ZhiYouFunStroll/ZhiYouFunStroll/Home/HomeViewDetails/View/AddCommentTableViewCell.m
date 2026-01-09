@@ -119,7 +119,7 @@
         /** 占位符文字 */
         inputView.placeholder = @"说点什么...";
         /** 设置最大输入字数 */
-        inputView.maxCount = 100000;
+        inputView.maxCount = 150;
         /** 输入框颜色 */
         inputView.textViewBackgroundColor = RGB(244, 244, 244);
         /** 更多属性设置,详见XHInputView.h文件 */

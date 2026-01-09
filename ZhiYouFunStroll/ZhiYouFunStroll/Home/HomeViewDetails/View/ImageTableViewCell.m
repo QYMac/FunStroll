@@ -139,7 +139,7 @@
 #pragma mark - DCCycleScrollViewDelegate
 /** 点击图片回调 */
 - (void)cycleScrollView:(DCCycleScrollView *)cycleScrollView didSelectItemAtIndex:(NSInteger)index{
-    [KYPhotoBrowserController showPhotoBrowserWithImages:self.imageArray currentImageIndex:0 delegate:self];
+    [KYPhotoBrowserController showPhotoBrowserWithImages:self.imageArray currentImageIndex:index delegate:self];
 }
 
 /**当图片手动滑动或自动切换时回调，返回当前页码，用于外部自定义pageControl时，切换当前页使用*/

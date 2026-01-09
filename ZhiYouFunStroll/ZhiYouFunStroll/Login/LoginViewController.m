@@ -172,7 +172,6 @@
 
 #pragma mark - 按钮点击
 - (void)iphonLoginButClick:(UIButton *)sender{
-    
     if (self.selectedBut.selected == NO) {
         [AlertWith showAlertWithMessageText:@"请先同意《用户条款》和《隐私政策》"];
         return;
@@ -183,7 +182,7 @@
     [[AlicomFusionAuthTokenManager shareInstance].handler destroy];
     [AlicomFusionAuthTokenManager shareInstance].handler = nil;
     [AlicomFusionAuthTokenManager shareInstance].loginOutclickBlcok = ^{
-        
+        [UserModel newRootHomeVC];
     };
     
     // 先获取位置再去登录

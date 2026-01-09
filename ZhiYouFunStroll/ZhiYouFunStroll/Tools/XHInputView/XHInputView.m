@@ -335,7 +335,7 @@ static CGFloat keyboardAnimationDuration = 0.5;
         // 应用到 TextView
         textView.attributedText = attributedString;
         
-        if(textView.text.length){
+        if(textView.text.length || self.imgList.count != 0){
             _sendButton.backgroundColor = RGB(145, 233, 80);
             [_sendButton setTitleColor:RGB(51, 51, 51) forState:UIControlStateNormal];
         } else {
@@ -449,6 +449,14 @@ static CGFloat keyboardAnimationDuration = 0.5;
     self.imgList = imgArray;
     [self.addImageCollectionView reloadData];
     [self restoreFirstResponder];
+    
+    if(_textView.text.length || self.imgList.count != 0){
+        _sendButton.backgroundColor = RGB(145, 233, 80);
+        [_sendButton setTitleColor:RGB(51, 51, 51) forState:UIControlStateNormal];
+    } else {
+        _sendButton.backgroundColor = RGB(198, 248, 161);
+        [_sendButton setTitleColor:RGB(176, 176, 176) forState:UIControlStateNormal];
+    }
 }
 
 #pragma mark - Action

@@ -59,7 +59,7 @@ static NSString *const cellID = @"cellID";
     _imgCornerRadius = 0;
     _autoScrollTimeInterval = 2;
     _pageControl.currentPage = 0;
-    _bannerImageViewContentMode = UIViewContentModeScaleToFill;
+    _bannerImageViewContentMode = UIViewContentModeRedraw;
 }
 -(CGFloat )defaultSpace
 {

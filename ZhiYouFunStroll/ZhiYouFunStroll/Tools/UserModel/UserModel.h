@@ -23,6 +23,8 @@ NS_ASSUME_NONNULL_BEGIN
 + (void)updateUserLoginToken;
 /// 退回登录页面
 + (void)logoutView;
+/// 切换根视图到首页
++ (void)newRootHomeVC;
 
 /// 是否已经登录
 @property (nonatomic,assign) BOOL isAutoLogin;

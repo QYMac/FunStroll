@@ -42,7 +42,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// 储存对象（单个）
 /// @param tabName tabName description
 /// @param dict dict description
-+ (void)saveDataListWithTabName:(NSString *)tabName dataDict:(NSDictionary *)dict;
++ (void)saveDataListWithTabName:(NSString *)tabName dataDict:(NSDictionary *)dict andHandle:(void (^ _Nullable)(BOOL isSuccess))handle;
 
 /// 根据条件更新某个字段的值
 + (BOOL)updateDataWithTable:(NSString *)tabName key:(NSString *)keyStr value:(NSString *)valueStr condition:(NSString *)condition;

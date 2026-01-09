@@ -111,6 +111,8 @@
 		CC8254882EDE8BA8006BCE2A /* MovEncodeToMpegTool.m in Sources */ = {isa = PBXBuildFile; fileRef = CC8254872EDE8BA8006BCE2A /* MovEncodeToMpegTool.m */; };
 		CC82548C2EDEB699006BCE2A /* ShoppingDetailsController.m in Sources */ = {isa = PBXBuildFile; fileRef = CC82548B2EDEB699006BCE2A /* ShoppingDetailsController.m */; };
 		CC8254902EDEB6B7006BCE2A /* ShoppingDetailsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CC82548F2EDEB6B7006BCE2A /* ShoppingDetailsCell.m */; };
+		CC8AB7EC2F0F9A1000BC11A8 /* XBTextLoopView.m in Sources */ = {isa = PBXBuildFile; fileRef = CC8AB7EB2F0F9A1000BC11A8 /* XBTextLoopView.m */; };
+		CC8AB7F22F108D7600BC11A8 /* MapSearchView.m in Sources */ = {isa = PBXBuildFile; fileRef = CC8AB7F12F108D7600BC11A8 /* MapSearchView.m */; };
 		CC99591B2EE2D60900456825 /* WeatherHourData.m in Sources */ = {isa = PBXBuildFile; fileRef = CC99591A2EE2D60900456825 /* WeatherHourData.m */; };
 		CC99591F2EE65EF800456825 /* MapNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = CC99591E2EE65EF800456825 /* MapNavigationController.m */; };
 		CC9959232EE66AF600456825 /* AMapNavigationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CC9959222EE66AF600456825 /* AMapNavigationManager.m */; };
@@ -384,6 +386,10 @@
 		CC82548B2EDEB699006BCE2A /* ShoppingDetailsController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ShoppingDetailsController.m; sourceTree = "<group>"; };
 		CC82548E2EDEB6B7006BCE2A /* ShoppingDetailsCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShoppingDetailsCell.h; sourceTree = "<group>"; };
 		CC82548F2EDEB6B7006BCE2A /* ShoppingDetailsCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ShoppingDetailsCell.m; sourceTree = "<group>"; };
+		CC8AB7EA2F0F9A1000BC11A8 /* XBTextLoopView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XBTextLoopView.h; sourceTree = "<group>"; };
+		CC8AB7EB2F0F9A1000BC11A8 /* XBTextLoopView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XBTextLoopView.m; sourceTree = "<group>"; };
+		CC8AB7F02F108D7600BC11A8 /* MapSearchView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MapSearchView.h; sourceTree = "<group>"; };
+		CC8AB7F12F108D7600BC11A8 /* MapSearchView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MapSearchView.m; sourceTree = "<group>"; };
 		CC9959192EE2D60900456825 /* WeatherHourData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WeatherHourData.h; sourceTree = "<group>"; };
 		CC99591A2EE2D60900456825 /* WeatherHourData.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WeatherHourData.m; sourceTree = "<group>"; };
 		CC99591D2EE65EF800456825 /* MapNavigationController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MapNavigationController.h; sourceTree = "<group>"; };
@@ -931,6 +937,7 @@
 		CC8253852ED43512006BCE2A /* Tools */ = {
 			isa = PBXGroup;
 			children = (
+				CC754F022EFD34A6002DB1FA /* PhotoLocationManager */,
 				CC2F1CE52EF3D01C007E8992 /* ViewTransitionAnimation */,
 				CCDE01332F0E2F8C00C4C9D4 /* ArrayHelper */,
 				CC676C1E2F0CF0FC00574EF8 /* DateHelper */,
@@ -976,7 +983,6 @@
 		CC8253A12ED440C4006BCE2A /* Home */ = {
 			isa = PBXGroup;
 			children = (
-				CC754F022EFD34A6002DB1FA /* PhotoLocationManager */,
 				CC754EF22EFBBE32002DB1FA /* Model */,
 				CC82545A2ED98630006BCE2A /* HomeViewDetails */,
 				CC8253DB2ED5AD1D006BCE2A /* View */,
@@ -1125,6 +1131,10 @@
 				CC8254472ED7F12A006BCE2A /* MerchantVardTabListView.m */,
 				CC8254492ED7F143006BCE2A /* MerchantVardTabListCell.h */,
 				CC82544A2ED7F143006BCE2A /* MerchantVardTabListCell.m */,
+				CC8AB7EA2F0F9A1000BC11A8 /* XBTextLoopView.h */,
+				CC8AB7EB2F0F9A1000BC11A8 /* XBTextLoopView.m */,
+				CC8AB7F02F108D7600BC11A8 /* MapSearchView.h */,
+				CC8AB7F12F108D7600BC11A8 /* MapSearchView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1715,6 +1725,7 @@
 				CC82543E2ED6E9E3006BCE2A /* SetShadow.m in Sources */,
 				CC57C9442EE15FA4006A38C3 /* MapLayerView.m in Sources */,
 				CC8253B02ED4414D006BCE2A /* MineViewController.m in Sources */,
+				CC8AB7F22F108D7600BC11A8 /* MapSearchView.m in Sources */,
 				CC99591B2EE2D60900456825 /* WeatherHourData.m in Sources */,
 				CC8254572ED92CD9006BCE2A /* MineViewTableViewCell.m in Sources */,
 				CC8253932ED43A8A006BCE2A /* CustomNavController.m in Sources */,
@@ -1821,6 +1832,7 @@
 				CC8254802EDE80F3006BCE2A /* AddCommentCollectionCell.m in Sources */,
 				CC8253672ED43097006BCE2A /* main.m in Sources */,
 				CC754EF82EFBBE60002DB1FA /* AFNetworkingManage+Home.m in Sources */,
+				CC8AB7EC2F0F9A1000BC11A8 /* XBTextLoopView.m in Sources */,
 				CC57C9322EE015F1006A38C3 /* MAPCustomPointAnnotation.m in Sources */,
 				CC82544B2ED7F143006BCE2A /* MerchantVardTabListCell.m in Sources */,
 				CC82545D2ED98665006BCE2A /* HomeViewDetailsController.m in Sources */,

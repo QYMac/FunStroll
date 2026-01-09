@@ -25,7 +25,7 @@
 
     
     [self addSubview:self.sendBtn];
-    
+    //self.sendBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
     //[self.sendBtn setImagePositionWithType:SSImagePositionTypeTop spacing:4];
     // 其他位置按钮
     NSUInteger count = self.subviews.count;

@@ -25,9 +25,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = RGB(240, 240, 240);
+    self.view.backgroundColor = [UIColor whiteColor];
     
-    [self setupMyUI];
+    //[self setupMyUI];
 }
 
 - (void)setupMyUI{

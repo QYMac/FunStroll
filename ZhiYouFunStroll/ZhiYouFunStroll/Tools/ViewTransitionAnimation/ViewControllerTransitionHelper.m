@@ -592,4 +592,222 @@
 
 @end
 
+#pragma mark - UIWindow 扩展实现
+
+@implementation UIWindow (TransitionHelper)
+
+- (void)setRootViewController:(UIViewController *)rootViewController
+            withAnimationType:(TransitionAnimationType)animationType
+                     duration:(NSTimeInterval)duration
+                   completion:(void (^_Nullable)(void))completion {
+    if (!rootViewController) {
+        if (completion) {
+            completion();
+        }
+        return;
+    }
+    
+    UIViewController *oldRootVC = self.rootViewController;
+    if (oldRootVC == rootViewController) {
+        if (completion) {
+            completion();
+        }
+        return;
+    }
+    
+    // 确保新视图控制器的视图已经加载
+    [rootViewController view];
+    
+    UIView *oldView = oldRootVC ? oldRootVC.view : nil;
+    UIView *newView = rootViewController.view;
+    
+    // 保存旧视图的 frame，以便动画使用
+    CGRect oldFrame = oldView ? oldView.frame : self.bounds;
+    
+    // 先设置新的根视图控制器（这会自动添加新视图到 window）
+    self.rootViewController = rootViewController;
+    
+    // 确保新视图的 frame 正确，并且可以响应交互
+    newView.frame = self.bounds;
+    newView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    newView.userInteractionEnabled = YES;
+    
+    // 将旧视图重新添加到 window 上（在新视图之上），以便执行动画
+    if (oldView && oldView.superview != self) {
+        [self addSubview:oldView];
+    }
+    if (oldView) {
+        oldView.frame = oldFrame;
+    }
+    
+    // 根据动画类型执行不同的动画
+    switch (animationType) {
+        case TransitionAnimationTypeFade: {
+            // 淡入淡出
+            newView.alpha = 0.0;
+            [UIView animateWithDuration:duration animations:^{
+                newView.alpha = 1.0;
+                oldView.alpha = 0.0;
+            } completion:^(BOOL finished) {
+                [oldView removeFromSuperview];
+                if (completion) {
+                    completion();
+                }
+            }];
+            break;
+        }
+            
+        case TransitionAnimationTypePresentFromBottom: {
+            // 从下往上
+            CGRect finalFrame = newView.frame;
+            newView.frame = CGRectOffset(finalFrame, 0, finalFrame.size.height);
+            [UIView animateWithDuration:duration
+                                  delay:0
+                 usingSpringWithDamping:0.8
+                  initialSpringVelocity:0
+                                options:UIViewAnimationOptionCurveEaseInOut
+                             animations:^{
+                newView.frame = finalFrame;
+                oldView.alpha = 0.0;
+            } completion:^(BOOL finished) {
+                [oldView removeFromSuperview];
+                if (completion) {
+                    completion();
+                }
+            }];
+            break;
+        }
+            
+        case TransitionAnimationTypePresentFromTop: {
+            // 从上往下
+            CGRect finalFrame = newView.frame;
+            newView.frame = CGRectOffset(finalFrame, 0, -finalFrame.size.height);
+            [UIView animateWithDuration:duration
+                                  delay:0
+                 usingSpringWithDamping:0.8
+                  initialSpringVelocity:0
+                                options:UIViewAnimationOptionCurveEaseInOut
+                             animations:^{
+                newView.frame = finalFrame;
+                oldView.alpha = 0.0;
+            } completion:^(BOOL finished) {
+                [oldView removeFromSuperview];
+                if (completion) {
+                    completion();
+                }
+            }];
+            break;
+        }
+            
+        case TransitionAnimationTypePushFromLeft: {
+            // 从左往右
+            CGRect finalFrame = newView.frame;
+            newView.frame = CGRectOffset(finalFrame, -finalFrame.size.width, 0);
+            [UIView animateWithDuration:duration animations:^{
+                newView.frame = finalFrame;
+                oldView.frame = CGRectOffset(oldView.frame, finalFrame.size.width * 0.3, 0);
+                oldView.alpha = 0.5;
+            } completion:^(BOOL finished) {
+                [oldView removeFromSuperview];
+                if (completion) {
+                    completion();
+                }
+            }];
+            break;
+        }
+            
+        case TransitionAnimationTypePushFromRight: {
+            // 从右往左
+            CGRect finalFrame = newView.frame;
+            newView.frame = CGRectOffset(finalFrame, finalFrame.size.width, 0);
+            [UIView animateWithDuration:duration animations:^{
+                newView.frame = finalFrame;
+                oldView.frame = CGRectOffset(oldView.frame, -finalFrame.size.width * 0.3, 0);
+                oldView.alpha = 0.5;
+            } completion:^(BOOL finished) {
+                [oldView removeFromSuperview];
+                if (completion) {
+                    completion();
+                }
+            }];
+            break;
+        }
+            
+        case TransitionAnimationTypeScale: {
+            // 缩放
+            newView.transform = CGAffineTransformMakeScale(0.1, 0.1);
+            newView.alpha = 0.0;
+            [UIView animateWithDuration:duration
+                                  delay:0
+                 usingSpringWithDamping:0.7
+                  initialSpringVelocity:0
+                                options:UIViewAnimationOptionCurveEaseInOut
+                             animations:^{
+                newView.transform = CGAffineTransformIdentity;
+                newView.alpha = 1.0;
+                oldView.transform = CGAffineTransformMakeScale(1.5, 1.5);
+                oldView.alpha = 0.0;
+            } completion:^(BOOL finished) {
+                oldView.transform = CGAffineTransformIdentity;
+                [oldView removeFromSuperview];
+                if (completion) {
+                    completion();
+                }
+            }];
+            break;
+        }
+            
+        case TransitionAnimationTypeFlipHorizontal: {
+            // 水平翻转
+            newView.layer.transform = CATransform3DMakeRotation(M_PI, 0, 1, 0);
+            [UIView animateWithDuration:duration animations:^{
+                newView.layer.transform = CATransform3DIdentity;
+                oldView.layer.transform = CATransform3DMakeRotation(-M_PI, 0, 1, 0);
+                oldView.alpha = 0.0;
+            } completion:^(BOOL finished) {
+                oldView.layer.transform = CATransform3DIdentity;
+                [oldView removeFromSuperview];
+                if (completion) {
+                    completion();
+                }
+            }];
+            break;
+        }
+            
+        case TransitionAnimationTypeFlipVertical: {
+            // 垂直翻转
+            newView.layer.transform = CATransform3DMakeRotation(M_PI, 1, 0, 0);
+            [UIView animateWithDuration:duration animations:^{
+                newView.layer.transform = CATransform3DIdentity;
+                oldView.layer.transform = CATransform3DMakeRotation(-M_PI, 1, 0, 0);
+                oldView.alpha = 0.0;
+            } completion:^(BOOL finished) {
+                oldView.layer.transform = CATransform3DIdentity;
+                [oldView removeFromSuperview];
+                if (completion) {
+                    completion();
+                }
+            }];
+            break;
+        }
+            
+        default: {
+            // 默认淡入淡出
+            newView.alpha = 0.0;
+            [UIView animateWithDuration:duration animations:^{
+                newView.alpha = 1.0;
+                oldView.alpha = 0.0;
+            } completion:^(BOOL finished) {
+                [oldView removeFromSuperview];
+                if (completion) {
+                    completion();
+                }
+            }];
+            break;
+        }
+    }
+}
+
+@end
+
 

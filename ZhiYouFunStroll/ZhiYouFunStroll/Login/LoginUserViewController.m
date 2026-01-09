@@ -8,11 +8,6 @@
 #import "LoginUserViewController.h"
 #import "AFNetworkingManage+Login.h"
 
-#define textFieldBo [UIColor colorWithRed:192/255.0 green:192/255.0 blue:192/255.0 alpha:1].CGColor /***输入前边框颜色***/
-#define baColor [UIColor colorWithRed:248/255.0 green:141/255.0 blue:137/255.0 alpha:1] /***按钮颜色***/
-#define tiColor [UIColor colorWithRed:255/255.0 green:254/255.0 blue:255/255.0 alpha:1] /***按钮文字颜色***/
-#define isTextFieldBo [UIColor colorWithRed:249/255.0 green:134/255.0 blue:130/255.0 alpha:1].CGColor /***输入边框颜色***/
-
 @interface LoginUserViewController ()<UITextFieldDelegate>{
     NSString *phoneChangeToken;
     NSString *passwordChangeToken;
@@ -23,11 +18,15 @@
 @property (nonatomic,strong) UILabel *loginHinteL;
 @property (strong,nonatomic) UIView *bgView;
 @property (nonatomic,strong) UIButton *phoneTypeBut;
+@property (strong,nonatomic) UIView *fgViewA;
 @property (strong,nonatomic) UITextField *userName;
 @property (strong,nonatomic) UIView *fgView1;
+@property (nonatomic,strong) UIButton *passwordTypeBut;
 @property (strong,nonatomic) UITextField *password;
+@property (strong,nonatomic) UIView *fgViewB;
 @property (strong,nonatomic) UIButton *isMYBut;
 @property (strong,nonatomic) UIButton *removeBut;
+@property (strong,nonatomic) UIButton *removePassBut;
 @property (strong,nonatomic) UIView *fgView2;
 @property (strong,nonatomic) UIButton *obtain;
 @property (strong,nonatomic) UILabel *titmelabel;
@@ -36,6 +35,8 @@
 @property (strong,nonatomic) UIButton *verifyBut;
 @property (strong,nonatomic) NSTimer *timer;
 @property (assign,nonatomic) int index;
+@property (nonatomic,strong) UIButton *selectedBut;
+@property (nonatomic,strong) UITextView *termsL;
 
 @property (strong,nonatomic) UIButton *testBut;
 @property (strong,nonatomic) UIButton *testBut1;
@@ -48,7 +49,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = RGB(240, 240, 240);
+    self.view.backgroundColor = [UIColor whiteColor];
     [self setupLoginUI];
 }
 
@@ -79,9 +80,9 @@
     
     [self.view addSubview:self.bgView];
     [self.bgView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(15);
-        make.right.mas_equalTo(-15);
-        make.height.mas_equalTo(500);
+        make.left.mas_equalTo(20);
+        make.right.mas_equalTo(-20);
+        make.bottom.mas_equalTo(0);
         make.top.mas_equalTo(self.loginHinteL.mas_bottom).offset(15);
     }];
     
@@ -89,15 +90,33 @@
     [self.phoneTypeBut mas_makeConstraints:^(MASConstraintMaker *make) {
         make.width.mas_equalTo(50);
         make.height.mas_equalTo(35);
-        make.left.mas_equalTo(15);
+        make.left.mas_equalTo(25);
         make.top.mas_equalTo(50);
     }];
     
+    [self.bgView addSubview:self.fgViewA];
+    [self.fgViewA mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.width.mas_equalTo(1);
+        make.height.mas_equalTo(25);
+        make.left.mas_equalTo(self.phoneTypeBut.mas_right).offset(0);
+        make.centerY.mas_equalTo(self.phoneTypeBut);
+    }];
+    
+    /*
+    [self.bgView addSubview:self.removeBut];
+    [self.removeBut mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.mas_equalTo(self.userName.mas_right).offset(0);
+        make.centerY.mas_equalTo(self.userName);
+        make.width.mas_equalTo(30);
+        make.height.mas_equalTo(30);
+    }];
+     */
+    
     [self.bgView addSubview:self.userName];
     [self.userName mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.mas_equalTo(-15);
+        make.right.mas_equalTo(-25);
         make.top.mas_equalTo(self.phoneTypeBut.mas_top).offset(0);
-        make.left.mas_equalTo(self.phoneTypeBut.mas_right).offset(0);
+        make.left.mas_equalTo(self.phoneTypeBut.mas_right).offset(12.5);
         make.height.mas_equalTo(self.phoneTypeBut.mas_height);
     }];
     
@@ -106,36 +125,53 @@
         make.right.mas_equalTo(self.userName.mas_right).offset(0);
         make.top.mas_equalTo(self.userName.mas_bottom).offset(1);
         make.left.mas_equalTo(self.phoneTypeBut.mas_left).offset(0);
-        make.height.mas_equalTo(1);
+        make.height.mas_equalTo(0.5);
     }];
     
-    [self.bgView addSubview:self.password];
-    [self.password mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.mas_equalTo(-15);
-        make.top.mas_equalTo(self.fgView1.mas_bottom).offset(20);
-        make.left.mas_equalTo(15);
+    [self.bgView addSubview:self.passwordTypeBut];
+    [self.passwordTypeBut mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.width.mas_equalTo(50);
         make.height.mas_equalTo(self.userName.mas_height);
+        make.left.mas_equalTo(self.phoneTypeBut.mas_left).offset(0);
+        make.top.mas_equalTo(self.fgView1.mas_bottom).offset(20);
+    }];
+    
+    [self.bgView addSubview:self.fgViewB];
+    [self.fgViewB mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.width.mas_equalTo(1);
+        make.height.mas_equalTo(25);
+        make.left.mas_equalTo(self.passwordTypeBut.mas_right).offset(0);
+        make.centerY.mas_equalTo(self.passwordTypeBut);
     }];
     
     [self.bgView addSubview:self.isMYBut];
     [self.isMYBut mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.mas_equalTo(self.password.mas_right).offset(0);
-        make.centerY.mas_equalTo(self.password);
+        make.right.mas_equalTo(-25);
+        make.centerY.mas_equalTo(self.passwordTypeBut);
         make.width.mas_equalTo(30);
         make.height.mas_equalTo(30);
     }];
     
-    [self.bgView addSubview:self.removeBut];
-    [self.removeBut mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.mas_equalTo(self.userName.mas_right).offset(0);
-        make.centerY.mas_equalTo(self.userName);
+    [self.bgView addSubview:self.removePassBut];
+    [self.removePassBut mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.mas_equalTo(self.isMYBut.mas_left).offset(5);
+        make.centerY.mas_equalTo(self.passwordTypeBut);
         make.width.mas_equalTo(30);
         make.height.mas_equalTo(30);
+    }];
+    
+    
+    [self.bgView addSubview:self.password];
+    [self.password mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.mas_equalTo(self.removePassBut.mas_left).offset(-5);
+        make.top.mas_equalTo(self.fgView1.mas_bottom).offset(20);
+        make.left.mas_equalTo(self.passwordTypeBut.mas_right).offset(12.5);
+        make.height.mas_equalTo(self.userName.mas_height);
     }];
     
     [self.bgView addSubview:self.obtain];
     [self.obtain mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.mas_equalTo(self.password.mas_right).offset(0);
+        make.right.mas_equalTo(self.isMYBut.mas_right).offset(0);
         make.top.mas_equalTo(self.password.mas_top).offset(0);
         make.width.mas_equalTo(90);
         make.height.mas_equalTo(30);
@@ -159,15 +195,15 @@
     
     [self.bgView insertSubview:self.fgView2 atIndex:999];
     [self.fgView2 mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.mas_equalTo(self.password.mas_right).offset(0);
+        make.right.mas_equalTo(self.isMYBut.mas_right).offset(0);
         make.top.mas_equalTo(self.validation.mas_bottom).offset(1);
-        make.left.mas_equalTo(self.validation.mas_left).offset(0);
-        make.height.mas_equalTo(1);
+        make.left.mas_equalTo(self.passwordTypeBut.mas_left).offset(0);
+        make.height.mas_equalTo(0.5);
     }];
     
     [self.bgView addSubview:self.verifyBut];
     [self.verifyBut mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.mas_equalTo(self.fgView2);
+        make.left.mas_equalTo(self.passwordTypeBut.mas_left).offset(0);
         make.top.mas_equalTo(self.fgView2.mas_bottom).offset(15);
         make.width.mas_equalTo(100);
         make.height.mas_equalTo(35);
@@ -178,9 +214,60 @@
         make.left.mas_equalTo(25);
         make.top.mas_equalTo(self.verifyBut.mas_bottom).offset(20);
         make.right.mas_equalTo(-25);
-        make.height.mas_equalTo(44);
+        make.height.mas_equalTo(45);
     }];
     
+    
+    [self.bgView addSubview:self.selectedBut];
+    [self.selectedBut mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(self.loginBut.mas_bottom).offset(15);
+        make.left.mas_equalTo(self.loginBut.mas_left).offset(15*DDVerticalFlexibleRatio());
+        make.height.mas_equalTo(20);
+        make.width.mas_equalTo(35);
+    }];
+    
+    [self.bgView addSubview:self.termsL];
+    [self.termsL mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(self.selectedBut.mas_top).offset(3);
+        make.left.mas_equalTo(self.selectedBut.mas_right).offset(-5);
+        make.height.mas_equalTo(20);
+        make.right.mas_equalTo(-15);
+    }];
+    
+    NSString *fullText = self.termsL.text;
+    // 创建富文本
+    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:fullText];
+    
+    // 设置整体样式
+    [attributedString addAttributes:@{
+        NSFontAttributeName: [UIFont systemFontOfSize:10],
+        NSForegroundColorAttributeName: [UIColor blackColor]
+    } range:NSMakeRange(0, fullText.length)];
+    
+    // 找到变色文字的范围
+    NSRange protocolRange = [fullText rangeOfString:@"《用户协议》"];
+    NSRange privacyRange = [fullText rangeOfString:@"《隐私政策》"];
+    
+    // 设置变色文字样式
+    [attributedString addAttributes:@{
+        NSForegroundColorAttributeName: RGB(58, 175, 6),
+        NSUnderlineStyleAttributeName: @(NSUnderlineStyleNone)
+    } range:protocolRange];
+    
+    [attributedString addAttributes:@{
+        NSForegroundColorAttributeName: RGB(58, 175, 6),
+        NSUnderlineStyleAttributeName: @(NSUnderlineStyleNone)
+    } range:privacyRange];
+    
+    // 应用到 TextView
+    self.termsL.attributedText = attributedString;
+    
+    // 添加点击手势
+    self.termsL.userInteractionEnabled = YES;
+    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(textViewTapped:)];
+    [self.termsL addGestureRecognizer:tapGesture];
+    
+    /*
     [self.bgView addSubview:self.testBut];
     [self.testBut mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(25);
@@ -213,6 +300,7 @@
         make.height.mas_equalTo(44);
     }];
     
+     */
 }
 
 #pragma mark - UITextFieldDelegate
@@ -233,33 +321,33 @@
     }
     
     if (self.userName.text.length != 0 && self.password.text.length != 0) {
-        self.loginBut.backgroundColor = [UIColor colorWithRed:234/255.0 green:0/255.0 blue:0/255.0 alpha:1];
-        [self.loginBut setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    }else{
-        self.loginBut.backgroundColor = RGB(215, 215, 215);
+        self.loginBut.backgroundColor = RGB(145, 233, 80);
         [self.loginBut setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    }else{
+        self.loginBut.backgroundColor = RGB(238, 238, 238);;
+        [self.loginBut setTitleColor:RGB(187, 187, 187) forState:UIControlStateNormal];
     }
 }
 
 -(void)passwordTextChange:(UITextField *)textField{
     
     if (self.userName.text.length != 0 && self.password.text.length != 0) {
-        self.loginBut.backgroundColor = [UIColor colorWithRed:234/255.0 green:0/255.0 blue:0/255.0 alpha:1];
-        [self.loginBut setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    }else{
-        self.loginBut.backgroundColor = RGB(215, 215, 215);;
+        self.loginBut.backgroundColor = RGB(145, 233, 80);
         [self.loginBut setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    }else{
+        self.loginBut.backgroundColor = RGB(238, 238, 238);;
+        [self.loginBut setTitleColor:RGB(187, 187, 187) forState:UIControlStateNormal];
     }
 }
 
 -(void)validationTextChange:(UITextField *)textField{
     
     if (self.userName.text.length != 0 && self.validation.text.length != 0) {
-        self.loginBut.backgroundColor = [UIColor colorWithRed:234/255.0 green:0/255.0 blue:0/255.0 alpha:1];
-        [self.loginBut setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    }else{
-        self.loginBut.backgroundColor = RGB(215, 215, 215);;
+        self.loginBut.backgroundColor = RGB(145, 233, 80);
         [self.loginBut setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    }else{
+        self.loginBut.backgroundColor = RGB(238, 238, 238);;
+        [self.loginBut setTitleColor:RGB(187, 187, 187) forState:UIControlStateNormal];
     }
 }
 
@@ -305,10 +393,16 @@
 
 // 删除手机或账号
 - (void)removeButtonClick:(UIButton *)sender{
-    self.userName.text = @"";
-    self.removeBut.hidden = YES;
-    self.loginBut.backgroundColor = RGB(215, 215, 215);;
-    [self.loginBut setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    if (sender.tag == 1) {
+        self.userName.text = @"";
+        self.removeBut.hidden = YES;
+    } else {
+        self.password.text = @"";
+        self.removePassBut.hidden = YES;
+    }
+    
+    self.loginBut.backgroundColor = RGB(238, 238, 238);;
+    [self.loginBut setTitleColor:RGB(187, 187, 187) forState:UIControlStateNormal];
 }
 
 // 登录
@@ -317,6 +411,11 @@
     [self.userName resignFirstResponder];
     [self.password resignFirstResponder];
     [self.validation resignFirstResponder];
+    
+    if (self.selectedBut.selected == NO) {
+        [AlertWith showAlertWithMessageText:@"请先同意《用户条款》和《隐私政策》"];
+        return;
+    }
     
     NSString *grant_type = @"mobile";// 登录类型
     
@@ -328,12 +427,12 @@
     
     if (self.verifyBut.selected == NO) {
         if (self.userName.text.length >11 || self.userName.text.length <11 || basic == NO) {
-            [AlertWith showAlertWithMessageText:@"请输入11位正确手机号码（不能包含空格、字母、下划线）"];
+            [AlertWith showAlertWithMessageText:@"请输入11位手机号码（不能包含空格、字母、下划线）"];
             return;
         }
         
         if (self.validation.text.length == 0) {
-            [AlertWith showAlertWithMessageText:@"请输入正确验证码"];
+            [AlertWith showAlertWithMessageText:@"请输验证码"];
             return;
         }
         grant_type = @"mobile";// 登录类型
@@ -412,6 +511,8 @@
     }
      */
     [UserModel sharedUserModel].isAutoLogin = YES;
+    
+    [UserModel newRootHomeVC];
 }
 
 // 切换验证或密码登录
@@ -421,8 +522,8 @@
     [self.password resignFirstResponder];
     [self.validation resignFirstResponder];
     
-    self.loginBut.backgroundColor = RGB(215, 215, 215);;
-    [self.loginBut setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    self.loginBut.backgroundColor = RGB(238, 238, 238);;
+    [self.loginBut setTitleColor:RGB(187, 187, 187) forState:UIControlStateNormal];
     
     sender.selected = !sender.selected;
     if (sender.selected) {
@@ -430,11 +531,12 @@
         //self.userName.text = @"";
         self.password.hidden = NO;
         self.isMYBut.hidden = NO;
+        self.removePassBut.hidden = NO;
         self.titmelabel.hidden = YES;
         self.obtain.hidden = YES;
         self.validation.hidden = YES;
         [self.verifyBut setTitle:@"验证码登录" forState:UIControlStateNormal];
-        self.userName.placeholder = @"请输入您的账号";
+        self.userName.placeholder = @"请输入手机号/账户ID";
     }else{
         self.password.text = @"";
         self.password.hidden = YES;
@@ -442,8 +544,9 @@
         self.obtain.hidden = NO;
         self.validation.hidden = NO;
         self.isMYBut.hidden = YES;
+        self.removePassBut.hidden = YES;
         [self.verifyBut setTitle:@"密码登录" forState:UIControlStateNormal];
-        self.userName.placeholder = @"请输入您的手机号";
+        self.userName.placeholder = @"请输入手机号";
     }
 }
 
@@ -460,7 +563,7 @@
     BOOL basic = [self.userName.text isEqualToString:filtered];
     
     if (self.userName.text.length > 11 || self.userName.text.length < 11 || basic == NO) {
-        [AlertWith showAlertWithMessageText:@"请输入11位正确手机号码（不能包含空格、字母、下划线）"];
+        [AlertWith showAlertWithMessageText:@"请输入11位手机号码（不能包含空格、字母、下划线）"];
         return;
     }
     self.obtain.userInteractionEnabled = NO;
@@ -504,6 +607,55 @@
     return NO;
 }
 
+
+- (void)selectedButClick:(UIButton *)sender{
+    if (sender.selected == NO) {
+        self.selectedBut.selected = YES;
+        [self.selectedBut setImage:[UIImage imageNamed:@"loginBut_off"] forState:UIControlStateNormal];
+    } else {
+        self.selectedBut.selected = NO;
+        [self.selectedBut setImage:[UIImage imageNamed:@"loginBut_on"] forState:UIControlStateNormal];
+    }
+}
+
+- (void)textViewTapped:(UITapGestureRecognizer *)gesture {
+    UITextView *textView = (UITextView *)gesture.view;
+    // 获取点击位置
+    CGPoint location = [gesture locationInView:textView];
+    
+    // 找到点击的字符位置
+    UITextPosition *tapPosition = [textView closestPositionToPoint:location];
+    UITextRange *textRange = [textView.tokenizer rangeEnclosingPosition:tapPosition
+                                                          withGranularity:UITextGranularityWord
+                                                              inDirection:UITextLayoutDirectionRight];
+    
+    if (textRange) {
+        //NSString *tappedWord = [textView textInRange:textRange];
+        NSInteger startIndex = [textView offsetFromPosition:textView.beginningOfDocument toPosition:textRange.start];
+        
+        NSString *fullText = textView.attributedText.string;
+        
+        // 判断点击了哪个部分
+        NSRange protocolRange = [fullText rangeOfString:@"《用户协议》"];
+        NSRange privacyRange = [fullText rangeOfString:@"《隐私政策》"];
+        
+        if (NSLocationInRange(startIndex, protocolRange)) {
+            NSLog(@"点击了用户协议");
+            WKWebViewController *navc = [[WKWebViewController alloc] init];
+            navc.titleText = @"用户协议";
+            navc.urlStr = @"";
+            [self.navigationController pushViewController:navc animated:YES];
+        } else if (NSLocationInRange(startIndex, privacyRange)) {
+            NSLog(@"点击了隐私政策");
+            WKWebViewController *navc = [[WKWebViewController alloc] init];
+            navc.titleText = @"隐私政策";
+            navc.urlStr = @"";
+            [self.navigationController pushViewController:navc animated:YES];
+        }
+    }
+}
+
+
 - (void)testButClick{
     
     if (self.validation.text.length == 0) {
@@ -521,6 +673,7 @@
         NSLog(@"%@",error);
     }];
 }
+
 
 - (void)testBut1Click{
     
@@ -569,6 +722,12 @@
     } failureHandler:^(NSError * _Nonnull error) {
         NSLog(@"%@",error);
     }];
+}
+
+- (void)passwordTypeButClick{
+    [self.userName resignFirstResponder];
+    [self.password resignFirstResponder];
+    [self.validation resignFirstResponder];
 }
 
 #pragma mark - 懒加载
@@ -628,8 +787,8 @@
         _userName = [[UITextField alloc]init];
         _userName.delegate = self;
         _userName.leftViewMode = UITextFieldViewModeAlways;
-        _userName.placeholder = @"请输入手机号码/账号ID";
-        _userName.font = [UIFont systemFontOfSize:15];
+        _userName.placeholder = @"请输入手机号";
+        _userName.font = [UIFont systemFontOfSize:14];
         _userName.textColor = [UIColor blackColor];
         [_userName addTarget:self action:@selector(userNameTextChange:) forControlEvents:UIControlEventEditingChanged];
         if ([UserModel getObjectForKey:kPhoneNumber] != nil) {
@@ -642,7 +801,7 @@
 - (UIView *)fgView1{
     if (!_fgView1) {
         _fgView1 = [[UIView alloc]init];
-        _fgView1.backgroundColor = RGB(220, 220, 220);
+        _fgView1.backgroundColor = RGB(229, 229, 229);
     }
     return _fgView1;
 }
@@ -653,7 +812,7 @@
         _password.delegate = self;
         _password.leftViewMode = UITextFieldViewModeAlways;
         _password.placeholder = @"请输入您的密码";
-        _password.font = [UIFont systemFontOfSize:15];
+        _password.font = [UIFont systemFontOfSize:14];
         _password.textColor = [UIColor blackColor];
         _password.secureTextEntry = YES;
         [_password addTarget:self action:@selector(passwordTextChange:) forControlEvents:UIControlEventEditingChanged];
@@ -677,15 +836,27 @@
         _removeBut = [UIButton buttonWithType:UIButtonTypeCustom];
         [_removeBut setImage:[UIImage imageNamed:@"icon_Canceltyping"] forState:UIControlStateNormal];
         _removeBut.hidden = YES;
+        _removeBut.tag = 2;
         [_removeBut addTarget:self action:@selector(removeButtonClick:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _removeBut;
 }
 
+- (UIButton *)removePassBut{
+    if (!_removePassBut) {
+        _removePassBut = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_removePassBut setImage:[UIImage imageNamed:@"icon_Canceltyping"] forState:UIControlStateNormal];
+        _removePassBut.hidden = YES;
+        _removePassBut.tag = 2;
+        [_removePassBut addTarget:self action:@selector(removeButtonClick:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _removePassBut;
+}
+
 - (UIView *)fgView2{
     if (!_fgView2) {
         _fgView2 = [[UIView alloc]init];
-        _fgView2.backgroundColor = RGB(220, 220, 220);
+        _fgView2.backgroundColor = RGB(229, 229, 229);
     }
     return _fgView2;
 }
@@ -695,7 +866,7 @@
         _validation = [[UITextField alloc]init];
         _validation.delegate = self;
         _validation.leftViewMode = UITextFieldViewModeAlways;
-        _validation.placeholder = @"请输入短信验证码";
+        _validation.placeholder = @"请输入验证码";
         _validation.font = [UIFont systemFontOfSize:15];
         _validation.layer.cornerRadius = 3;
         _validation.layer.masksToBounds = YES;
@@ -709,10 +880,11 @@
     if (!_obtain) {
         _obtain = [UIButton buttonWithType:UIButtonTypeCustom];
         [_obtain setTitle:@"获取验证码" forState:UIControlStateNormal];
-        [_obtain setTitleColor:RGB(173, 173, 173) forState:UIControlStateNormal];
+        [_obtain setTitleColor:RGB(58, 175, 6) forState:UIControlStateNormal];
         _obtain.layer.cornerRadius = 3;
         _obtain.layer.masksToBounds = YES;
         _obtain.titleLabel.font = [UIFont systemFontOfSize:12];
+        _obtain.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
         [_obtain addTarget:self action:@selector(obtainButtonClick:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _obtain;
@@ -734,9 +906,12 @@
     if (!_verifyBut) {
         _verifyBut = [UIButton buttonWithType:UIButtonTypeCustom];
         [_verifyBut setTitle:@"密码登录" forState:UIControlStateNormal];
-        [_verifyBut setTitleColor:RGB(173, 173, 173) forState:UIControlStateNormal];
+        [_verifyBut setImage:[UIImage imageNamed:@"genghuanp"] forState:UIControlStateNormal];
+        [_verifyBut setTitleColor:RGB(51, 51, 51) forState:UIControlStateNormal];
         _verifyBut.titleLabel.font = [UIFont systemFontOfSize:12];
         [_verifyBut addTarget:self action:@selector(verifyButtonClick:) forControlEvents:UIControlEventTouchUpInside];
+        _verifyBut.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+        [_verifyBut setImagePositionWithType:SSImagePositionTypeLeft spacing:5];
     }
     return _verifyBut;
 }
@@ -745,11 +920,11 @@
     if (!_loginBut) {
         _loginBut = [UIButton buttonWithType:UIButtonTypeCustom];
         [_loginBut setTitle:@"登录" forState:UIControlStateNormal];
-        [_loginBut setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        _loginBut.layer.cornerRadius = 22;
+        [_loginBut setTitleColor:RGB(187, 187, 187) forState:UIControlStateNormal];
+        _loginBut.layer.cornerRadius = 45/2;
         _loginBut.layer.masksToBounds = YES;
         _loginBut.titleLabel.font = [UIFont systemFontOfSize:15];
-        _loginBut.backgroundColor = RGB(215, 215, 215);
+        _loginBut.backgroundColor = RGB(238, 238, 238);
         [_loginBut addTarget:self action:@selector(loginButtonClick:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _loginBut;
@@ -810,6 +985,54 @@
     }
     return _testBut3;
 }
+
+- (UIView *)fgViewA{
+    if (!_fgViewA) {
+        _fgViewA = [[UIView alloc] init];
+        _fgViewA.backgroundColor = RGB(238, 238, 238);
+    }
+    return _fgViewA;
+}
+- (UIView *)fgViewB{
+    if (!_fgViewB) {
+        _fgViewB = [[UIView alloc] init];
+        _fgViewB.backgroundColor = RGB(238, 238, 238);
+    }
+    return _fgViewB;
+}
+
+- (UIButton *)passwordTypeBut{
+    if (!_passwordTypeBut) {
+        _passwordTypeBut = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_passwordTypeBut setImage:[UIImage imageNamed:@"passwordType"] forState:UIControlStateNormal];
+        [_passwordTypeBut addTarget:self action:@selector(passwordTypeButClick) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _passwordTypeBut;
+}
+
+- (UIButton *)selectedBut{
+    if (!_selectedBut) {
+        _selectedBut = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_selectedBut setImage:[UIImage imageNamed:@"loginBut_on"] forState:UIControlStateNormal];
+        [_selectedBut addTarget:self action:@selector(selectedButClick:) forControlEvents:UIControlEventTouchUpInside];
+        
+    }
+    return _selectedBut;
+}
+
+- (UITextView *)termsL{
+    if (!_termsL) {
+        _termsL = [[UITextView alloc] init];
+        _termsL.text = @"我已阅读并同意趣逛《用户协议》和《隐私政策》";
+        _termsL.editable = NO;          // 禁止编辑
+        _termsL.scrollEnabled = NO;     // 禁止滚动
+        _termsL.textContainerInset = UIEdgeInsetsZero; // 移除内边距
+        _termsL.font = [UIFont systemFontOfSize:10];
+        _termsL.backgroundColor = [UIColor clearColor];
+    }
+    return _termsL;
+}
+
 #pragma mark - 弹出框样式
 - (void)_showAlertWithMessage:(NSString *)message{
     UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"温馨提示" message:message preferredStyle:UIAlertControllerStyleAlert];

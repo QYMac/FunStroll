@@ -28,10 +28,10 @@
         [self.bgImgView insertSubview:self.bgImg atIndex:0];
         [self.bgImg mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.left.right.mas_equalTo(0);
-            make.bottom.mas_equalTo(20*DDVerticalFlexibleRatio());
+            //make.bottom.mas_equalTo(0);
         }];
         
-        self.homeSearcTextField.layer.cornerRadius = 35*DDHorizontalFlexibleRatio()/2;
+        self.homeSearcTextField.layer.cornerRadius = 35/2;
         self.homeSearcTextField.layer.masksToBounds = YES;
         self.homeSearcTextField.layer.borderColor = RGB(51, 51, 51).CGColor;
         self.homeSearcTextField.layer.borderWidth = 1;
@@ -44,26 +44,26 @@
             make.top.mas_equalTo(topFloat);
             make.left.mas_equalTo(15);
             make.right.mas_equalTo(-15);
-            make.height.mas_equalTo(35*DDVerticalFlexibleRatio());
+            make.height.mas_equalTo(35);
         }];
         
         [self insertSubview:self.searchBut atIndex:100];
         [self.searchBut mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.mas_equalTo(self.homeSearcTextField);
-            make.right.mas_equalTo(self.homeSearcTextField.mas_right).offset(-3*DDVerticalFlexibleRatio());
-            make.width.mas_equalTo(38*DDVerticalFlexibleRatio());
-            make.height.mas_equalTo(29*DDVerticalFlexibleRatio());
+            make.right.mas_equalTo(self.homeSearcTextField.mas_right).offset(-3);
+            make.width.mas_equalTo(38);
+            make.height.mas_equalTo(29);
         }];
         
-        self.bgView.frame = CGRectMake(0, self.frame.size.height - 44*DDHorizontalFlexibleRatio(), kWidth, 44*DDHorizontalFlexibleRatio());
+        self.bgView.frame = CGRectMake(0, self.frame.size.height - 44, kWidth, 44);
         [self addSubview:self.bgView];
-        [self.bgView addRoundedCorners:UIRectCornerTopLeft | UIRectCornerTopRight withRadii:CGSizeMake(22*DDVerticalFlexibleRatio(), 22*DDVerticalFlexibleRatio())];
+        [self.bgView addRoundedCorners:UIRectCornerTopLeft | UIRectCornerTopRight withRadii:CGSizeMake(22, 22)];
         
         [self addSubview:self.labelImg];
         [self.labelImg mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.mas_equalTo(15);
-            make.width.mas_equalTo(77*DDVerticalFlexibleRatio());
-            make.height.mas_equalTo(24*DDVerticalFlexibleRatio());
+            make.width.mas_equalTo(77);
+            make.height.mas_equalTo(24);
             make.centerY.mas_equalTo(self.bgView);
         }];
     }
@@ -145,7 +145,7 @@
         _homeSearcTextField = [[UITextField alloc] init];
         _homeSearcTextField.backgroundColor = [UIColor whiteColor];
         _homeSearcTextField.delegate = self;
-        _homeSearcTextField.font = [UIFont systemFontOfSize:12];
+        _homeSearcTextField.font = [UIFont systemFontOfSize:14];
         NSAttributedString *attrString = [[NSAttributedString alloc] initWithString:@"请输入关键字" attributes:@{NSForegroundColorAttributeName:RGB(187, 187, 187),NSFontAttributeName:_homeSearcTextField.font}];
         _homeSearcTextField.attributedPlaceholder = attrString;
         _homeSearcTextField.returnKeyType = UIReturnKeySearch;// 换行变搜索

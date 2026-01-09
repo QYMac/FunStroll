@@ -112,7 +112,7 @@
 #pragma mark - MAMapViewDelegate
 // 地图初始化完成回调（地图视图加载完成）
 - (void)mapViewDidFinishLoadingMap:(MAMapView *)mapView {
-    [self addDifferentTypeAnnotations];
+    //[self addDifferentTypeAnnotations];
 }
 
 // 地图渲染完成回调（地图样式渲染完成）
@@ -314,7 +314,11 @@
         _mapView.userTrackingMode = MAUserTrackingModeFollow;
         _mapView.zoomLevel = 16;
         _mapView.showTraffic = YES;
-        _mapView.compassOrigin = CGPointMake(-55, navBarHeight+15);
+        _mapView.compassOrigin = CGPointMake(-50, statusBarHeight + 40 + 60);
+        
+        MAUserLocationRepresentation *r = [[MAUserLocationRepresentation alloc] init];
+        r.image = [UIImage imageNamed:@"userImg"];
+        [_mapView updateUserLocationRepresentation:r];
     }
     return _mapView;
 }

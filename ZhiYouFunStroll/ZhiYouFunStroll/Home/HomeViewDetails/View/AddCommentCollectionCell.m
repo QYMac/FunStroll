@@ -71,8 +71,8 @@
 
 - (void)addImgButtonClick:(UIButton *)sender{
     [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
-    if (self.addImgList.count >= 20) {
-        [AlertWith showAlertWithMessageText:@"最多只能选择20张照片"];
+    if (self.addImgList.count >= 1) {
+        [AlertWith showAlertWithMessageText:@"最多只能选择1张照片"];
         return;
     }
     
@@ -99,7 +99,7 @@
 //    imagePicker.modalPresentationStyle = UIModalPresentationFullScreen;
 //    [[TabBarViewController takeCurrentVC] presentViewController:imagePicker animated:YES completion:nil];
 
-    NSInteger maxImagesCount = MAX(0, 20 - self.addImgList.count);  // 不能小于0
+    NSInteger maxImagesCount = 1;  // 不能小于0
     LFImagePickerController *imagePicker = [[LFImagePickerController alloc] initWithMaxImagesCount:maxImagesCount delegate:self];
     imagePicker.allowTakePicture = YES; // 隐藏拍照按钮
     //imagePicker.maxVideosCount = 1; // 解除混合选择- 要么1个视频，要么9个图片

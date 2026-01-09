@@ -28,7 +28,7 @@
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
         [self awakeFromNib];
-        self.backgroundColor = [UIColor whiteColor];
+        self.backgroundColor = RGB(244, 244, 244);
         
         self.current = 1;
         self.size = 20;
@@ -210,14 +210,14 @@
  */
 - (CGFloat)waterflowLayout:(GeneralWaterfallFlowLayout *)waterflowLayout columnsMarginInCollectionView:(UICollectionView *)collectionView
 {
-    return 10;
+    return 5;
 }
 /**
  *  行间距, 默认10
  */
 - (CGFloat)waterflowLayout:(GeneralWaterfallFlowLayout *)waterflowLayout collectionView:(UICollectionView *)collectionView linesMarginForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 10;
+    return 5;
 }
 
 /**
@@ -225,15 +225,15 @@
  */
 - (UIEdgeInsets)waterflowLayout:(GeneralWaterfallFlowLayout *)waterflowLayout edgeInsetsInCollectionView:(UICollectionView *)collectionView
 {
-    return UIEdgeInsetsMake(0, 10, 10, 10);
+    return UIEdgeInsetsMake(0, 5, 10, 5);
 }
 
 #pragma mark -UIScrollViewDelegate
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     CGFloat offset_Y = scrollView.contentOffset.y;
-    CGFloat searcHeight = 235*DDVerticalFlexibleRatio() - statusBarHeight - 44*DDVerticalFlexibleRatio();
+    CGFloat searcHeight = 270 - statusBarHeight - 44;
     if ([DeviceInfoHelper isDynamicIsland] == YES) {
-        searcHeight = 235*DDVerticalFlexibleRatio() - (statusBarHeight + 10 + 44*DDVerticalFlexibleRatio());
+        searcHeight = 270 - (statusBarHeight + 10 + 44);
     }
     CGFloat alpha = 1 - MAX(0, offset_Y/searcHeight);
     self.headerView.bgImg.alpha = alpha;
@@ -262,12 +262,12 @@
 - (UICollectionView *)collectionView {
     if (!_collectionView) {
         GeneralWaterfallFlowLayout *layout = [[GeneralWaterfallFlowLayout alloc] init];
-        layout.headerHeight = 235*DDVerticalFlexibleRatio(); //  headerHeight
+        layout.headerHeight = 270; //  headerHeight
         layout.searcHeight = statusBarHeight;
         if ([DeviceInfoHelper isDynamicIsland] == YES) {
             layout.searcHeight = statusBarHeight + 10;
         }
-        layout.headerLabelHeight = 44*DDVerticalFlexibleRatio(); // 社区广场标签的高度
+        layout.headerLabelHeight = 44; // 社区广场标签的高度
         _collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
         _collectionView.delegate = self;
         _collectionView.dataSource = self;
@@ -280,7 +280,7 @@
         [_collectionView registerClass:[HomeHeadView class]
             forSupplementaryViewOfKind:UICollectionElementKindSectionHeader
                    withReuseIdentifier:@"Header"];
-        _collectionView.backgroundColor = [UIColor whiteColor];
+        _collectionView.backgroundColor = RGB(244, 244, 244);
         _collectionView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
     }
     return _collectionView;

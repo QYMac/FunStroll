@@ -125,5 +125,21 @@ typedef NS_ENUM(NSInteger, TransitionAnimationType) {
 
 @end
 
+/// Window 根视图切换扩展方法
+@interface UIWindow (TransitionHelper)
+
+/// 平滑切换根视图控制器
+/// @param rootViewController 新的根视图控制器
+/// @param animationType 动画类型
+/// @param duration 动画持续时间
+/// @param completion 完成回调
+- (void)setRootViewController:(UIViewController *)rootViewController
+            withAnimationType:(TransitionAnimationType)animationType
+                     duration:(NSTimeInterval)duration
+                   completion:(void (^_Nullable)(void))completion;
+
+@end
+
+
 NS_ASSUME_NONNULL_END
 

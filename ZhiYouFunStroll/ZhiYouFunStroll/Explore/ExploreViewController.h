@@ -11,6 +11,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface ExploreViewController : UIViewController
 
+@property(nonatomic,assign) BOOL isSearch;
+
 @end
 
 NS_ASSUME_NONNULL_END

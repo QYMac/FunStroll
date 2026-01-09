@@ -20,13 +20,12 @@
     self = [super initWithFrame:frame];
     if (self){
         self.contentView.backgroundColor = [UIColor whiteColor];
-        self.contentView.layer.cornerRadius = 10;
+        self.contentView.layer.cornerRadius = 4;
         self.contentView.layer.masksToBounds = YES;
         //self.contentView.layer.borderWidth = 1;
         //self.contentView.layer.borderColor = RGB(240, 240, 240).CGColor;
         
         [self.contentView addSubview:self.homeImage];
-        self.homeImage.layer.cornerRadius = 10;
         self.homeImage.layer.masksToBounds = YES;
         [self.homeImage mas_makeConstraints:^(MASConstraintMaker *make) {
             make.height.mas_equalTo(self.frame.size.width);
@@ -37,8 +36,8 @@
         [self.titleL mas_makeConstraints:^(MASConstraintMaker *make) {
             make.height.mas_equalTo(40);
             make.top.mas_equalTo(self.homeImage.mas_bottom).offset(10);
-            make.left.mas_equalTo(0);
-            make.right.mas_equalTo(0);
+            make.left.mas_equalTo(10);
+            make.right.mas_equalTo(-10);
         }];
         
         self.avatarImage.layer.cornerRadius = 25/2;
@@ -56,7 +55,7 @@
             make.width.mas_equalTo(50);
             make.height.mas_equalTo(15);
             make.centerY.mas_equalTo(self.avatarImage);
-            make.right.mas_equalTo(0);
+            make.right.mas_equalTo(-10);
         }];
       
         [self.contentView addSubview:self.nameL];
@@ -214,7 +213,7 @@
         _titleL.textColor = [UIColor blackColor];
         _titleL.text = @"卡片标题";
         _titleL.numberOfLines = 2;
-        _titleL.font = [UIFont systemFontOfSize:13];
+        _titleL.font = [UIFont systemFontOfSize:14];
     }
     return _titleL;
 }
@@ -224,7 +223,7 @@
         _nameL = [[UILabel alloc]init];
         _nameL.textColor = [UIColor blackColor];
         _nameL.text = @"用户昵称";
-        _nameL.font = [UIFont boldSystemFontOfSize:10];
+        _nameL.font = [UIFont boldSystemFontOfSize:12];
     }
     return _nameL;
 }
@@ -245,7 +244,7 @@
         [_likeBut setImage:[UIImage imageNamed:@"like_on"] forState:UIControlStateNormal];
         [_likeBut setTitle:@"9999" forState:UIControlStateNormal];
         [_likeBut setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        _likeBut.titleLabel.font = [UIFont systemFontOfSize:10];
+        _likeBut.titleLabel.font = [UIFont systemFontOfSize:12];
         _likeBut.selected = NO;
         [_likeBut addTarget:self action:@selector(likeButClick:) forControlEvents:UIControlEventTouchUpInside];
         _likeBut.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;

@@ -314,6 +314,7 @@
         _mapView.userTrackingMode = MAUserTrackingModeFollow;
         _mapView.zoomLevel = 16;
         _mapView.showTraffic = YES;
+        _mapView.showsCompass = NO;      
         _mapView.compassOrigin = CGPointMake(-50, statusBarHeight + 40 + 60);
         
         MAUserLocationRepresentation *r = [[MAUserLocationRepresentation alloc] init];

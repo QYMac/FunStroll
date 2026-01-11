@@ -77,7 +77,6 @@
     return self;
 }
 
-
 #pragma mark - 懒加载
 - (UIImageView *)vardImage{
     if (!_vardImage) {

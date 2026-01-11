@@ -48,9 +48,13 @@
         [self.imgList addObject:resourceUrl];
     }
     
+    [self.contentL layoutIfNeeded];
     CGFloat tagImgX = 15 + 32 + 15;
     CGFloat contentImgWidth = (kWidth - 15 - 32 - 15 - 35)/3;
     CGFloat tagImgY = 75 + self.contentL.frame.size.height;
+    if ([CheckTool replaceNullValue:model.content].length != 0) {
+        tagImgY = 72.5 + self.contentL.frame.size.height;
+    }
     for (int i = 0; i < self.imgList.count; i++) {
         if (tagImgX + contentImgWidth > kWidth) {
             tagImgX = 15 + 32 + 15;

@@ -6,7 +6,7 @@
 //
 
 #import "MapSearchView.h"
-#import <Masonry/Masonry.h>
+#import "MapSearchResultViewController.h"
 
 // 分类按钮
 @interface MapSearchCategoryButton : UIButton
@@ -491,9 +491,13 @@
 }
 
 - (void)categoryButtonTapped:(MapSearchCategoryButton *)sender {
+    /*
     if ([self.delegate respondsToSelector:@selector(mapSearchView:didSelectCategory:)]) {
         [self.delegate mapSearchView:self didSelectCategory:sender.category];
     }
+     */
+    MapSearchResultViewController *navc = [[MapSearchResultViewController alloc] init];
+    [[TabBarViewController takeCurrentVC].navigationController pushViewController:navc animated:YES];
 }
 
 - (void)clearHistoryButtonTapped:(UIButton *)sender {

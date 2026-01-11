@@ -99,7 +99,6 @@
 		CC8254482ED7F12A006BCE2A /* MerchantVardTabListView.m in Sources */ = {isa = PBXBuildFile; fileRef = CC8254472ED7F12A006BCE2A /* MerchantVardTabListView.m */; };
 		CC82544B2ED7F143006BCE2A /* MerchantVardTabListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CC82544A2ED7F143006BCE2A /* MerchantVardTabListCell.m */; };
 		CC82544F2ED821AD006BCE2A /* ShoppingCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CC82544E2ED821AD006BCE2A /* ShoppingCollectionViewCell.m */; };
-		CC8254572ED92CD9006BCE2A /* MineViewTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CC8254562ED92CD9006BCE2A /* MineViewTableViewCell.m */; };
 		CC82545D2ED98665006BCE2A /* HomeViewDetailsController.m in Sources */ = {isa = PBXBuildFile; fileRef = CC82545C2ED98665006BCE2A /* HomeViewDetailsController.m */; };
 		CC8254612EDD1FD4006BCE2A /* HomeViewDetailsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CC8254602EDD1FD4006BCE2A /* HomeViewDetailsCell.m */; };
 		CC82546E2EDD2D2A006BCE2A /* ServiceStarView.m in Sources */ = {isa = PBXBuildFile; fileRef = CC82546B2EDD2D2A006BCE2A /* ServiceStarView.m */; };
@@ -113,6 +112,13 @@
 		CC8254902EDEB6B7006BCE2A /* ShoppingDetailsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CC82548F2EDEB6B7006BCE2A /* ShoppingDetailsCell.m */; };
 		CC8AB7EC2F0F9A1000BC11A8 /* XBTextLoopView.m in Sources */ = {isa = PBXBuildFile; fileRef = CC8AB7EB2F0F9A1000BC11A8 /* XBTextLoopView.m */; };
 		CC8AB7F22F108D7600BC11A8 /* MapSearchView.m in Sources */ = {isa = PBXBuildFile; fileRef = CC8AB7F12F108D7600BC11A8 /* MapSearchView.m */; };
+		CC8AB8032F10E87000BC11A8 /* MapSearchResultItem.m in Sources */ = {isa = PBXBuildFile; fileRef = CC8AB8002F10E87000BC11A8 /* MapSearchResultItem.m */; };
+		CC8AB8042F10E87000BC11A8 /* MapSearchResultCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CC8AB7FE2F10E87000BC11A8 /* MapSearchResultCell.m */; };
+		CC8AB8052F10E87000BC11A8 /* MapSearchResultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CC8AB8022F10E87000BC11A8 /* MapSearchResultViewController.m */; };
+		CC8AB8112F12409C00BC11A8 /* MapLocationImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CC8AB8102F12409C00BC11A8 /* MapLocationImageCell.m */; };
+		CC8AB8122F12409C00BC11A8 /* MapLocationDetailView.m in Sources */ = {isa = PBXBuildFile; fileRef = CC8AB80E2F12409C00BC11A8 /* MapLocationDetailView.m */; };
+		CC8AB8172F139D6A00BC11A8 /* RelatedPhotosViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CC8AB8162F139D6A00BC11A8 /* RelatedPhotosViewController.m */; };
+		CC8AB8182F139D6A00BC11A8 /* RelatedPhotosCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CC8AB8142F139D6A00BC11A8 /* RelatedPhotosCell.m */; };
 		CC99591B2EE2D60900456825 /* WeatherHourData.m in Sources */ = {isa = PBXBuildFile; fileRef = CC99591A2EE2D60900456825 /* WeatherHourData.m */; };
 		CC99591F2EE65EF800456825 /* MapNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = CC99591E2EE65EF800456825 /* MapNavigationController.m */; };
 		CC9959232EE66AF600456825 /* AMapNavigationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CC9959222EE66AF600456825 /* AMapNavigationManager.m */; };
@@ -361,8 +367,6 @@
 		CC82544A2ED7F143006BCE2A /* MerchantVardTabListCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MerchantVardTabListCell.m; sourceTree = "<group>"; };
 		CC82544D2ED821AD006BCE2A /* ShoppingCollectionViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShoppingCollectionViewCell.h; sourceTree = "<group>"; };
 		CC82544E2ED821AD006BCE2A /* ShoppingCollectionViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ShoppingCollectionViewCell.m; sourceTree = "<group>"; };
-		CC8254552ED92CD9006BCE2A /* MineViewTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MineViewTableViewCell.h; sourceTree = "<group>"; };
-		CC8254562ED92CD9006BCE2A /* MineViewTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MineViewTableViewCell.m; sourceTree = "<group>"; };
 		CC8254592ED97203006BCE2A /* AdaptScreen.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AdaptScreen.h; sourceTree = "<group>"; };
 		CC82545B2ED98665006BCE2A /* HomeViewDetailsController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HomeViewDetailsController.h; sourceTree = "<group>"; };
 		CC82545C2ED98665006BCE2A /* HomeViewDetailsController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HomeViewDetailsController.m; sourceTree = "<group>"; };
@@ -390,6 +394,20 @@
 		CC8AB7EB2F0F9A1000BC11A8 /* XBTextLoopView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XBTextLoopView.m; sourceTree = "<group>"; };
 		CC8AB7F02F108D7600BC11A8 /* MapSearchView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MapSearchView.h; sourceTree = "<group>"; };
 		CC8AB7F12F108D7600BC11A8 /* MapSearchView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MapSearchView.m; sourceTree = "<group>"; };
+		CC8AB7FD2F10E86300BC11A8 /* MapSearchResultCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MapSearchResultCell.h; sourceTree = "<group>"; };
+		CC8AB7FE2F10E87000BC11A8 /* MapSearchResultCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MapSearchResultCell.m; sourceTree = "<group>"; };
+		CC8AB7FF2F10E87000BC11A8 /* MapSearchResultItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MapSearchResultItem.h; sourceTree = "<group>"; };
+		CC8AB8002F10E87000BC11A8 /* MapSearchResultItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MapSearchResultItem.m; sourceTree = "<group>"; };
+		CC8AB8012F10E87000BC11A8 /* MapSearchResultViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MapSearchResultViewController.h; sourceTree = "<group>"; };
+		CC8AB8022F10E87000BC11A8 /* MapSearchResultViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MapSearchResultViewController.m; sourceTree = "<group>"; };
+		CC8AB80D2F12409C00BC11A8 /* MapLocationDetailView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MapLocationDetailView.h; sourceTree = "<group>"; };
+		CC8AB80E2F12409C00BC11A8 /* MapLocationDetailView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MapLocationDetailView.m; sourceTree = "<group>"; };
+		CC8AB80F2F12409C00BC11A8 /* MapLocationImageCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MapLocationImageCell.h; sourceTree = "<group>"; };
+		CC8AB8102F12409C00BC11A8 /* MapLocationImageCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MapLocationImageCell.m; sourceTree = "<group>"; };
+		CC8AB8132F139D6A00BC11A8 /* RelatedPhotosCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RelatedPhotosCell.h; sourceTree = "<group>"; };
+		CC8AB8142F139D6A00BC11A8 /* RelatedPhotosCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RelatedPhotosCell.m; sourceTree = "<group>"; };
+		CC8AB8152F139D6A00BC11A8 /* RelatedPhotosViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RelatedPhotosViewController.h; sourceTree = "<group>"; };
+		CC8AB8162F139D6A00BC11A8 /* RelatedPhotosViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RelatedPhotosViewController.m; sourceTree = "<group>"; };
 		CC9959192EE2D60900456825 /* WeatherHourData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WeatherHourData.h; sourceTree = "<group>"; };
 		CC99591A2EE2D60900456825 /* WeatherHourData.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WeatherHourData.m; sourceTree = "<group>"; };
 		CC99591D2EE65EF800456825 /* MapNavigationController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MapNavigationController.h; sourceTree = "<group>"; };
@@ -999,6 +1017,7 @@
 		CC8253A52ED440E6006BCE2A /* Explore */ = {
 			isa = PBXGroup;
 			children = (
+				CC8AB7FC2F10E82F00BC11A8 /* MapSearchResultView */,
 				CC57C9482EE28692006A38C3 /* Model */,
 				CC82543F2ED6F255006BCE2A /* View */,
 				CC8253A62ED44100006BCE2A /* ExploreViewController.h */,
@@ -1151,8 +1170,6 @@
 		CC8254542ED92CC0006BCE2A /* View */ = {
 			isa = PBXGroup;
 			children = (
-				CC8254552ED92CD9006BCE2A /* MineViewTableViewCell.h */,
-				CC8254562ED92CD9006BCE2A /* MineViewTableViewCell.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1241,6 +1258,35 @@
 				CC82548F2EDEB6B7006BCE2A /* ShoppingDetailsCell.m */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		CC8AB7FC2F10E82F00BC11A8 /* MapSearchResultView */ = {
+			isa = PBXGroup;
+			children = (
+				CC8AB80C2F12406E00BC11A8 /* MapLocationDetailView */,
+				CC8AB7FD2F10E86300BC11A8 /* MapSearchResultCell.h */,
+				CC8AB7FE2F10E87000BC11A8 /* MapSearchResultCell.m */,
+				CC8AB7FF2F10E87000BC11A8 /* MapSearchResultItem.h */,
+				CC8AB8002F10E87000BC11A8 /* MapSearchResultItem.m */,
+				CC8AB8012F10E87000BC11A8 /* MapSearchResultViewController.h */,
+				CC8AB8022F10E87000BC11A8 /* MapSearchResultViewController.m */,
+			);
+			path = MapSearchResultView;
+			sourceTree = "<group>";
+		};
+		CC8AB80C2F12406E00BC11A8 /* MapLocationDetailView */ = {
+			isa = PBXGroup;
+			children = (
+				CC8AB80D2F12409C00BC11A8 /* MapLocationDetailView.h */,
+				CC8AB80E2F12409C00BC11A8 /* MapLocationDetailView.m */,
+				CC8AB80F2F12409C00BC11A8 /* MapLocationImageCell.h */,
+				CC8AB8102F12409C00BC11A8 /* MapLocationImageCell.m */,
+				CC8AB8152F139D6A00BC11A8 /* RelatedPhotosViewController.h */,
+				CC8AB8162F139D6A00BC11A8 /* RelatedPhotosViewController.m */,
+				CC8AB8132F139D6A00BC11A8 /* RelatedPhotosCell.h */,
+				CC8AB8142F139D6A00BC11A8 /* RelatedPhotosCell.m */,
+			);
+			path = MapLocationDetailView;
 			sourceTree = "<group>";
 		};
 		CC9959182EE2D5F000456825 /* Model */ = {
@@ -1701,6 +1747,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				CC995A592EF1429000456825 /* LFPhotoPreViewColletionCell.m in Sources */,
+				CC8AB8172F139D6A00BC11A8 /* RelatedPhotosViewController.m in Sources */,
+				CC8AB8182F139D6A00BC11A8 /* RelatedPhotosCell.m in Sources */,
 				CC754F202EFD34C2002DB1FA /* PhotoLocationManager.m in Sources */,
 				CC754F012EFBD395002DB1FA /* NSArray+Check.m in Sources */,
 				CC57C94B2EE286AB006A38C3 /* WeatherModel.m in Sources */,
@@ -1727,7 +1775,6 @@
 				CC8253B02ED4414D006BCE2A /* MineViewController.m in Sources */,
 				CC8AB7F22F108D7600BC11A8 /* MapSearchView.m in Sources */,
 				CC99591B2EE2D60900456825 /* WeatherHourData.m in Sources */,
-				CC8254572ED92CD9006BCE2A /* MineViewTableViewCell.m in Sources */,
 				CC8253932ED43A8A006BCE2A /* CustomNavController.m in Sources */,
 				CC676BE02F0BA9B300574EF8 /* UITextView+EmojiKeyboard.m in Sources */,
 				CC99591F2EE65EF800456825 /* MapNavigationController.m in Sources */,
@@ -1750,6 +1797,8 @@
 				CC995A2A2EF1297200456825 /* LFResultImage.m in Sources */,
 				CC5AE6152F050F460004B0A5 /* ItineraryViewController.m in Sources */,
 				CC995A2B2EF1297200456825 /* LFAlbumTitleView.m in Sources */,
+				CC8AB8112F12409C00BC11A8 /* MapLocationImageCell.m in Sources */,
+				CC8AB8122F12409C00BC11A8 /* MapLocationDetailView.m in Sources */,
 				CC995A2C2EF1297200456825 /* LFAssetManager+Simple.m in Sources */,
 				CC5AE6282F0A65E40004B0A5 /* AddCommentTableViewCell.m in Sources */,
 				CC995A2D2EF1297200456825 /* LFLayoutPickerController.m in Sources */,
@@ -1758,6 +1807,9 @@
 				CC995A302EF1297200456825 /* LFVideoEditManager.m in Sources */,
 				CC995A312EF1297200456825 /* LFAssetCell.m in Sources */,
 				CC995A322EF1297200456825 /* LFAlbum+SmartAlbum.m in Sources */,
+				CC8AB8032F10E87000BC11A8 /* MapSearchResultItem.m in Sources */,
+				CC8AB8042F10E87000BC11A8 /* MapSearchResultCell.m in Sources */,
+				CC8AB8052F10E87000BC11A8 /* MapSearchResultViewController.m in Sources */,
 				CC995A332EF1297200456825 /* LFPreviewBar.m in Sources */,
 				CC995A562EF13F6700456825 /* LFPhotoPreViewColletion.m in Sources */,
 				CC5AE6112F04FD570004B0A5 /* AFNetworkingErrorHelper.m in Sources */,

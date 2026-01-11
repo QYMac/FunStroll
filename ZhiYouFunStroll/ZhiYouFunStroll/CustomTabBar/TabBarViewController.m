@@ -78,7 +78,7 @@
     [self setChildVC:ShoppingVc title:@"行程" image:@"xingCheng_on" selectedImage:@"xingCheng_off"];
     // 我的
     MineViewController *MineVc = [[MineViewController alloc] init];
-    [self setChildVC:MineVc title:@"行程" image:@"my_on" selectedImage:@"my_off"];
+    [self setChildVC:MineVc title:@"我的" image:@"my_on" selectedImage:@"my_off"];
     
 }
 

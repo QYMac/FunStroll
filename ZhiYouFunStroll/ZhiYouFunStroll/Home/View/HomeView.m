@@ -191,7 +191,7 @@
     NSDictionary *dict = [self.dataList objectAtIndexCheck:indexPath.row];
     HomeModel *model = [HomeModel yy_modelWithDictionary:dict];
     NSString *titleText = [CheckTool replaceNullValue:model.title];
-    NSInteger num = [LabelSpacing needLinesWithWidth:itemWidth textStr:titleText font:12];
+    NSInteger num = [LabelSpacing needLinesWithWidth:itemWidth textStr:titleText font:14];
     if (num >= 2) {
         num = 2;
     }

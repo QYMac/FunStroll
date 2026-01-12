@@ -248,7 +248,7 @@
         _likeBut.selected = NO;
         [_likeBut addTarget:self action:@selector(likeButClick:) forControlEvents:UIControlEventTouchUpInside];
         _likeBut.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
-        [_likeBut setImagePositionWithType:SSImagePositionTypeLeft spacing:5];
+        [_likeBut setImagePositionWithType:SSImagePositionTypeLeft spacing:2];
         
     }
     return _likeBut;
@@ -263,7 +263,7 @@
         _collectionBut.titleLabel.font = [UIFont systemFontOfSize:10];
         _collectionBut.selected = NO;
         [_collectionBut addTarget:self action:@selector(collectionButClick:) forControlEvents:UIControlEventTouchUpInside];
-        [_collectionBut setImagePositionWithType:SSImagePositionTypeLeft spacing:5];;
+        [_collectionBut setImagePositionWithType:SSImagePositionTypeLeft spacing:2];;
     }
     return _collectionBut;
 }

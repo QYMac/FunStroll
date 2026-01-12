@@ -119,6 +119,12 @@
 		CC8AB8122F12409C00BC11A8 /* MapLocationDetailView.m in Sources */ = {isa = PBXBuildFile; fileRef = CC8AB80E2F12409C00BC11A8 /* MapLocationDetailView.m */; };
 		CC8AB8172F139D6A00BC11A8 /* RelatedPhotosViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CC8AB8162F139D6A00BC11A8 /* RelatedPhotosViewController.m */; };
 		CC8AB8182F139D6A00BC11A8 /* RelatedPhotosCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CC8AB8142F139D6A00BC11A8 /* RelatedPhotosCell.m */; };
+		CC8AB8342F13EEDC00BC11A8 /* MineNoteCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CC8AB82F2F13EEDC00BC11A8 /* MineNoteCell.m */; };
+		CC8AB8352F13EEDC00BC11A8 /* MineView.m in Sources */ = {isa = PBXBuildFile; fileRef = CC8AB8332F13EEDC00BC11A8 /* MineView.m */; };
+		CC8AB8372F13EEDC00BC11A8 /* MineHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = CC8AB82D2F13EEDC00BC11A8 /* MineHeaderView.m */; };
+		CC8AB8382F13EEDC00BC11A8 /* MineTabBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = CC8AB8312F13EEDC00BC11A8 /* MineTabBarView.m */; };
+		CC8AB8392F13EEDC00BC11A8 /* MineDraftCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CC8AB82B2F13EEDC00BC11A8 /* MineDraftCell.m */; };
+		CC8AB83C2F1498B800BC11A8 /* CollectionListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CC8AB83B2F1498B800BC11A8 /* CollectionListCell.m */; };
 		CC99591B2EE2D60900456825 /* WeatherHourData.m in Sources */ = {isa = PBXBuildFile; fileRef = CC99591A2EE2D60900456825 /* WeatherHourData.m */; };
 		CC99591F2EE65EF800456825 /* MapNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = CC99591E2EE65EF800456825 /* MapNavigationController.m */; };
 		CC9959232EE66AF600456825 /* AMapNavigationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CC9959222EE66AF600456825 /* AMapNavigationManager.m */; };
@@ -408,6 +414,18 @@
 		CC8AB8142F139D6A00BC11A8 /* RelatedPhotosCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RelatedPhotosCell.m; sourceTree = "<group>"; };
 		CC8AB8152F139D6A00BC11A8 /* RelatedPhotosViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RelatedPhotosViewController.h; sourceTree = "<group>"; };
 		CC8AB8162F139D6A00BC11A8 /* RelatedPhotosViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RelatedPhotosViewController.m; sourceTree = "<group>"; };
+		CC8AB82A2F13EEDC00BC11A8 /* MineDraftCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MineDraftCell.h; sourceTree = "<group>"; };
+		CC8AB82B2F13EEDC00BC11A8 /* MineDraftCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MineDraftCell.m; sourceTree = "<group>"; };
+		CC8AB82C2F13EEDC00BC11A8 /* MineHeaderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MineHeaderView.h; sourceTree = "<group>"; };
+		CC8AB82D2F13EEDC00BC11A8 /* MineHeaderView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MineHeaderView.m; sourceTree = "<group>"; };
+		CC8AB82E2F13EEDC00BC11A8 /* MineNoteCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MineNoteCell.h; sourceTree = "<group>"; };
+		CC8AB82F2F13EEDC00BC11A8 /* MineNoteCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MineNoteCell.m; sourceTree = "<group>"; };
+		CC8AB8302F13EEDC00BC11A8 /* MineTabBarView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MineTabBarView.h; sourceTree = "<group>"; };
+		CC8AB8312F13EEDC00BC11A8 /* MineTabBarView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MineTabBarView.m; sourceTree = "<group>"; };
+		CC8AB8322F13EEDC00BC11A8 /* MineView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MineView.h; sourceTree = "<group>"; };
+		CC8AB8332F13EEDC00BC11A8 /* MineView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MineView.m; sourceTree = "<group>"; };
+		CC8AB83A2F1498B800BC11A8 /* CollectionListCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CollectionListCell.h; sourceTree = "<group>"; };
+		CC8AB83B2F1498B800BC11A8 /* CollectionListCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CollectionListCell.m; sourceTree = "<group>"; };
 		CC9959192EE2D60900456825 /* WeatherHourData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WeatherHourData.h; sourceTree = "<group>"; };
 		CC99591A2EE2D60900456825 /* WeatherHourData.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WeatherHourData.m; sourceTree = "<group>"; };
 		CC99591D2EE65EF800456825 /* MapNavigationController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MapNavigationController.h; sourceTree = "<group>"; };
@@ -1170,6 +1188,18 @@
 		CC8254542ED92CC0006BCE2A /* View */ = {
 			isa = PBXGroup;
 			children = (
+				CC8AB82A2F13EEDC00BC11A8 /* MineDraftCell.h */,
+				CC8AB82B2F13EEDC00BC11A8 /* MineDraftCell.m */,
+				CC8AB82C2F13EEDC00BC11A8 /* MineHeaderView.h */,
+				CC8AB82D2F13EEDC00BC11A8 /* MineHeaderView.m */,
+				CC8AB82E2F13EEDC00BC11A8 /* MineNoteCell.h */,
+				CC8AB82F2F13EEDC00BC11A8 /* MineNoteCell.m */,
+				CC8AB83A2F1498B800BC11A8 /* CollectionListCell.h */,
+				CC8AB83B2F1498B800BC11A8 /* CollectionListCell.m */,
+				CC8AB8302F13EEDC00BC11A8 /* MineTabBarView.h */,
+				CC8AB8312F13EEDC00BC11A8 /* MineTabBarView.m */,
+				CC8AB8322F13EEDC00BC11A8 /* MineView.h */,
+				CC8AB8332F13EEDC00BC11A8 /* MineView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1833,6 +1863,11 @@
 				CC995A432EF1297200456825 /* LFWeakProxy.m in Sources */,
 				CC5AE60B2F03BF8E0004B0A5 /* LocationAddressHelper.m in Sources */,
 				CC995A442EF1297200456825 /* LFAsset.m in Sources */,
+				CC8AB8342F13EEDC00BC11A8 /* MineNoteCell.m in Sources */,
+				CC8AB8352F13EEDC00BC11A8 /* MineView.m in Sources */,
+				CC8AB8372F13EEDC00BC11A8 /* MineHeaderView.m in Sources */,
+				CC8AB8382F13EEDC00BC11A8 /* MineTabBarView.m in Sources */,
+				CC8AB8392F13EEDC00BC11A8 /* MineDraftCell.m in Sources */,
 				CCDE013C2F0E411700C4C9D4 /* ViewControllerTransitionHelper.m in Sources */,
 				CC995A452EF1297200456825 /* UIScrollView+LFDragAutoScroll.m in Sources */,
 				CC995A462EF1297200456825 /* LFToGIF.m in Sources */,
@@ -1860,6 +1895,7 @@
 				CC5AE5DD2F025C080004B0A5 /* DeviceInfoHelper.m in Sources */,
 				CC9959AE2EEBE31900456825 /* NSString+TimeFormatter.m in Sources */,
 				CC8253AC2ED4411C006BCE2A /* ShoppingViewController.m in Sources */,
+				CC8AB83C2F1498B800BC11A8 /* CollectionListCell.m in Sources */,
 				CC57C9382EE11554006A38C3 /* FMDBManager.m in Sources */,
 				CC57C9392EE11554006A38C3 /* FMDBTool.m in Sources */,
 				CC8253992ED43C8F006BCE2A /* FunStrollTabBar.m in Sources */,

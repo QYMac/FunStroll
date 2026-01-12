@@ -10,9 +10,11 @@
 #import "MineTabBarView.h"
 #import "MineNoteCell.h"
 #import "MineDraftCell.h"
+#import "MineFavoriteCell.h"
 
 static NSString *const kMineNoteCellIdentifier = @"MineNoteCell";
 static NSString *const kMineDraftCellIdentifier = @"MineDraftCell";
+static NSString *const kMineFavoriteCellIdentifier = @"MineFavoriteCell";
 static NSString *const kMineHeaderIdentifier = @"MineHeader";
 
 @interface MineView () <UICollectionViewDelegate, UICollectionViewDataSource, GeneralWaterfallFlowLayoutDelegate>
@@ -192,6 +194,9 @@ static NSString *const kMineHeaderIdentifier = @"MineHeader";
             
             // 只在笔记Tab显示草稿
             weakSelf.showDraft = (tabType == MineTabTypeNotes && weakSelf.draftCount > 0);
+            
+            // 切换Tab时重新布局 (因为列数可能变化)
+            [weakSelf.collectionView.collectionViewLayout invalidateLayout];
             [weakSelf.collectionView reloadData];
             
             if (weakSelf.tabChangedBlock) {
@@ -234,10 +239,36 @@ static NSString *const kMineHeaderIdentifier = @"MineHeader";
         return cell;
     }
     
-    // 普通笔记Cell
+    NSInteger dataIndex = self.showDraft ? indexPath.item - 1 : indexPath.item;
+    
+    // 收藏Tab使用列表样式Cell
+    if (self.currentTabType == MineTabTypeFavorites) {
+        MineFavoriteCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kMineFavoriteCellIdentifier forIndexPath:indexPath];
+        
+        if (dataIndex < self.dataList.count) {
+            NSDictionary *dict = [self.dataList objectAtIndexCheck:dataIndex];
+            
+            NSString *coverUrl = [CheckTool replaceNullValue:dict[@"coverImage"]];
+            NSString *title = [CheckTool replaceNullValue:dict[@"title"]];
+            NSString *subtitle = [CheckTool replaceNullValue:dict[@"subtitle"]];
+            if (subtitle.length == 0) {
+                subtitle = [CheckTool replaceNullValue:dict[@"address"]];
+            }
+            if (subtitle.length == 0) {
+                subtitle = @"现代国际会展中心";  // 默认副标题
+            }
+            
+            [cell configureWithCoverUrl:coverUrl
+                                  title:title
+                               subtitle:subtitle];
+        }
+        
+        return cell;
+    }
+    
+    // 普通笔记Cell (笔记/喜欢Tab)
     MineNoteCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kMineNoteCellIdentifier forIndexPath:indexPath];
     
-    NSInteger dataIndex = self.showDraft ? indexPath.item - 1 : indexPath.item;
     if (dataIndex < self.dataList.count) {
         NSDictionary *dict = [self.dataList objectAtIndexCheck:dataIndex];
         
@@ -286,6 +317,11 @@ static NSString *const kMineHeaderIdentifier = @"MineHeader";
         return 90;  // 草稿Cell高度
     }
     
+    // 收藏Tab - 列表样式Cell
+    if (self.currentTabType == MineTabTypeFavorites) {
+        return 90;  // 收藏Cell高度
+    }
+    
     // 普通笔记Cell
     NSInteger dataIndex = self.showDraft ? indexPath.item - 1 : indexPath.item;
     if (dataIndex < self.dataList.count) {
@@ -304,6 +340,10 @@ static NSString *const kMineHeaderIdentifier = @"MineHeader";
 
 - (NSInteger)waterflowLayout:(GeneralWaterfallFlowLayout *)waterflowLayout
       columnsInCollectionView:(UICollectionView *)collectionView {
+    // 收藏Tab使用1列布局
+    if (self.currentTabType == MineTabTypeFavorites) {
+        return 1;
+    }
     return 2;
 }
 
@@ -364,6 +404,7 @@ linesMarginForItemAtIndexPath:(NSIndexPath *)indexPath {
         // 注册Cell和Header
         [_collectionView registerClass:[MineNoteCell class] forCellWithReuseIdentifier:kMineNoteCellIdentifier];
         [_collectionView registerClass:[MineDraftCell class] forCellWithReuseIdentifier:kMineDraftCellIdentifier];
+        [_collectionView registerClass:[MineFavoriteCell class] forCellWithReuseIdentifier:kMineFavoriteCellIdentifier];
         [_collectionView registerClass:[MineHeaderView class]
             forSupplementaryViewOfKind:UICollectionElementKindSectionHeader
                    withReuseIdentifier:kMineHeaderIdentifier];

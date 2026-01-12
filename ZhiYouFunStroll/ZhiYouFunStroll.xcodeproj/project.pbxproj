@@ -124,7 +124,7 @@
 		CC8AB8372F13EEDC00BC11A8 /* MineHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = CC8AB82D2F13EEDC00BC11A8 /* MineHeaderView.m */; };
 		CC8AB8382F13EEDC00BC11A8 /* MineTabBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = CC8AB8312F13EEDC00BC11A8 /* MineTabBarView.m */; };
 		CC8AB8392F13EEDC00BC11A8 /* MineDraftCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CC8AB82B2F13EEDC00BC11A8 /* MineDraftCell.m */; };
-		CC8AB83C2F1498B800BC11A8 /* CollectionListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CC8AB83B2F1498B800BC11A8 /* CollectionListCell.m */; };
+		CC8AB83F2F149B6E00BC11A8 /* MineFavoriteCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CC8AB83E2F149B6E00BC11A8 /* MineFavoriteCell.m */; };
 		CC99591B2EE2D60900456825 /* WeatherHourData.m in Sources */ = {isa = PBXBuildFile; fileRef = CC99591A2EE2D60900456825 /* WeatherHourData.m */; };
 		CC99591F2EE65EF800456825 /* MapNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = CC99591E2EE65EF800456825 /* MapNavigationController.m */; };
 		CC9959232EE66AF600456825 /* AMapNavigationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CC9959222EE66AF600456825 /* AMapNavigationManager.m */; };
@@ -424,8 +424,8 @@
 		CC8AB8312F13EEDC00BC11A8 /* MineTabBarView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MineTabBarView.m; sourceTree = "<group>"; };
 		CC8AB8322F13EEDC00BC11A8 /* MineView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MineView.h; sourceTree = "<group>"; };
 		CC8AB8332F13EEDC00BC11A8 /* MineView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MineView.m; sourceTree = "<group>"; };
-		CC8AB83A2F1498B800BC11A8 /* CollectionListCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CollectionListCell.h; sourceTree = "<group>"; };
-		CC8AB83B2F1498B800BC11A8 /* CollectionListCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CollectionListCell.m; sourceTree = "<group>"; };
+		CC8AB83D2F149B6E00BC11A8 /* MineFavoriteCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MineFavoriteCell.h; sourceTree = "<group>"; };
+		CC8AB83E2F149B6E00BC11A8 /* MineFavoriteCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MineFavoriteCell.m; sourceTree = "<group>"; };
 		CC9959192EE2D60900456825 /* WeatherHourData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WeatherHourData.h; sourceTree = "<group>"; };
 		CC99591A2EE2D60900456825 /* WeatherHourData.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WeatherHourData.m; sourceTree = "<group>"; };
 		CC99591D2EE65EF800456825 /* MapNavigationController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MapNavigationController.h; sourceTree = "<group>"; };
@@ -1194,8 +1194,8 @@
 				CC8AB82D2F13EEDC00BC11A8 /* MineHeaderView.m */,
 				CC8AB82E2F13EEDC00BC11A8 /* MineNoteCell.h */,
 				CC8AB82F2F13EEDC00BC11A8 /* MineNoteCell.m */,
-				CC8AB83A2F1498B800BC11A8 /* CollectionListCell.h */,
-				CC8AB83B2F1498B800BC11A8 /* CollectionListCell.m */,
+				CC8AB83D2F149B6E00BC11A8 /* MineFavoriteCell.h */,
+				CC8AB83E2F149B6E00BC11A8 /* MineFavoriteCell.m */,
 				CC8AB8302F13EEDC00BC11A8 /* MineTabBarView.h */,
 				CC8AB8312F13EEDC00BC11A8 /* MineTabBarView.m */,
 				CC8AB8322F13EEDC00BC11A8 /* MineView.h */,
@@ -1798,6 +1798,7 @@
 				CC57C93D2EE11777006A38C3 /* PublishListView.m in Sources */,
 				CC754EE92EF3F1F1002DB1FA /* MBProgressHUD+NH.m in Sources */,
 				CC754EEA2EF3F1F1002DB1FA /* UIView+MBProgressHUD.m in Sources */,
+				CC8AB83F2F149B6E00BC11A8 /* MineFavoriteCell.m in Sources */,
 				CC2F1CDD2EF2A399007E8992 /* AlicomFusionAuthTokenManager.m in Sources */,
 				CC5AE5E32F036A4E0004B0A5 /* HomeHeadView.m in Sources */,
 				CC82543E2ED6E9E3006BCE2A /* SetShadow.m in Sources */,
@@ -1895,7 +1896,6 @@
 				CC5AE5DD2F025C080004B0A5 /* DeviceInfoHelper.m in Sources */,
 				CC9959AE2EEBE31900456825 /* NSString+TimeFormatter.m in Sources */,
 				CC8253AC2ED4411C006BCE2A /* ShoppingViewController.m in Sources */,
-				CC8AB83C2F1498B800BC11A8 /* CollectionListCell.m in Sources */,
 				CC57C9382EE11554006A38C3 /* FMDBManager.m in Sources */,
 				CC57C9392EE11554006A38C3 /* FMDBTool.m in Sources */,
 				CC8253992ED43C8F006BCE2A /* FunStrollTabBar.m in Sources */,

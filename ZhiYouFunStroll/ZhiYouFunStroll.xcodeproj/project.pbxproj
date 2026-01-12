@@ -125,6 +125,10 @@
 		CC8AB8382F13EEDC00BC11A8 /* MineTabBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = CC8AB8312F13EEDC00BC11A8 /* MineTabBarView.m */; };
 		CC8AB8392F13EEDC00BC11A8 /* MineDraftCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CC8AB82B2F13EEDC00BC11A8 /* MineDraftCell.m */; };
 		CC8AB83F2F149B6E00BC11A8 /* MineFavoriteCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CC8AB83E2F149B6E00BC11A8 /* MineFavoriteCell.m */; };
+		CC8AB8432F14C2EE00BC11A8 /* ProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CC8AB8412F14C2EE00BC11A8 /* ProfileViewController.m */; };
+		CC8AB8492F14C73D00BC11A8 /* ProfileHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = CC8AB8462F14C73D00BC11A8 /* ProfileHeaderView.m */; };
+		CC8AB84A2F14C73D00BC11A8 /* ProfileInfoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CC8AB8482F14C73D00BC11A8 /* ProfileInfoCell.m */; };
+		CC8AB84E2F14CCD200BC11A8 /* EditNicknameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CC8AB84C2F14CCD200BC11A8 /* EditNicknameViewController.m */; };
 		CC99591B2EE2D60900456825 /* WeatherHourData.m in Sources */ = {isa = PBXBuildFile; fileRef = CC99591A2EE2D60900456825 /* WeatherHourData.m */; };
 		CC99591F2EE65EF800456825 /* MapNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = CC99591E2EE65EF800456825 /* MapNavigationController.m */; };
 		CC9959232EE66AF600456825 /* AMapNavigationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CC9959222EE66AF600456825 /* AMapNavigationManager.m */; };
@@ -426,6 +430,14 @@
 		CC8AB8332F13EEDC00BC11A8 /* MineView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MineView.m; sourceTree = "<group>"; };
 		CC8AB83D2F149B6E00BC11A8 /* MineFavoriteCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MineFavoriteCell.h; sourceTree = "<group>"; };
 		CC8AB83E2F149B6E00BC11A8 /* MineFavoriteCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MineFavoriteCell.m; sourceTree = "<group>"; };
+		CC8AB8402F14C2EE00BC11A8 /* ProfileViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ProfileViewController.h; sourceTree = "<group>"; };
+		CC8AB8412F14C2EE00BC11A8 /* ProfileViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ProfileViewController.m; sourceTree = "<group>"; };
+		CC8AB8452F14C73D00BC11A8 /* ProfileHeaderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ProfileHeaderView.h; sourceTree = "<group>"; };
+		CC8AB8462F14C73D00BC11A8 /* ProfileHeaderView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ProfileHeaderView.m; sourceTree = "<group>"; };
+		CC8AB8472F14C73D00BC11A8 /* ProfileInfoCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ProfileInfoCell.h; sourceTree = "<group>"; };
+		CC8AB8482F14C73D00BC11A8 /* ProfileInfoCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ProfileInfoCell.m; sourceTree = "<group>"; };
+		CC8AB84B2F14CCD200BC11A8 /* EditNicknameViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EditNicknameViewController.h; sourceTree = "<group>"; };
+		CC8AB84C2F14CCD200BC11A8 /* EditNicknameViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EditNicknameViewController.m; sourceTree = "<group>"; };
 		CC9959192EE2D60900456825 /* WeatherHourData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WeatherHourData.h; sourceTree = "<group>"; };
 		CC99591A2EE2D60900456825 /* WeatherHourData.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WeatherHourData.m; sourceTree = "<group>"; };
 		CC99591D2EE65EF800456825 /* MapNavigationController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MapNavigationController.h; sourceTree = "<group>"; };
@@ -1058,6 +1070,7 @@
 		CC8253AD2ED44122006BCE2A /* Mine */ = {
 			isa = PBXGroup;
 			children = (
+				CC8AB84D2F14CCD200BC11A8 /* Profile */,
 				CC2F1CD12EF28705007E8992 /* Model */,
 				CC8254542ED92CC0006BCE2A /* View */,
 				CC8253AE2ED4414D006BCE2A /* MineViewController.h */,
@@ -1188,6 +1201,10 @@
 		CC8254542ED92CC0006BCE2A /* View */ = {
 			isa = PBXGroup;
 			children = (
+				CC8AB8452F14C73D00BC11A8 /* ProfileHeaderView.h */,
+				CC8AB8462F14C73D00BC11A8 /* ProfileHeaderView.m */,
+				CC8AB8472F14C73D00BC11A8 /* ProfileInfoCell.h */,
+				CC8AB8482F14C73D00BC11A8 /* ProfileInfoCell.m */,
 				CC8AB82A2F13EEDC00BC11A8 /* MineDraftCell.h */,
 				CC8AB82B2F13EEDC00BC11A8 /* MineDraftCell.m */,
 				CC8AB82C2F13EEDC00BC11A8 /* MineHeaderView.h */,
@@ -1317,6 +1334,17 @@
 				CC8AB8142F139D6A00BC11A8 /* RelatedPhotosCell.m */,
 			);
 			path = MapLocationDetailView;
+			sourceTree = "<group>";
+		};
+		CC8AB84D2F14CCD200BC11A8 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				CC8AB8402F14C2EE00BC11A8 /* ProfileViewController.h */,
+				CC8AB8412F14C2EE00BC11A8 /* ProfileViewController.m */,
+				CC8AB84B2F14CCD200BC11A8 /* EditNicknameViewController.h */,
+				CC8AB84C2F14CCD200BC11A8 /* EditNicknameViewController.m */,
+			);
+			path = Profile;
 			sourceTree = "<group>";
 		};
 		CC9959182EE2D5F000456825 /* Model */ = {
@@ -1822,6 +1850,8 @@
 				CC8253EA2ED6A060006BCE2A /* LabelSpacing.m in Sources */,
 				CC82544F2ED821AD006BCE2A /* ShoppingCollectionViewCell.m in Sources */,
 				CC82548C2EDEB699006BCE2A /* ShoppingDetailsController.m in Sources */,
+				CC8AB8492F14C73D00BC11A8 /* ProfileHeaderView.m in Sources */,
+				CC8AB84A2F14C73D00BC11A8 /* ProfileInfoCell.m in Sources */,
 				CC8253E22ED69234006BCE2A /* TopLeftLabel.m in Sources */,
 				CC995A282EF1297200456825 /* LFPreviewBarCell.m in Sources */,
 				CC995A292EF1297200456825 /* LFPhotoPreviewController.m in Sources */,
@@ -1829,6 +1859,7 @@
 				CC5AE6152F050F460004B0A5 /* ItineraryViewController.m in Sources */,
 				CC995A2B2EF1297200456825 /* LFAlbumTitleView.m in Sources */,
 				CC8AB8112F12409C00BC11A8 /* MapLocationImageCell.m in Sources */,
+				CC8AB8432F14C2EE00BC11A8 /* ProfileViewController.m in Sources */,
 				CC8AB8122F12409C00BC11A8 /* MapLocationDetailView.m in Sources */,
 				CC995A2C2EF1297200456825 /* LFAssetManager+Simple.m in Sources */,
 				CC5AE6282F0A65E40004B0A5 /* AddCommentTableViewCell.m in Sources */,
@@ -1839,6 +1870,7 @@
 				CC995A312EF1297200456825 /* LFAssetCell.m in Sources */,
 				CC995A322EF1297200456825 /* LFAlbum+SmartAlbum.m in Sources */,
 				CC8AB8032F10E87000BC11A8 /* MapSearchResultItem.m in Sources */,
+				CC8AB84E2F14CCD200BC11A8 /* EditNicknameViewController.m in Sources */,
 				CC8AB8042F10E87000BC11A8 /* MapSearchResultCell.m in Sources */,
 				CC8AB8052F10E87000BC11A8 /* MapSearchResultViewController.m in Sources */,
 				CC995A332EF1297200456825 /* LFPreviewBar.m in Sources */,

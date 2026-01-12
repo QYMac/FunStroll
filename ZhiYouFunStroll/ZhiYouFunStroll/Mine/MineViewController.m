@@ -7,6 +7,7 @@
 
 #import "MineViewController.h"
 #import "MineView.h"
+#import "ProfileViewController.h"
 
 @interface MineViewController ()
 
@@ -43,7 +44,8 @@
     // 头像点击
     self.mineView.avatarClickBlock = ^{
         NSLog(@"头像点击");
-        // TODO: 跳转到个人资料编辑页面
+        ProfileViewController *profileVC = [[ProfileViewController alloc] init];
+        [weakSelf.navigationController pushViewController:profileVC animated:YES];
     };
     
     // 编辑简介

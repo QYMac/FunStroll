@@ -8,9 +8,9 @@
 #import "PublishNoteViewController.h"
 
 static const NSInteger kMaxTitleLength = 20;
-static const NSInteger kMaxContentLength = 120;
+static const NSInteger kMaxContentLength = 1000;
 
-@interface PublishNoteViewController () <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UITextFieldDelegate, UITextViewDelegate, TZImagePickerControllerDelegate>
+@interface PublishNoteViewController () <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UITextFieldDelegate, UITextViewDelegate, LFImagePickerControllerDelegate>
 
 @property (nonatomic, strong) UIScrollView *scrollView;
 @property (nonatomic, strong) UIView *contentView;
@@ -64,14 +64,23 @@ static const NSInteger kMaxContentLength = 120;
 }
 
 - (void)setupUI {
-    // 滚动视图
+    // 底部按钮（最先创建，其他元素依赖它的位置）
+    [self setupBottomButtons];
+    
+    // 可见性设置（在底部按钮上方）
+    [self setupVisibilitySection];
+    
+    // 话题（在可见性上方）
+    [self setupTopicSection];
+    
+    // 滚动视图（在话题上方）
     self.scrollView = [[UIScrollView alloc] init];
     self.scrollView.showsVerticalScrollIndicator = NO;
     self.scrollView.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
     [self.view addSubview:self.scrollView];
     [self.scrollView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.right.mas_equalTo(0);
-        make.bottom.mas_equalTo(-100);
+        make.bottom.mas_equalTo(self.topicButton.mas_top).offset(-15);
     }];
     
     // 内容视图
@@ -90,15 +99,6 @@ static const NSInteger kMaxContentLength = 120;
     
     // 正文输入
     [self setupContentSection];
-    
-    // 话题
-    [self setupTopicSection];
-    
-    // 可见性设置
-    [self setupVisibilitySection];
-    
-    // 底部按钮
-    [self setupBottomButtons];
 }
 
 #pragma mark - 图片选择区域
@@ -117,9 +117,14 @@ static const NSInteger kMaxContentLength = 120;
     [self.imageCollectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"ImageCell"];
     [self.imageCollectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"AddCell"];
     
+    // 添加长按手势用于拖拽排序
+    UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPressGesture:)];
+    longPress.minimumPressDuration = 0.3;
+    [self.imageCollectionView addGestureRecognizer:longPress];
+    
     [self.contentView addSubview:self.imageCollectionView];
     [self.imageCollectionView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(20);
+        make.top.mas_equalTo(0);
         make.left.right.mas_equalTo(0);
         make.height.mas_equalTo(90);
     }];
@@ -178,10 +183,10 @@ static const NSInteger kMaxContentLength = 120;
     self.contentTextView.textContainer.lineFragmentPadding = 0;
     [self.contentView addSubview:self.contentTextView];
     [self.contentTextView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.titleTextField.mas_bottom).offset(15);
+        make.top.mas_equalTo(self.titleTextField.mas_bottom).offset(14);
         make.left.mas_equalTo(15);
         make.right.mas_equalTo(-15);
-        make.height.mas_equalTo(200);
+        make.bottom.mas_equalTo(self.topicButton.mas_top).offset(-50);
     }];
     
     // 占位文字
@@ -205,6 +210,7 @@ static const NSInteger kMaxContentLength = 120;
     [self.contentCountLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.contentTextView.mas_bottom).offset(10);
         make.right.mas_equalTo(-15);
+        make.bottom.mas_equalTo(-10);
     }];
 }
 
@@ -219,9 +225,9 @@ static const NSInteger kMaxContentLength = 120;
     self.topicButton.layer.borderColor = RGB(220, 220, 220).CGColor;
     self.topicButton.contentEdgeInsets = UIEdgeInsetsMake(8, 15, 8, 15);
     [self.topicButton addTarget:self action:@selector(topicButtonClicked) forControlEvents:UIControlEventTouchUpInside];
-    [self.contentView addSubview:self.topicButton];
+    [self.view addSubview:self.topicButton];
     [self.topicButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.contentCountLabel.mas_bottom).offset(15);
+        make.bottom.mas_equalTo(self.visibilityView.mas_top).offset(-15);
         make.left.mas_equalTo(15);
         make.height.mas_equalTo(30);
     }];
@@ -231,12 +237,11 @@ static const NSInteger kMaxContentLength = 120;
 - (void)setupVisibilitySection {
     self.visibilityView = [[UIView alloc] init];
     self.visibilityView.backgroundColor = [UIColor clearColor];
-    [self.contentView addSubview:self.visibilityView];
+    [self.view addSubview:self.visibilityView];
     [self.visibilityView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.topicButton.mas_bottom).offset(20);
+        make.bottom.mas_equalTo(self.bottomView.mas_top);
         make.left.right.mas_equalTo(0);
         make.height.mas_equalTo(50);
-        make.bottom.mas_equalTo(0);
     }];
     
     // 顶部分割线
@@ -301,9 +306,9 @@ static const NSInteger kMaxContentLength = 120;
     // 存草稿按钮
     self.saveDraftButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.saveDraftButton setTitle:@" 存草稿" forState:UIControlStateNormal];
-    [self.saveDraftButton setTitleColor:RGB(51, 51, 51) forState:UIControlStateNormal];
+    [self.saveDraftButton setTitleColor:RGB(102, 102, 102) forState:UIControlStateNormal];
     [self.saveDraftButton setImage:[UIImage imageNamed:@"save_draft_icon"] forState:UIControlStateNormal];
-    self.saveDraftButton.titleLabel.font = [UIFont systemFontOfSize:14];
+    self.saveDraftButton.titleLabel.font = [UIFont systemFontOfSize:15];
     self.saveDraftButton.layer.cornerRadius = 22;
     self.saveDraftButton.layer.borderWidth = 1;
     self.saveDraftButton.layer.borderColor = RGB(220, 220, 220).CGColor;
@@ -319,9 +324,9 @@ static const NSInteger kMaxContentLength = 120;
     // 立即发布按钮
     self.publishButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.publishButton setTitle:@"立即发布" forState:UIControlStateNormal];
-    [self.publishButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    self.publishButton.titleLabel.font = [UIFont systemFontOfSize:16];
-    self.publishButton.backgroundColor = RGB(139, 195, 74);
+    [self.publishButton setTitleColor:RGB(51, 51, 51) forState:UIControlStateNormal];
+    self.publishButton.titleLabel.font = [UIFont systemFontOfSize:15];
+    self.publishButton.backgroundColor = RGB(145, 233, 80);
     self.publishButton.layer.cornerRadius = 22;
     [self.publishButton addTarget:self action:@selector(publishButtonClicked) forControlEvents:UIControlEventTouchUpInside];
     [self.bottomView addSubview:self.publishButton];
@@ -361,14 +366,14 @@ static const NSInteger kMaxContentLength = 120;
         indexLabel.text = [NSString stringWithFormat:@"%ld", (long)(indexPath.item + 1)];
         indexLabel.font = [UIFont boldSystemFontOfSize:10];
         indexLabel.textColor = [UIColor whiteColor];
-        indexLabel.backgroundColor = RGB(76, 175, 80);
+        indexLabel.backgroundColor = [UIColor colorWithRed:50/255.0 green:48/255.0 blue:48/255.0 alpha:0.6];
         indexLabel.textAlignment = NSTextAlignmentCenter;
-        indexLabel.layer.cornerRadius = 8;
+        indexLabel.layer.cornerRadius = 6;
         indexLabel.layer.masksToBounds = YES;
-        [cell.contentView addSubview:indexLabel];
+        [imageView addSubview:indexLabel];
         [indexLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.top.mas_equalTo(5);
-            make.width.height.mas_equalTo(16);
+            make.left.top.mas_equalTo(-2.5);
+            make.width.height.mas_equalTo(18);
         }];
         
         return cell;
@@ -381,31 +386,11 @@ static const NSInteger kMaxContentLength = 120;
             [subview removeFromSuperview];
         }
         
-        // 虚线边框容器
-        UIView *addView = [[UIView alloc] initWithFrame:cell.contentView.bounds];
-        addView.backgroundColor = [UIColor clearColor];
-        [cell.contentView addSubview:addView];
-        
-        // 添加虚线边框
-        CAShapeLayer *borderLayer = [CAShapeLayer layer];
-        borderLayer.strokeColor = RGB(200, 200, 200).CGColor;
-        borderLayer.fillColor = nil;
-        borderLayer.lineDashPattern = @[@4, @2];
-        borderLayer.lineWidth = 1;
-        borderLayer.frame = addView.bounds;
-        borderLayer.path = [UIBezierPath bezierPathWithRoundedRect:addView.bounds cornerRadius:4].CGPath;
-        [addView.layer addSublayer:borderLayer];
-        
-        // 加号
-        UILabel *plusLabel = [[UILabel alloc] init];
-        plusLabel.text = @"+";
-        plusLabel.font = [UIFont systemFontOfSize:30];
-        plusLabel.textColor = RGB(180, 180, 180);
-        plusLabel.textAlignment = NSTextAlignmentCenter;
-        [addView addSubview:plusLabel];
-        [plusLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.center.mas_equalTo(addView);
-        }];
+        // 添加图片
+        UIImageView *addImageView = [[UIImageView alloc] initWithFrame:cell.contentView.bounds];
+        addImageView.image = [UIImage imageNamed:@"addImage_p"];
+        addImageView.contentMode = UIViewContentModeScaleAspectFit;
+        [cell.contentView addSubview:addImageView];
         
         return cell;
     }
@@ -422,6 +407,67 @@ static const NSInteger kMaxContentLength = 120;
         // 点击添加按钮
         [self selectImages];
     }
+}
+
+#pragma mark - 拖拽排序
+- (void)handleLongPressGesture:(UILongPressGestureRecognizer *)gesture {
+    CGPoint point = [gesture locationInView:self.imageCollectionView];
+    
+    switch (gesture.state) {
+        case UIGestureRecognizerStateBegan: {
+            NSIndexPath *indexPath = [self.imageCollectionView indexPathForItemAtPoint:point];
+            // 只允许拖拽已选择的图片，不能拖拽添加按钮
+            if (indexPath && indexPath.item < self.selectedImages.count) {
+                [self.imageCollectionView beginInteractiveMovementForItemAtIndexPath:indexPath];
+            }
+            break;
+        }
+        case UIGestureRecognizerStateChanged: {
+            [self.imageCollectionView updateInteractiveMovementTargetPosition:point];
+            break;
+        }
+        case UIGestureRecognizerStateEnded: {
+            [self.imageCollectionView endInteractiveMovement];
+            break;
+        }
+        default: {
+            [self.imageCollectionView cancelInteractiveMovement];
+            break;
+        }
+    }
+}
+
+// 允许移动
+- (BOOL)collectionView:(UICollectionView *)collectionView canMoveItemAtIndexPath:(NSIndexPath *)indexPath {
+    // 只允许移动已选择的图片，添加按钮不能移动
+    return indexPath.item < self.selectedImages.count;
+}
+
+// 执行移动
+- (void)collectionView:(UICollectionView *)collectionView moveItemAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath {
+    // 不允许移动到添加按钮的位置
+    if (destinationIndexPath.item >= self.selectedImages.count) {
+        return;
+    }
+    
+    // 更新数据源
+    UIImage *image = self.selectedImages[sourceIndexPath.item];
+    [self.selectedImages removeObjectAtIndex:sourceIndexPath.item];
+    [self.selectedImages insertObject:image atIndex:destinationIndexPath.item];
+    
+    // 延迟刷新以更新序号标签
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self.imageCollectionView reloadData];
+    });
+}
+
+// 限制目标位置
+- (NSIndexPath *)collectionView:(UICollectionView *)collectionView targetIndexPathForMoveFromItemAtIndexPath:(NSIndexPath *)originalIndexPath toProposedIndexPath:(NSIndexPath *)proposedIndexPath {
+    // 不允许移动到添加按钮的位置
+    if (proposedIndexPath.item >= self.selectedImages.count) {
+        return [NSIndexPath indexPathForItem:self.selectedImages.count - 1 inSection:0];
+    }
+    return proposedIndexPath;
 }
 
 #pragma mark - UITextFieldDelegate
@@ -450,13 +496,24 @@ static const NSInteger kMaxContentLength = 120;
 }
 
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
-    return YES;  // 允许超出，但显示负数
+    return NO;  // 允许超出，但显示负数（不允许）
 }
 
-#pragma mark - TZImagePickerControllerDelegate
-- (void)imagePickerController:(TZImagePickerController *)picker didFinishPickingPhotos:(NSArray<UIImage *> *)photos sourceAssets:(NSArray *)assets isSelectOriginalPhoto:(BOOL)isSelectOriginalPhoto {
-    [self.selectedImages addObjectsFromArray:photos];
+#pragma mark - LFImagePickerControllerDelegate
+- (void)lf_imagePickerController:(LFImagePickerController *)picker didFinishPickingResult:(NSArray<LFResultObject *> *)results {
+    for (LFResultObject *result in results) {
+        if ([result isKindOfClass:[LFResultImage class]]) {
+            LFResultImage *imageResult = (LFResultImage *)result;
+            if (imageResult.originalImage) {
+                [self.selectedImages addObject:imageResult.originalImage];
+            }
+        }
+    }
     [self.imageCollectionView reloadData];
+}
+
+- (void)lf_imagePickerControllerDidCancel:(LFImagePickerController *)picker {
+    [picker dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark - Actions
@@ -471,11 +528,24 @@ static const NSInteger kMaxContentLength = 120;
         return;
     }
     
-    TZImagePickerController *imagePickerVc = [[TZImagePickerController alloc] initWithMaxImagesCount:maxCount delegate:self];
-    imagePickerVc.allowPickingVideo = NO;
-    imagePickerVc.allowTakePicture = YES;
-    imagePickerVc.modalPresentationStyle = UIModalPresentationFullScreen;
-    [self presentViewController:imagePickerVc animated:YES completion:nil];
+    LFImagePickerController *imagePicker = [[LFImagePickerController alloc] initWithMaxImagesCount:maxCount delegate:self];
+    imagePicker.allowTakePicture = YES; // 隐藏拍照按钮
+    //imagePicker.maxVideosCount = 1; // 解除混合选择- 要么1个视频，要么9个图片
+    //imagePicker.sortAscendingByCreateDate = NO;
+    imagePicker.supportAutorotate = YES; // 适配横屏
+    //imagePicker.imageCompressSize = 200; // 标清图压缩大小
+    //imagePicker.thumbnailCompressSize = 20; // 缩略图压缩大小
+    imagePicker.allowPickingType = LFPickingMediaTypePhoto | LFPickingMediaTypeGif;
+    //imagePicker.autoPlayLivePhoto = NO; // 自动播放live photo
+    //imagePicker.autoSelectCurrentImage = NO; // 关闭自动选中
+    //imagePicker.defaultAlbumName = @"动图"; // 指定默认显示相册
+    //imagePicker.displayImageFilename = YES; // 显示文件名称
+    //imagePicker.thumbnailCompressSize = 0.f; // 不需要缩略图
+    if ([UIDevice currentDevice].systemVersion.floatValue >= 8.0f) {
+        imagePicker.syncAlbum = YES; // 实时同步相册
+    }
+    imagePicker.modalPresentationStyle = UIModalPresentationFullScreen;
+    [self presentViewController:imagePicker animated:YES completion:nil];
 }
 
 - (void)topicButtonClicked {

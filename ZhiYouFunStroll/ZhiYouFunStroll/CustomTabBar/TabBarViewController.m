@@ -14,6 +14,7 @@
 #import "MineViewController.h"
 #import "PublishListView.h"
 #import "ItineraryViewController.h"
+#import "PublishNoteViewController.h"
 
 @interface TabBarViewController ()<UITabBarControllerDelegate>
 
@@ -94,7 +95,7 @@
     WeakSelf
     [tabBar setDidClickPublishBtn:^(BOOL isSelected) {
         // 这里可以跳转发布页面
-        //[weakSelf popViewAnimateIsSelected:isSelected];
+        [weakSelf popViewAnimateIsSelected:isSelected];
     }];
 
 }
@@ -102,6 +103,12 @@
 // 弹出发布列表view动画
 - (void)popViewAnimateIsSelected:(BOOL)isSelected{
     WeakSelf
+    PublishNoteViewController *navc = [[PublishNoteViewController alloc] init];
+    [[TabBarViewController takeCurrentVC].navigationController  pushViewController:navc withAnimationType:TransitionAnimationTypePresentFromBottom duration:0.3 completion:^{
+        
+    }];
+    
+    /*
     if (isSelected == NO) {
         self.publishListView.hidden = NO;
         [UIView animateWithDuration:0.3 animations:^{
@@ -114,6 +121,7 @@
             weakSelf.publishListView.hidden = YES;
         }];
     }
+     */
 }
 
 - (void)pushDrawViewCurrentSize:(NSInteger)size{

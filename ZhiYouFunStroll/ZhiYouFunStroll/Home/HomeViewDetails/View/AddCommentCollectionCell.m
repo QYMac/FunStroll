@@ -81,23 +81,23 @@
     }
     
     
-//    // MaxImagesCount  可以选着的最大条目数
-//    TZImagePickerController *imagePicker = [[TZImagePickerController alloc] initWithMaxImagesCount:9 delegate:self];
-//    // 是否显示可选原图按钮
-//    imagePicker.allowPickingOriginalPhoto = YES;
-//    // 是否允许显示视频
-//    imagePicker.allowPickingVideo = NO;
-//    // 是否允许显示图片
-//    imagePicker.allowPickingImage = YES;
-//    //相册导航栏颜色
-//    imagePicker.naviBgColor = [UIColor whiteColor];
-//    imagePicker.barItemTextColor = [UIColor blackColor];
-//    imagePicker.naviTitleColor = [UIColor whiteColor];
-//    imagePicker.oKButtonTitleColorNormal = [UIColor blackColor];
-//    imagePicker.oKButtonTitleColorDisabled = [UIColor blackColor];
-//    // 设置 模态弹出模式。 iOS 13默认非全屏
-//    imagePicker.modalPresentationStyle = UIModalPresentationFullScreen;
-//    [[TabBarViewController takeCurrentVC] presentViewController:imagePicker animated:YES completion:nil];
+    // MaxImagesCount  可以选着的最大条目数
+    TZImagePickerController *imagePicker = [[TZImagePickerController alloc] initWithMaxImagesCount:9 delegate:self];
+    // 是否显示可选原图按钮
+    imagePicker.allowPickingOriginalPhoto = YES;
+    // 是否允许显示视频
+    imagePicker.allowPickingVideo = NO;
+    // 是否允许显示图片
+    imagePicker.allowPickingImage = YES;
+    //相册导航栏颜色
+    imagePicker.naviBgColor = [UIColor whiteColor];
+    imagePicker.barItemTextColor = [UIColor blackColor];
+    imagePicker.naviTitleColor = [UIColor whiteColor];
+    imagePicker.oKButtonTitleColorNormal = [UIColor blackColor];
+    imagePicker.oKButtonTitleColorDisabled = [UIColor blackColor];
+    // 设置 模态弹出模式。 iOS 13默认非全屏
+    imagePicker.modalPresentationStyle = UIModalPresentationFullScreen;
+    [[TabBarViewController takeCurrentVC] presentViewController:imagePicker animated:YES completion:nil];
 
     NSInteger maxImagesCount = 1;  // 不能小于0
     LFImagePickerController *imagePicker = [[LFImagePickerController alloc] initWithMaxImagesCount:maxImagesCount delegate:self];

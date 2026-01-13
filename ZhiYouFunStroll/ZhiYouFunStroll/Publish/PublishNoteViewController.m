@@ -6,6 +6,8 @@
 //
 
 #import "PublishNoteViewController.h"
+#import "PhotoPickerViewController.h"
+#import "PhotoPreviewViewController.h"
 
 static const NSInteger kMaxTitleLength = 20;
 static const NSInteger kMaxContentLength = 1000;
@@ -406,7 +408,30 @@ static const NSInteger kMaxContentLength = 1000;
     if (indexPath.item >= self.selectedImages.count) {
         // 点击添加按钮
         [self selectImages];
+    } else {
+        // 点击已选择的图片，跳转到预览页面
+        [self showPreviewAtIndex:indexPath.item];
     }
+}
+
+- (void)showPreviewAtIndex:(NSInteger)index {
+    PhotoPreviewViewController *previewVC = [[PhotoPreviewViewController alloc] init];
+    previewVC.images = [self.selectedImages mutableCopy];
+    previewVC.currentIndex = index;
+    previewVC.modalPresentationStyle = UIModalPresentationFullScreen;
+    
+    WeakSelf
+    previewVC.didDeleteImageBlock = ^(NSInteger deletedIndex) {
+        [weakSelf.selectedImages removeObjectAtIndex:deletedIndex];
+        [weakSelf.imageCollectionView reloadData];
+    };
+    
+    previewVC.didUpdateImagesBlock = ^(NSArray<UIImage *> *images) {
+        weakSelf.selectedImages = [images mutableCopy];
+        [weakSelf.imageCollectionView reloadData];
+    };
+    
+    [self presentViewController:previewVC animated:YES completion:nil];
 }
 
 #pragma mark - 拖拽排序
@@ -528,24 +553,18 @@ static const NSInteger kMaxContentLength = 1000;
         return;
     }
     
-    LFImagePickerController *imagePicker = [[LFImagePickerController alloc] initWithMaxImagesCount:maxCount delegate:self];
-    imagePicker.allowTakePicture = YES; // 隐藏拍照按钮
-    //imagePicker.maxVideosCount = 1; // 解除混合选择- 要么1个视频，要么9个图片
-    //imagePicker.sortAscendingByCreateDate = NO;
-    imagePicker.supportAutorotate = YES; // 适配横屏
-    //imagePicker.imageCompressSize = 200; // 标清图压缩大小
-    //imagePicker.thumbnailCompressSize = 20; // 缩略图压缩大小
-    imagePicker.allowPickingType = LFPickingMediaTypePhoto | LFPickingMediaTypeGif;
-    //imagePicker.autoPlayLivePhoto = NO; // 自动播放live photo
-    //imagePicker.autoSelectCurrentImage = NO; // 关闭自动选中
-    //imagePicker.defaultAlbumName = @"动图"; // 指定默认显示相册
-    //imagePicker.displayImageFilename = YES; // 显示文件名称
-    //imagePicker.thumbnailCompressSize = 0.f; // 不需要缩略图
-    if ([UIDevice currentDevice].systemVersion.floatValue >= 8.0f) {
-        imagePicker.syncAlbum = YES; // 实时同步相册
-    }
-    imagePicker.modalPresentationStyle = UIModalPresentationFullScreen;
-    [self presentViewController:imagePicker animated:YES completion:nil];
+    // 使用自定义图片选择器
+    PhotoPickerViewController *picker = [[PhotoPickerViewController alloc] init];
+    picker.maxSelectCount = maxCount;
+    picker.modalPresentationStyle = UIModalPresentationFullScreen;
+    
+    WeakSelf
+    picker.didFinishPickingBlock = ^(NSArray<UIImage *> *images, NSArray<PHAsset *> *assets) {
+        [weakSelf.selectedImages addObjectsFromArray:images];
+        [weakSelf.imageCollectionView reloadData];
+    };
+    
+    [self presentViewController:picker animated:YES completion:nil];
 }
 
 - (void)topicButtonClicked {

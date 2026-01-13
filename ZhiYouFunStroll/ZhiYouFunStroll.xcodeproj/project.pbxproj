@@ -189,6 +189,12 @@
 		CCC0F78E2F15D3F700F9D0DC /* PublishNoteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CCC0F78C2F15D3F700F9D0DC /* PublishNoteViewController.m */; };
 		CCC0F78F2F15D3F700F9D0DC /* PublishListView.m in Sources */ = {isa = PBXBuildFile; fileRef = CCC0F78A2F15D3F700F9D0DC /* PublishListView.m */; };
 		CCC0F7902F15D3F700F9D0DC /* PublishListViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CCC0F7872F15D3F700F9D0DC /* PublishListViewCell.m */; };
+		CCC0F79A2F15E5B400F9D0DC /* PhotoPreviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CCC0F7962F15E5B400F9D0DC /* PhotoPreviewViewController.m */; };
+		CCC0F79B2F15E5B400F9D0DC /* PhotoPickerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CCC0F7922F15E5B400F9D0DC /* PhotoPickerCell.m */; };
+		CCC0F79C2F15E5B400F9D0DC /* PhotoPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CCC0F7942F15E5B400F9D0DC /* PhotoPickerViewController.m */; };
+		CCC0F79D2F15E5B400F9D0DC /* SelectedPhotoBar.m in Sources */ = {isa = PBXBuildFile; fileRef = CCC0F7982F15E5B400F9D0DC /* SelectedPhotoBar.m */; };
+		CCC0F7A02F15E9E000F9D0DC /* PhotoGridPreviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CCC0F79F2F15E9E000F9D0DC /* PhotoGridPreviewViewController.m */; };
+		CCC0F7A32F16149A00F9D0DC /* AlbumListView.m in Sources */ = {isa = PBXBuildFile; fileRef = CCC0F7A22F16149A00F9D0DC /* AlbumListView.m */; };
 		CCDE01362F0E2F9100C4C9D4 /* ArrayHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = CCDE01352F0E2F9100C4C9D4 /* ArrayHelper.m */; };
 		CCDE013C2F0E411700C4C9D4 /* ViewControllerTransitionHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = CCDE013B2F0E411700C4C9D4 /* ViewControllerTransitionHelper.m */; };
 /* End PBXBuildFile section */
@@ -576,6 +582,18 @@
 		CCC0F78A2F15D3F700F9D0DC /* PublishListView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PublishListView.m; sourceTree = "<group>"; };
 		CCC0F78B2F15D3F700F9D0DC /* PublishNoteViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PublishNoteViewController.h; sourceTree = "<group>"; };
 		CCC0F78C2F15D3F700F9D0DC /* PublishNoteViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PublishNoteViewController.m; sourceTree = "<group>"; };
+		CCC0F7912F15E5B400F9D0DC /* PhotoPickerCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PhotoPickerCell.h; sourceTree = "<group>"; };
+		CCC0F7922F15E5B400F9D0DC /* PhotoPickerCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PhotoPickerCell.m; sourceTree = "<group>"; };
+		CCC0F7932F15E5B400F9D0DC /* PhotoPickerViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PhotoPickerViewController.h; sourceTree = "<group>"; };
+		CCC0F7942F15E5B400F9D0DC /* PhotoPickerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PhotoPickerViewController.m; sourceTree = "<group>"; };
+		CCC0F7952F15E5B400F9D0DC /* PhotoPreviewViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PhotoPreviewViewController.h; sourceTree = "<group>"; };
+		CCC0F7962F15E5B400F9D0DC /* PhotoPreviewViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PhotoPreviewViewController.m; sourceTree = "<group>"; };
+		CCC0F7972F15E5B400F9D0DC /* SelectedPhotoBar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SelectedPhotoBar.h; sourceTree = "<group>"; };
+		CCC0F7982F15E5B400F9D0DC /* SelectedPhotoBar.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SelectedPhotoBar.m; sourceTree = "<group>"; };
+		CCC0F79E2F15E9E000F9D0DC /* PhotoGridPreviewViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PhotoGridPreviewViewController.h; sourceTree = "<group>"; };
+		CCC0F79F2F15E9E000F9D0DC /* PhotoGridPreviewViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PhotoGridPreviewViewController.m; sourceTree = "<group>"; };
+		CCC0F7A12F16149A00F9D0DC /* AlbumListView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AlbumListView.h; sourceTree = "<group>"; };
+		CCC0F7A22F16149A00F9D0DC /* AlbumListView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AlbumListView.m; sourceTree = "<group>"; };
 		CCDE01342F0E2F9100C4C9D4 /* ArrayHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ArrayHelper.h; sourceTree = "<group>"; };
 		CCDE01352F0E2F9100C4C9D4 /* ArrayHelper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ArrayHelper.m; sourceTree = "<group>"; };
 		CCDE013A2F0E411700C4C9D4 /* ViewControllerTransitionHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewControllerTransitionHelper.h; sourceTree = "<group>"; };
@@ -1712,6 +1730,7 @@
 		CCC0F78D2F15D3F700F9D0DC /* Publish */ = {
 			isa = PBXGroup;
 			children = (
+				CCC0F7992F15E5B400F9D0DC /* PhotoPicker */,
 				CCC0F7882F15D3F700F9D0DC /* View */,
 				CCC0F7892F15D3F700F9D0DC /* PublishListView.h */,
 				CCC0F78A2F15D3F700F9D0DC /* PublishListView.m */,
@@ -1719,6 +1738,25 @@
 				CCC0F78C2F15D3F700F9D0DC /* PublishNoteViewController.m */,
 			);
 			path = Publish;
+			sourceTree = "<group>";
+		};
+		CCC0F7992F15E5B400F9D0DC /* PhotoPicker */ = {
+			isa = PBXGroup;
+			children = (
+				CCC0F7A12F16149A00F9D0DC /* AlbumListView.h */,
+				CCC0F7A22F16149A00F9D0DC /* AlbumListView.m */,
+				CCC0F7912F15E5B400F9D0DC /* PhotoPickerCell.h */,
+				CCC0F7922F15E5B400F9D0DC /* PhotoPickerCell.m */,
+				CCC0F7932F15E5B400F9D0DC /* PhotoPickerViewController.h */,
+				CCC0F7942F15E5B400F9D0DC /* PhotoPickerViewController.m */,
+				CCC0F7952F15E5B400F9D0DC /* PhotoPreviewViewController.h */,
+				CCC0F7962F15E5B400F9D0DC /* PhotoPreviewViewController.m */,
+				CCC0F7972F15E5B400F9D0DC /* SelectedPhotoBar.h */,
+				CCC0F7982F15E5B400F9D0DC /* SelectedPhotoBar.m */,
+				CCC0F79E2F15E9E000F9D0DC /* PhotoGridPreviewViewController.h */,
+				CCC0F79F2F15E9E000F9D0DC /* PhotoGridPreviewViewController.m */,
+			);
+			path = PhotoPicker;
 			sourceTree = "<group>";
 		};
 		CCDE01332F0E2F8C00C4C9D4 /* ArrayHelper */ = {
@@ -1907,6 +1945,7 @@
 				CC5AE6212F0A51D10004B0A5 /* DCCycleScrollViewCell.m in Sources */,
 				CC5AE6222F0A51D10004B0A5 /* DCCycleScrollView.m in Sources */,
 				CC8254902EDEB6B7006BCE2A /* ShoppingDetailsCell.m in Sources */,
+				CCC0F7A02F15E9E000F9D0DC /* PhotoGridPreviewViewController.m in Sources */,
 				CC8253C62ED590DC006BCE2A /* QYBadgeLabel.m in Sources */,
 				CC57C94E2EE2AC79006A38C3 /* WeatherViewCell.m in Sources */,
 				CCC0F7692F14D15B00F9D0DC /* EditBioViewController.m in Sources */,
@@ -1965,6 +2004,7 @@
 				CC995A422EF1297200456825 /* NSString+LFExtendedStringDrawing.m in Sources */,
 				CC995A432EF1297200456825 /* LFWeakProxy.m in Sources */,
 				CC5AE60B2F03BF8E0004B0A5 /* LocationAddressHelper.m in Sources */,
+				CCC0F7A32F16149A00F9D0DC /* AlbumListView.m in Sources */,
 				CC995A442EF1297200456825 /* LFAsset.m in Sources */,
 				CCC0F7762F14D5E800F9D0DC /* AbnormalNoteCell.m in Sources */,
 				CCC0F7772F14D5E800F9D0DC /* AbnormalNoteListViewController.m in Sources */,
@@ -2035,6 +2075,10 @@
 				CC8254452ED6F2CE006BCE2A /* MerchantVardView.m in Sources */,
 				CC57C9472EE2868C006A38C3 /* WeatherView.m in Sources */,
 				CC57C92C2EDFC449006A38C3 /* MapAddressView.m in Sources */,
+				CCC0F79A2F15E5B400F9D0DC /* PhotoPreviewViewController.m in Sources */,
+				CCC0F79B2F15E5B400F9D0DC /* PhotoPickerCell.m in Sources */,
+				CCC0F79C2F15E5B400F9D0DC /* PhotoPickerViewController.m in Sources */,
+				CCC0F79D2F15E5B400F9D0DC /* SelectedPhotoBar.m in Sources */,
 				CC8253A42ED440E0006BCE2A /* HomeViewController.m in Sources */,
 				CC82547D2EDD9349006BCE2A /* AddCommentController.m in Sources */,
 				CC8253682ED43097006BCE2A /* AppDelegate.m in Sources */,

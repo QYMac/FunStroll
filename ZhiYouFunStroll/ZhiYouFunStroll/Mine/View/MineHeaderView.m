@@ -108,6 +108,12 @@
         make.width.height.mas_equalTo(20);
     }];
     
+    [self addSubview:self.bgView];
+    [self.bgView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.left.top.mas_equalTo(0);
+        make.bottom.mas_equalTo(self.bioLabel.mas_bottom).offset(64);
+    }];
+    
     // TabBar切换视图
     [self addSubview:self.tabBarView];
     [self.tabBarView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -157,12 +163,6 @@
     // 警告横幅点击手势
     UITapGestureRecognizer *alertTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(alertBannerTapped)];
     [self.alertBannerView addGestureRecognizer:alertTap];
-    
-    [self addSubview:self.bgView];
-    [self.bgView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.left.top.mas_equalTo(0);
-        make.bottom.mas_equalTo(self.tabBarView.mas_top);
-    }];
     
 }
 

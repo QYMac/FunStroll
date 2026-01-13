@@ -28,7 +28,7 @@
     //self.coverImageView.layer.maskedCorners = kCALayerMinXMinYCorner | kCALayerMaxXMinYCorner;  // 只有顶部圆角
     [self.coverImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.right.mas_equalTo(0);
-        make.height.mas_equalTo(self.frame.size.width);
+        make.height.mas_equalTo(self.coverImageView.mas_width).multipliedBy(1.2);
     }];
     
     // 标题

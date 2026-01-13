@@ -9,6 +9,7 @@
 #import "ProfileHeaderView.h"
 #import "ProfileInfoCell.h"
 #import "EditNicknameViewController.h"
+#import "EditBioViewController.h"
 
 static NSString *const kProfileInfoCellID = @"ProfileInfoCell";
 
@@ -211,7 +212,13 @@ static NSString *const kProfileInfoCellID = @"ProfileInfoCell";
 }
 
 - (void)showEditBioAlert {
-    // TODO: 实现编辑简介功能
+    EditBioViewController *editVC = [[EditBioViewController alloc] init];
+    //editVC.currentBio = [UserModel getObjectForKey:kUserBio];
+    WeakSelf
+    editVC.saveBlock = ^(NSString *bio) {
+        [weakSelf.tableView reloadData];
+    };
+    [self.navigationController pushViewController:editVC animated:YES];
 }
 
 #pragma mark - Lazy Loading

@@ -8,6 +8,10 @@
 #import "MineViewController.h"
 #import "MineView.h"
 #import "ProfileViewController.h"
+#import "EditBioViewController.h"
+#import "AbnormalNoteListViewController.h"
+#import "LocalDraftViewController.h"
+#import "SettingViewController.h"
 
 @interface MineViewController ()
 
@@ -37,8 +41,8 @@
     
     // 设置按钮点击
     self.mineView.settingClickBlock = ^{
-        NSLog(@"设置按钮点击");
-        // TODO: 跳转到设置页面
+        SettingViewController *settingVC = [[SettingViewController alloc] init];
+        [weakSelf.navigationController pushViewController:settingVC animated:YES];
     };
     
     // 头像点击
@@ -50,20 +54,23 @@
     
     // 编辑简介
     self.mineView.editBioClickBlock = ^{
-        NSLog(@"编辑简介点击");
-        // TODO: 编辑个人简介
+        EditBioViewController *editVC = [[EditBioViewController alloc] init];
+        editVC.saveBlock = ^(NSString *bio) {
+            [weakSelf loadUserInfo];
+        };
+        [weakSelf.navigationController pushViewController:editVC animated:YES];
     };
     
     // 警告横幅点击
     self.mineView.alertBannerClickBlock = ^{
-        NSLog(@"警告横幅点击");
-        // TODO: 查看异常笔记
+        AbnormalNoteListViewController *abnormalVC = [[AbnormalNoteListViewController alloc] init];
+        [weakSelf.navigationController pushViewController:abnormalVC animated:YES];
     };
     
     // 草稿点击
     self.mineView.draftClickBlock = ^{
-        NSLog(@"草稿点击");
-        // TODO: 跳转到草稿列表
+        LocalDraftViewController *draftVC = [[LocalDraftViewController alloc] init];
+        [weakSelf.navigationController pushViewController:draftVC animated:YES];
     };
     
     // 笔记点击

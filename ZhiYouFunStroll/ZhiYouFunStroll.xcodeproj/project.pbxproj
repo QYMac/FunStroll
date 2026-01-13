@@ -26,8 +26,6 @@
 		CC57C9322EE015F1006A38C3 /* MAPCustomPointAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = CC57C9312EE015F1006A38C3 /* MAPCustomPointAnnotation.m */; };
 		CC57C9382EE11554006A38C3 /* FMDBManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CC57C9372EE11554006A38C3 /* FMDBManager.m */; };
 		CC57C9392EE11554006A38C3 /* FMDBTool.m in Sources */ = {isa = PBXBuildFile; fileRef = CC57C9352EE11554006A38C3 /* FMDBTool.m */; };
-		CC57C93D2EE11777006A38C3 /* PublishListView.m in Sources */ = {isa = PBXBuildFile; fileRef = CC57C93C2EE11777006A38C3 /* PublishListView.m */; };
-		CC57C9412EE12836006A38C3 /* PublishListViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CC57C9402EE12836006A38C3 /* PublishListViewCell.m */; };
 		CC57C9442EE15FA4006A38C3 /* MapLayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = CC57C9432EE15FA4006A38C3 /* MapLayerView.m */; };
 		CC57C9472EE2868C006A38C3 /* WeatherView.m in Sources */ = {isa = PBXBuildFile; fileRef = CC57C9462EE2868C006A38C3 /* WeatherView.m */; };
 		CC57C94B2EE286AB006A38C3 /* WeatherModel.m in Sources */ = {isa = PBXBuildFile; fileRef = CC57C94A2EE286AB006A38C3 /* WeatherModel.m */; };
@@ -181,6 +179,16 @@
 		CC995A532EF1297200456825 /* LFImagePickerHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = CC9959BA2EF1297200456825 /* LFImagePickerHeader.m */; };
 		CC995A562EF13F6700456825 /* LFPhotoPreViewColletion.m in Sources */ = {isa = PBXBuildFile; fileRef = CC995A552EF13F6700456825 /* LFPhotoPreViewColletion.m */; };
 		CC995A592EF1429000456825 /* LFPhotoPreViewColletionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CC995A582EF1429000456825 /* LFPhotoPreViewColletionCell.m */; };
+		CCC0F7692F14D15B00F9D0DC /* EditBioViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CCC0F7682F14D15B00F9D0DC /* EditBioViewController.m */; };
+		CCC0F7762F14D5E800F9D0DC /* AbnormalNoteCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CCC0F7722F14D5E800F9D0DC /* AbnormalNoteCell.m */; };
+		CCC0F7772F14D5E800F9D0DC /* AbnormalNoteListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CCC0F7742F14D5E800F9D0DC /* AbnormalNoteListViewController.m */; };
+		CCC0F77D2F14E37600F9D0DC /* LocalDraftViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CCC0F77B2F14E37600F9D0DC /* LocalDraftViewController.m */; };
+		CCC0F77E2F14E37600F9D0DC /* LocalDraftCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CCC0F7792F14E37600F9D0DC /* LocalDraftCell.m */; };
+		CCC0F7822F14EF6400F9D0DC /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CCC0F7802F14EF6400F9D0DC /* SettingViewController.m */; };
+		CCC0F7852F14F29500F9D0DC /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CCC0F7842F14F29500F9D0DC /* AboutViewController.m */; };
+		CCC0F78E2F15D3F700F9D0DC /* PublishNoteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CCC0F78C2F15D3F700F9D0DC /* PublishNoteViewController.m */; };
+		CCC0F78F2F15D3F700F9D0DC /* PublishListView.m in Sources */ = {isa = PBXBuildFile; fileRef = CCC0F78A2F15D3F700F9D0DC /* PublishListView.m */; };
+		CCC0F7902F15D3F700F9D0DC /* PublishListViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CCC0F7872F15D3F700F9D0DC /* PublishListViewCell.m */; };
 		CCDE01362F0E2F9100C4C9D4 /* ArrayHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = CCDE01352F0E2F9100C4C9D4 /* ArrayHelper.m */; };
 		CCDE013C2F0E411700C4C9D4 /* ViewControllerTransitionHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = CCDE013B2F0E411700C4C9D4 /* ViewControllerTransitionHelper.m */; };
 /* End PBXBuildFile section */
@@ -232,10 +240,6 @@
 		CC57C9352EE11554006A38C3 /* FMDBTool.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FMDBTool.m; sourceTree = "<group>"; };
 		CC57C9362EE11554006A38C3 /* FMDBManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FMDBManager.h; sourceTree = "<group>"; };
 		CC57C9372EE11554006A38C3 /* FMDBManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FMDBManager.m; sourceTree = "<group>"; };
-		CC57C93B2EE11777006A38C3 /* PublishListView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PublishListView.h; sourceTree = "<group>"; };
-		CC57C93C2EE11777006A38C3 /* PublishListView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PublishListView.m; sourceTree = "<group>"; };
-		CC57C93F2EE12836006A38C3 /* PublishListViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PublishListViewCell.h; sourceTree = "<group>"; };
-		CC57C9402EE12836006A38C3 /* PublishListViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PublishListViewCell.m; sourceTree = "<group>"; };
 		CC57C9422EE15FA4006A38C3 /* MapLayerView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MapLayerView.h; sourceTree = "<group>"; };
 		CC57C9432EE15FA4006A38C3 /* MapLayerView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MapLayerView.m; sourceTree = "<group>"; };
 		CC57C9452EE2868C006A38C3 /* WeatherView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WeatherView.h; sourceTree = "<group>"; };
@@ -552,6 +556,26 @@
 		CC995A552EF13F6700456825 /* LFPhotoPreViewColletion.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LFPhotoPreViewColletion.m; sourceTree = "<group>"; };
 		CC995A572EF1429000456825 /* LFPhotoPreViewColletionCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LFPhotoPreViewColletionCell.h; sourceTree = "<group>"; };
 		CC995A582EF1429000456825 /* LFPhotoPreViewColletionCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LFPhotoPreViewColletionCell.m; sourceTree = "<group>"; };
+		CCC0F7672F14D15B00F9D0DC /* EditBioViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EditBioViewController.h; sourceTree = "<group>"; };
+		CCC0F7682F14D15B00F9D0DC /* EditBioViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EditBioViewController.m; sourceTree = "<group>"; };
+		CCC0F7712F14D5E800F9D0DC /* AbnormalNoteCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AbnormalNoteCell.h; sourceTree = "<group>"; };
+		CCC0F7722F14D5E800F9D0DC /* AbnormalNoteCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AbnormalNoteCell.m; sourceTree = "<group>"; };
+		CCC0F7732F14D5E800F9D0DC /* AbnormalNoteListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AbnormalNoteListViewController.h; sourceTree = "<group>"; };
+		CCC0F7742F14D5E800F9D0DC /* AbnormalNoteListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AbnormalNoteListViewController.m; sourceTree = "<group>"; };
+		CCC0F7782F14E37600F9D0DC /* LocalDraftCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LocalDraftCell.h; sourceTree = "<group>"; };
+		CCC0F7792F14E37600F9D0DC /* LocalDraftCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LocalDraftCell.m; sourceTree = "<group>"; };
+		CCC0F77A2F14E37600F9D0DC /* LocalDraftViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LocalDraftViewController.h; sourceTree = "<group>"; };
+		CCC0F77B2F14E37600F9D0DC /* LocalDraftViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LocalDraftViewController.m; sourceTree = "<group>"; };
+		CCC0F77F2F14EF6400F9D0DC /* SettingViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SettingViewController.h; sourceTree = "<group>"; };
+		CCC0F7802F14EF6400F9D0DC /* SettingViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SettingViewController.m; sourceTree = "<group>"; };
+		CCC0F7832F14F29500F9D0DC /* AboutViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AboutViewController.h; sourceTree = "<group>"; };
+		CCC0F7842F14F29500F9D0DC /* AboutViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AboutViewController.m; sourceTree = "<group>"; };
+		CCC0F7862F15D3F700F9D0DC /* PublishListViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PublishListViewCell.h; sourceTree = "<group>"; };
+		CCC0F7872F15D3F700F9D0DC /* PublishListViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PublishListViewCell.m; sourceTree = "<group>"; };
+		CCC0F7892F15D3F700F9D0DC /* PublishListView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PublishListView.h; sourceTree = "<group>"; };
+		CCC0F78A2F15D3F700F9D0DC /* PublishListView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PublishListView.m; sourceTree = "<group>"; };
+		CCC0F78B2F15D3F700F9D0DC /* PublishNoteViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PublishNoteViewController.h; sourceTree = "<group>"; };
+		CCC0F78C2F15D3F700F9D0DC /* PublishNoteViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PublishNoteViewController.m; sourceTree = "<group>"; };
 		CCDE01342F0E2F9100C4C9D4 /* ArrayHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ArrayHelper.h; sourceTree = "<group>"; };
 		CCDE01352F0E2F9100C4C9D4 /* ArrayHelper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ArrayHelper.m; sourceTree = "<group>"; };
 		CCDE013A2F0E411700C4C9D4 /* ViewControllerTransitionHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewControllerTransitionHelper.h; sourceTree = "<group>"; };
@@ -730,25 +754,6 @@
 				CC57C9372EE11554006A38C3 /* FMDBManager.m */,
 			);
 			path = FMDB;
-			sourceTree = "<group>";
-		};
-		CC57C93A2EE1173A006A38C3 /* Publish */ = {
-			isa = PBXGroup;
-			children = (
-				CC57C93E2EE1281F006A38C3 /* View */,
-				CC57C93B2EE11777006A38C3 /* PublishListView.h */,
-				CC57C93C2EE11777006A38C3 /* PublishListView.m */,
-			);
-			path = Publish;
-			sourceTree = "<group>";
-		};
-		CC57C93E2EE1281F006A38C3 /* View */ = {
-			isa = PBXGroup;
-			children = (
-				CC57C93F2EE12836006A38C3 /* PublishListViewCell.h */,
-				CC57C9402EE12836006A38C3 /* PublishListViewCell.m */,
-			);
-			path = View;
 			sourceTree = "<group>";
 		};
 		CC57C9482EE28692006A38C3 /* Model */ = {
@@ -956,9 +961,9 @@
 				CC8253622ED43097006BCE2A /* Main.storyboard */,
 				CC8253632ED43097006BCE2A /* ViewController.h */,
 				CC8253642ED43097006BCE2A /* ViewController.m */,
+				CCC0F78D2F15D3F700F9D0DC /* Publish */,
 				CC2F1CE12EF3CAE7007E8992 /* WKWebView */,
 				CC99591C2EE65EC600456825 /* MapNavigation */,
-				CC57C93A2EE1173A006A38C3 /* Publish */,
 				CC2F1CD92EF2A2F0007E8992 /* Login */,
 				CC8253AD2ED44122006BCE2A /* Mine */,
 				CC5AE6122F050F210004B0A5 /* Itinerary */,
@@ -1070,6 +1075,9 @@
 		CC8253AD2ED44122006BCE2A /* Mine */ = {
 			isa = PBXGroup;
 			children = (
+				CCC0F7812F14EF6400F9D0DC /* Setting */,
+				CCC0F77C2F14E37600F9D0DC /* LocalDraft */,
+				CCC0F7752F14D5E800F9D0DC /* AbnormalNote */,
 				CC8AB84D2F14CCD200BC11A8 /* Profile */,
 				CC2F1CD12EF28705007E8992 /* Model */,
 				CC8254542ED92CC0006BCE2A /* View */,
@@ -1343,6 +1351,8 @@
 				CC8AB8412F14C2EE00BC11A8 /* ProfileViewController.m */,
 				CC8AB84B2F14CCD200BC11A8 /* EditNicknameViewController.h */,
 				CC8AB84C2F14CCD200BC11A8 /* EditNicknameViewController.m */,
+				CCC0F7672F14D15B00F9D0DC /* EditBioViewController.h */,
+				CCC0F7682F14D15B00F9D0DC /* EditBioViewController.m */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -1657,6 +1667,60 @@
 			path = class;
 			sourceTree = "<group>";
 		};
+		CCC0F7752F14D5E800F9D0DC /* AbnormalNote */ = {
+			isa = PBXGroup;
+			children = (
+				CCC0F7712F14D5E800F9D0DC /* AbnormalNoteCell.h */,
+				CCC0F7722F14D5E800F9D0DC /* AbnormalNoteCell.m */,
+				CCC0F7732F14D5E800F9D0DC /* AbnormalNoteListViewController.h */,
+				CCC0F7742F14D5E800F9D0DC /* AbnormalNoteListViewController.m */,
+			);
+			path = AbnormalNote;
+			sourceTree = "<group>";
+		};
+		CCC0F77C2F14E37600F9D0DC /* LocalDraft */ = {
+			isa = PBXGroup;
+			children = (
+				CCC0F7782F14E37600F9D0DC /* LocalDraftCell.h */,
+				CCC0F7792F14E37600F9D0DC /* LocalDraftCell.m */,
+				CCC0F77A2F14E37600F9D0DC /* LocalDraftViewController.h */,
+				CCC0F77B2F14E37600F9D0DC /* LocalDraftViewController.m */,
+			);
+			path = LocalDraft;
+			sourceTree = "<group>";
+		};
+		CCC0F7812F14EF6400F9D0DC /* Setting */ = {
+			isa = PBXGroup;
+			children = (
+				CCC0F77F2F14EF6400F9D0DC /* SettingViewController.h */,
+				CCC0F7802F14EF6400F9D0DC /* SettingViewController.m */,
+				CCC0F7832F14F29500F9D0DC /* AboutViewController.h */,
+				CCC0F7842F14F29500F9D0DC /* AboutViewController.m */,
+			);
+			path = Setting;
+			sourceTree = "<group>";
+		};
+		CCC0F7882F15D3F700F9D0DC /* View */ = {
+			isa = PBXGroup;
+			children = (
+				CCC0F7862F15D3F700F9D0DC /* PublishListViewCell.h */,
+				CCC0F7872F15D3F700F9D0DC /* PublishListViewCell.m */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		CCC0F78D2F15D3F700F9D0DC /* Publish */ = {
+			isa = PBXGroup;
+			children = (
+				CCC0F7882F15D3F700F9D0DC /* View */,
+				CCC0F7892F15D3F700F9D0DC /* PublishListView.h */,
+				CCC0F78A2F15D3F700F9D0DC /* PublishListView.m */,
+				CCC0F78B2F15D3F700F9D0DC /* PublishNoteViewController.h */,
+				CCC0F78C2F15D3F700F9D0DC /* PublishNoteViewController.m */,
+			);
+			path = Publish;
+			sourceTree = "<group>";
+		};
 		CCDE01332F0E2F8C00C4C9D4 /* ArrayHelper */ = {
 			isa = PBXGroup;
 			children = (
@@ -1823,7 +1887,7 @@
 				CC8253A02ED43DFD006BCE2A /* UIButton+SSEdgeInsets.m in Sources */,
 				CC8253892ED438A6006BCE2A /* UIView+TBFrame.m in Sources */,
 				CC9959232EE66AF600456825 /* AMapNavigationManager.m in Sources */,
-				CC57C93D2EE11777006A38C3 /* PublishListView.m in Sources */,
+				CCC0F7822F14EF6400F9D0DC /* SettingViewController.m in Sources */,
 				CC754EE92EF3F1F1002DB1FA /* MBProgressHUD+NH.m in Sources */,
 				CC754EEA2EF3F1F1002DB1FA /* UIView+MBProgressHUD.m in Sources */,
 				CC8AB83F2F149B6E00BC11A8 /* MineFavoriteCell.m in Sources */,
@@ -1845,11 +1909,14 @@
 				CC8254902EDEB6B7006BCE2A /* ShoppingDetailsCell.m in Sources */,
 				CC8253C62ED590DC006BCE2A /* QYBadgeLabel.m in Sources */,
 				CC57C94E2EE2AC79006A38C3 /* WeatherViewCell.m in Sources */,
+				CCC0F7692F14D15B00F9D0DC /* EditBioViewController.m in Sources */,
 				CCDE01362F0E2F9100C4C9D4 /* ArrayHelper.m in Sources */,
 				CC8253E62ED69F66006BCE2A /* CheckTool.m in Sources */,
 				CC8253EA2ED6A060006BCE2A /* LabelSpacing.m in Sources */,
 				CC82544F2ED821AD006BCE2A /* ShoppingCollectionViewCell.m in Sources */,
 				CC82548C2EDEB699006BCE2A /* ShoppingDetailsController.m in Sources */,
+				CCC0F77D2F14E37600F9D0DC /* LocalDraftViewController.m in Sources */,
+				CCC0F77E2F14E37600F9D0DC /* LocalDraftCell.m in Sources */,
 				CC8AB8492F14C73D00BC11A8 /* ProfileHeaderView.m in Sources */,
 				CC8AB84A2F14C73D00BC11A8 /* ProfileInfoCell.m in Sources */,
 				CC8253E22ED69234006BCE2A /* TopLeftLabel.m in Sources */,
@@ -1882,6 +1949,9 @@
 				CC995A362EF1297200456825 /* LFImagePickerController.m in Sources */,
 				CC995A372EF1297200456825 /* LFAssetManager.m in Sources */,
 				CC995A382EF1297200456825 /* LF_FileUtility.m in Sources */,
+				CCC0F78E2F15D3F700F9D0DC /* PublishNoteViewController.m in Sources */,
+				CCC0F78F2F15D3F700F9D0DC /* PublishListView.m in Sources */,
+				CCC0F7902F15D3F700F9D0DC /* PublishListViewCell.m in Sources */,
 				CC995A392EF1297200456825 /* LFPhotoPickerController.m in Sources */,
 				CC995A3A2EF1297200456825 /* LFAssetManager+SaveAlbum.m in Sources */,
 				CC995A3B2EF1297200456825 /* LFAssetManager+Authorization.m in Sources */,
@@ -1896,6 +1966,8 @@
 				CC995A432EF1297200456825 /* LFWeakProxy.m in Sources */,
 				CC5AE60B2F03BF8E0004B0A5 /* LocationAddressHelper.m in Sources */,
 				CC995A442EF1297200456825 /* LFAsset.m in Sources */,
+				CCC0F7762F14D5E800F9D0DC /* AbnormalNoteCell.m in Sources */,
+				CCC0F7772F14D5E800F9D0DC /* AbnormalNoteListViewController.m in Sources */,
 				CC8AB8342F13EEDC00BC11A8 /* MineNoteCell.m in Sources */,
 				CC8AB8352F13EEDC00BC11A8 /* MineView.m in Sources */,
 				CC8AB8372F13EEDC00BC11A8 /* MineHeaderView.m in Sources */,
@@ -1906,6 +1978,7 @@
 				CC995A462EF1297200456825 /* LFToGIF.m in Sources */,
 				CC995A472EF1297200456825 /* LFResultInfo.m in Sources */,
 				CC995A482EF1297200456825 /* LFAlbumCell.m in Sources */,
+				CCC0F7852F14F29500F9D0DC /* AboutViewController.m in Sources */,
 				CC995A492EF1297200456825 /* UIImage+LF_Format.m in Sources */,
 				CC995A4A2EF1297200456825 /* UIImage+LF_ImageCompress.m in Sources */,
 				CC754ED92EF3F055002DB1FA /* UserModel.m in Sources */,
@@ -1942,7 +2015,6 @@
 				CC676C002F0CB4E100574EF8 /* KYPhotoModel.m in Sources */,
 				CC676C392F0CFAE000574EF8 /* CommentListModel.m in Sources */,
 				CC676C012F0CB4E100574EF8 /* KYPhotoBrowserManager.m in Sources */,
-				CC57C9412EE12836006A38C3 /* PublishListViewCell.m in Sources */,
 				CC8253D12ED593DE006BCE2A /* ScenicSpotViewController.m in Sources */,
 				CC5AE5E02F0273270004B0A5 /* HomeView.m in Sources */,
 				CC2F1CD82EF295E4007E8992 /* AlicomFusionDemoUtil.m in Sources */,

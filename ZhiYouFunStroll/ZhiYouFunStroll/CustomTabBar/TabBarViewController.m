@@ -93,6 +93,7 @@
 
     WeakSelf
     [tabBar setDidClickPublishBtn:^(BOOL isSelected) {
+        // 这里可以跳转发布页面
         //[weakSelf popViewAnimateIsSelected:isSelected];
     }];
 

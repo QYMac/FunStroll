@@ -9,6 +9,7 @@
 #import "CommunityCollectionViewCell.h"
 #import "HomeHeadView.h"
 #import "HomeViewDetailsController.h"
+#import "AddCommentController.h"
 
 @interface HomeView ()<GeneralWaterfallFlowLayoutDelegate,UICollectionViewDelegate,UICollectionViewDataSource>
 
@@ -175,6 +176,12 @@
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (indexPath.row == 0) {
+        AddCommentController *navc = [[AddCommentController alloc]init];
+        [[TabBarViewController takeCurrentVC].navigationController pushViewController:navc animated:YES];
+        return;
+    }
+    
     NSDictionary *dict = [self.dataList objectAtIndexCheck:indexPath.row];
     HomeModel *model = [HomeModel yy_modelWithDictionary:dict];
     HomeViewDetailsController *navc = [[HomeViewDetailsController alloc]init];
@@ -195,7 +202,10 @@
     if (num >= 2) {
         num = 2;
     }
-    return kWidth/2 - 30 + 67.5 + num * 15;
+    
+    CGFloat imageHeight = itemWidth * 1.2;
+    
+    return imageHeight + 55 + num * 15;
 }
 
 /**

@@ -28,8 +28,8 @@
         [self.contentView addSubview:self.homeImage];
         self.homeImage.layer.masksToBounds = YES;
         [self.homeImage mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.height.mas_equalTo(self.frame.size.width);
             make.left.right.top.mas_equalTo(0);
+            make.height.mas_equalTo(self.homeImage.mas_width).multipliedBy(1.2);
         }];
         
         [self.contentView addSubview:self.titleL];

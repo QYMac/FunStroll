@@ -322,6 +322,8 @@ static NSString *const kMineHeaderIdentifier = @"MineHeader";
         return 90;  // 收藏Cell高度
     }
     
+    CGFloat imageHeight = itemWidth * 1.2;
+    
     // 普通笔记Cell
     NSInteger dataIndex = self.showDraft ? indexPath.item - 1 : indexPath.item;
     if (dataIndex < self.dataList.count) {
@@ -332,7 +334,7 @@ static NSString *const kMineHeaderIdentifier = @"MineHeader";
             num = 2;
         }
         // 图片高度 + 标题 + 用户信息区域
-        return itemWidth + 50 + num * 18;
+        return imageHeight + 50 + num * 18;
     }
     
     return itemWidth + 70;

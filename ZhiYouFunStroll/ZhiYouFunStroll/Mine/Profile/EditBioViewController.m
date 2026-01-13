@@ -1,36 +1,36 @@
 //
-//  EditNicknameViewController.m
+//  EditBioViewController.m
 //  ZhiYouFunStroll
 //
 //  Created on 2026/1/12.
 //
 
-#import "EditNicknameViewController.h"
+#import "EditBioViewController.h"
 
-static const NSInteger kMaxNicknameLength = 20;
-static const NSInteger kMinNicknameLength = 2;
+static const NSInteger kMaxBioLength = 50;
 
-@interface EditNicknameViewController () <UITextFieldDelegate>
+@interface EditBioViewController () <UITextViewDelegate>
 
 @property (nonatomic, strong) UIView *inputCardView;
-@property (nonatomic, strong) UITextField *nicknameTextField;
+@property (nonatomic, strong) UITextView *bioTextView;
+@property (nonatomic, strong) UILabel *placeholderLabel;
 @property (nonatomic, strong) UILabel *countLabel;
 @property (nonatomic, strong) UILabel *tipLabel;
 @property (nonatomic, strong) UIButton *saveButton;
 
 @end
 
-@implementation EditNicknameViewController
+@implementation EditBioViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     self.view.backgroundColor = RGB(250, 250, 250);
-    self.title = @"修改昵称";
+    self.title = @"设置个人简介";
     
     [self setupNavigationBar];
     [self setupUI];
-    [self updateCountLabel];
+    [self updateUI];
 }
 
 - (void)setupNavigationBar {
@@ -45,7 +45,6 @@ static const NSInteger kMinNicknameLength = 2;
     self.saveButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.saveButton setTitle:@"保存" forState:UIControlStateNormal];
     [self.saveButton setTitleColor:RGB(76, 175, 80) forState:UIControlStateNormal];
-    [self.saveButton setTitleColor:RGB(180, 180, 180) forState:UIControlStateDisabled];
     self.saveButton.titleLabel.font = [UIFont systemFontOfSize:14];
     [self.saveButton addTarget:self action:@selector(saveButtonClicked) forControlEvents:UIControlEventTouchUpInside];
     self.saveButton.frame = CGRectMake(0, 0, 50, 30);
@@ -55,33 +54,43 @@ static const NSInteger kMinNicknameLength = 2;
 - (void)setupUI {
     // 输入卡片
     self.inputCardView = [[UIView alloc] init];
-    self.inputCardView.backgroundColor = [UIColor whiteColor];
     self.inputCardView.layer.cornerRadius = 8;
-    self.inputCardView.layer.masksToBounds = YES;
+    self.inputView.layer.masksToBounds = YES;
+    self.inputCardView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:self.inputCardView];
     [self.inputCardView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.view.mas_safeAreaLayoutGuideTop).offset(15);
-        make.left.mas_equalTo(15);
-        make.right.mas_equalTo(-15);
-        make.height.mas_equalTo(55);
+        make.top.mas_equalTo(10);
+        make.left.mas_equalTo(10);
+        make.right.mas_equalTo(-10);
+        make.height.mas_equalTo(150);
     }];
     
-    // 昵称输入框
-    self.nicknameTextField = [[UITextField alloc] init];
-    self.nicknameTextField.font = [UIFont systemFontOfSize:14];
-    self.nicknameTextField.textColor = RGB(51, 51, 51);
-    self.nicknameTextField.placeholder = @"请输入昵称";
-    self.nicknameTextField.text = self.currentNickname;
-    self.nicknameTextField.delegate = self;
-    self.nicknameTextField.clearButtonMode = UITextFieldViewModeNever;
-    self.nicknameTextField.returnKeyType = UIReturnKeyDone;
-    [self.nicknameTextField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
-    [self.inputCardView addSubview:self.nicknameTextField];
-    [self.nicknameTextField mas_makeConstraints:^(MASConstraintMaker *make) {
+    // 简介输入框
+    self.bioTextView = [[UITextView alloc] init];
+    self.bioTextView.font = [UIFont systemFontOfSize:14];
+    self.bioTextView.textColor = RGB(51, 51, 51);
+    self.bioTextView.text = self.currentBio;
+    self.bioTextView.delegate = self;
+    self.bioTextView.backgroundColor = [UIColor clearColor];
+    self.bioTextView.textContainerInset = UIEdgeInsetsMake(0, 0, 0, 0);
+    self.bioTextView.textContainer.lineFragmentPadding = 0;
+    [self.inputCardView addSubview:self.bioTextView];
+    [self.bioTextView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(15);
         make.left.mas_equalTo(15);
-        make.right.mas_equalTo(-60);
-        make.centerY.mas_equalTo(self.inputCardView);
-        make.height.mas_equalTo(40);
+        make.right.mas_equalTo(-15);
+        make.bottom.mas_equalTo(-35);
+    }];
+    
+    // 占位文字
+    self.placeholderLabel = [[UILabel alloc] init];
+    self.placeholderLabel.text = @"介绍一下自己吧";
+    self.placeholderLabel.font = [UIFont systemFontOfSize:14];
+    self.placeholderLabel.textColor = RGB(187, 187, 187);
+    [self.inputCardView addSubview:self.placeholderLabel];
+    [self.placeholderLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(15);
+        make.left.mas_equalTo(15);
     }];
     
     // 字数统计标签
@@ -92,13 +101,23 @@ static const NSInteger kMinNicknameLength = 2;
     [self.inputCardView addSubview:self.countLabel];
     [self.countLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.mas_equalTo(-15);
-        make.centerY.mas_equalTo(self.inputCardView);
-        make.width.mas_equalTo(50);
+        make.bottom.mas_equalTo(-10);
     }];
+    
+    /*
+    // 底部分割线
+    UIView *separatorLine = [[UIView alloc] init];
+    separatorLine.backgroundColor = RGB(238, 238, 238);
+    [self.inputCardView addSubview:separatorLine];
+    [separatorLine mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.bottom.mas_equalTo(0);
+        make.height.mas_equalTo(0.5);
+    }];
+     */
     
     // 提示文字
     self.tipLabel = [[UILabel alloc] init];
-    self.tipLabel.text = [NSString stringWithFormat:@"请将昵称控制在%ld-%ld个字符", (long)kMinNicknameLength, (long)kMaxNicknameLength];
+    self.tipLabel.text = [NSString stringWithFormat:@"请将内容控制在%ld个字符以内", (long)kMaxBioLength];
     self.tipLabel.font = [UIFont systemFontOfSize:12];
     self.tipLabel.textColor = RGB(153, 153, 153);
     [self.view addSubview:self.tipLabel];
@@ -115,23 +134,18 @@ static const NSInteger kMinNicknameLength = 2;
 }
 
 - (void)saveButtonClicked {
-    NSString *nickname = [self.nicknameTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    NSString *bio = [self.bioTextView.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     
-    if (nickname.length < kMinNicknameLength) {
-        [AlertWith showAlertWithMessageText:[NSString stringWithFormat:@"昵称不能少于%ld个字符", (long)kMinNicknameLength]];
+    if (bio.length > kMaxBioLength) {
+        [AlertWith showAlertWithMessageText:[NSString stringWithFormat:@"简介不能超过%ld个字符", (long)kMaxBioLength]];
         return;
     }
     
-    if (nickname.length > kMaxNicknameLength) {
-        [AlertWith showAlertWithMessageText:[NSString stringWithFormat:@"昵称不能超过%ld个字符", (long)kMaxNicknameLength]];
-        return;
-    }
-    
-    // 保存昵称
-    [UserModel saveObject:[CheckTool replaceNullValue:nickname] forKey:kUserName];
+    // 保存简介
+    //[UserModel saveObject:[CheckTool replaceNullValue:bio] forKey:kUserBio];
     
     if (self.saveBlock) {
-        self.saveBlock(nickname);
+        self.saveBlock(bio);
     }
     
     [AlertWith showAlertWithMessageText:@"保存成功"];
@@ -141,26 +155,21 @@ static const NSInteger kMinNicknameLength = 2;
     });
 }
 
-- (void)textFieldDidChange:(UITextField *)textField {
-    // 限制输入长度
-    if (textField.text.length > kMaxNicknameLength) {
-        textField.text = [textField.text substringToIndex:kMaxNicknameLength];
-    }
-    [self updateCountLabel];
-}
-
-- (void)updateCountLabel {
-    NSInteger currentLength = self.nicknameTextField.text.length;
-    self.countLabel.text = [NSString stringWithFormat:@"%ld/%ld", (long)currentLength, (long)kMaxNicknameLength];
+- (void)updateUI {
+    NSInteger currentLength = self.bioTextView.text.length;
+    self.countLabel.text = [NSString stringWithFormat:@"%ld/%ld", (long)currentLength, (long)kMaxBioLength];
+    
+    // 显示/隐藏占位文字
+    self.placeholderLabel.hidden = (currentLength > 0);
     
     // 判断是否满足条件
-    BOOL isValid = (currentLength >= kMinNicknameLength && currentLength <= kMaxNicknameLength);
+    BOOL isValid = (currentLength > 0 && currentLength <= kMaxBioLength);
     
     // 根据字数改变颜色
-    if (isValid) {
-        self.countLabel.textColor = RGB(187, 187, 187);
-    } else {
+    if (currentLength > kMaxBioLength) {
         self.countLabel.textColor = RGB(255, 100, 100);
+    } else {
+        self.countLabel.textColor = RGB(187, 187, 187);
     }
     
     // 更新保存按钮状态
@@ -172,16 +181,19 @@ static const NSInteger kMinNicknameLength = 2;
     }
 }
 
-#pragma mark - UITextFieldDelegate
-- (BOOL)textFieldShouldReturn:(UITextField *)textField {
-    [textField resignFirstResponder];
-    return YES;
+#pragma mark - UITextViewDelegate
+- (void)textViewDidChange:(UITextView *)textView {
+    // 限制输入长度
+    if (textView.text.length > kMaxBioLength) {
+        textView.text = [textView.text substringToIndex:kMaxBioLength];
+    }
+    [self updateUI];
 }
 
-- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
     // 计算替换后的字符串长度
-    NSString *newText = [textField.text stringByReplacingCharactersInRange:range withString:string];
-    if (newText.length > kMaxNicknameLength) {
+    NSString *newText = [textView.text stringByReplacingCharactersInRange:range withString:text];
+    if (newText.length > kMaxBioLength) {
         return NO;
     }
     return YES;
@@ -200,7 +212,7 @@ static const NSInteger kMinNicknameLength = 2;
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    [self.nicknameTextField becomeFirstResponder];
+    [self.bioTextView becomeFirstResponder];
 }
 
 @end

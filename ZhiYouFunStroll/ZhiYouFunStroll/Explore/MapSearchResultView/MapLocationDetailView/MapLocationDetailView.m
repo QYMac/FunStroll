@@ -387,12 +387,9 @@
 #pragma mark - Actions
 
 - (void)closeButtonTapped:(UIButton *)sender {
-    /*
     if ([self.delegate respondsToSelector:@selector(mapLocationDetailViewDidTapClose:)]) {
         [self.delegate mapLocationDetailViewDidTapClose:self];
     }
-     */
-    [[TabBarViewController takeCurrentVC].navigationController popViewControllerAnimated:YES];
 }
 
 - (void)shareButtonTapped:(UIButton *)sender {

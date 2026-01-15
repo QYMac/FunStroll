@@ -521,7 +521,7 @@ static const NSInteger kMaxContentLength = 1000;
 }
 
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
-    return NO;  // 允许超出，但显示负数（不允许）
+    return YES;  // 允许输入，通过字数统计显示超出
 }
 
 #pragma mark - LFImagePickerControllerDelegate

@@ -22,7 +22,7 @@ target 'ZhiYouFunStroll' do
   #---刷新控件
   pod 'MJRefresh'
   #---键盘相关
-  #pod 'IQKeyboardManager'
+  pod 'IQKeyboardManager'
   #---图片选择
   pod 'TZImagePickerController'
   #pod 'LFImagePickerController/LFMediaEdit' //因为要自定义拍照界面，所有手动导入更改UI

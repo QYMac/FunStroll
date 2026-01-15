@@ -122,22 +122,6 @@
         make.top.mas_equalTo(self.mapView.mas_bottom).offset(-50);
     }];
     
-    if (self.isDetailView == YES) {
-        [self.mapLocationDetailView configureWithName:@"深圳大梅沙阳光沙滩" operatingHours:@"周一至周五 09:00 - 24:00" distance:1 driveTime:25 address:@"广东省深圳市小梅沙2号停车场" imageUrls:@[@"",@"",@"",@"",@""]];
-        [self.view addSubview:self.mapLocationDetailView];
-        [self.mapLocationDetailView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(self.mapView.mas_bottom).offset(0);
-            make.left.right.equalTo(self.view);
-            make.bottom.mas_equalTo(0);
-        }];
-        
-        [self.mapView mas_remakeConstraints:^(MASConstraintMaker *make) {
-            make.top.left.right.equalTo(self.view);
-            make.bottom.mas_equalTo(-statusBarHeight - [self.mapLocationDetailView navigateButtonBottomHeight] - 10);
-        }];
-        return;
-    }
-    
     // 添加背景视图（占满整个父视图，初始隐藏）
     [self.view addSubview:self.backgroundView];
     [self.backgroundView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -461,6 +445,10 @@
 
 #pragma mark - MapLocationDetailViewDelegate
 
+- (void)mapLocationDetailViewDidTapClose:(MapLocationDetailView *)detailView {
+    [self hideLocationDetailView];
+}
+
 - (void)mapLocationDetailViewDidTapRoute:(MapLocationDetailView *)detailView {
     RouteViewController *routeVC = [[RouteViewController alloc] init];
     routeVC.startName = @"我的位置";
@@ -721,11 +709,83 @@
     if (indexPath.item < self.resultItems.count) {
         MapSearchResultItem *item = self.resultItems[indexPath.item];
         NSLog(@"点击了结果: %@", item.title);
-        // 这里可以添加跳转逻辑
-        MapSearchResultViewController *navc = [[MapSearchResultViewController alloc] init];
-        navc.isDetailView = YES;
-        [self.navigationController pushViewController:navc animated:YES];
+        
+        // 在当前页面显示 MapLocationDetailView
+        [self showLocationDetailViewWithItem:item];
     }
+}
+
+#pragma mark - 显示地点详情视图
+
+- (void)showLocationDetailViewWithItem:(MapSearchResultItem *)item {
+    // 配置详情视图数据
+    [self.mapLocationDetailView configureWithName:item.title
+                                   operatingHours:@"周一至周五 09:00 - 24:00"
+                                         distance:item.distance / 1000.0
+                                        driveTime:item.walkTime
+                                          address:@"广东省深圳市"
+                                        imageUrls:@[@"", @"", @"", @"", @""]];
+    [self setupLocationDetailViewLayout];
+}
+
+- (void)setupLocationDetailViewLayout {
+    // 隐藏搜索相关视图
+    self.searchBarContainer.hidden = YES;
+    self.resultContainer.hidden = YES;
+    self.backgroundView.hidden = YES;
+    self.addressBut.hidden = YES;
+    
+    [self.view addSubview:self.mapLocationDetailView];
+    
+    // 初始位置：在屏幕底部外面
+    [self.mapLocationDetailView mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(self.view.mas_bottom);
+        make.left.right.equalTo(self.view);
+        make.height.mas_equalTo(self.view.mas_height).multipliedBy(0.5);
+    }];
+    
+    // 确保详情视图在最上层
+    [self.view bringSubviewToFront:self.mapLocationDetailView];
+    
+    // 先布局初始位置
+    [self.view layoutIfNeeded];
+    
+    // 动画：从底部滑入
+    [UIView animateWithDuration:0.35 delay:0 usingSpringWithDamping:0.9 initialSpringVelocity:0.5 options:UIViewAnimationOptionCurveEaseOut animations:^{
+        // 调整地图约束
+        [self.mapView mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.top.left.right.equalTo(self.view);
+            make.bottom.mas_equalTo(-statusBarHeight - [self.mapLocationDetailView navigateButtonBottomHeight] - 10);
+        }];
+        
+        // 设置详情视图最终约束
+        [self.mapLocationDetailView mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.top.mas_equalTo(self.mapView.mas_bottom).offset(0);
+            make.left.right.equalTo(self.view);
+            make.bottom.mas_equalTo(0);
+        }];
+        
+        [self.view layoutIfNeeded];
+    } completion:nil];
+}
+
+- (void)hideLocationDetailView {
+    // 隐藏详情视图
+    [self.mapLocationDetailView removeFromSuperview];
+    
+    // 显示搜索相关视图
+    self.searchBarContainer.hidden = NO;
+    self.resultContainer.hidden = NO;
+    self.backgroundView.hidden = NO;
+    self.addressBut.hidden = NO;
+    
+    // 恢复地图约束
+    [self.mapView mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.top.left.right.equalTo(self.view);
+        make.height.mas_equalTo(self.view.mas_height).multipliedBy(0.5);
+    }];
+    
+    [self.view layoutIfNeeded];
 }
 
 #pragma mark - MAMapViewDelegate

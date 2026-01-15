@@ -363,13 +363,26 @@
     startModel.isStart = YES;
     [self.dataList addObject:startModel];
     
-    // 途经点
+    // 途经点（兼容 RouteWaypointModel 和 NSDictionary）
     NSInteger index = 1;
-    for (NSDictionary *waypoint in waypoints) {
-        RouteWaypointModel *model = [[RouteWaypointModel alloc] init];
-        model.name = waypoint[@"name"];
-        model.index = index++;
-        [self.dataList addObject:model];
+    for (id waypoint in waypoints) {
+        // 跳过起点和终点，只处理途经点
+        if ([waypoint isKindOfClass:[RouteWaypointModel class]]) {
+            RouteWaypointModel *waypointModel = (RouteWaypointModel *)waypoint;
+            if (waypointModel.isStart || waypointModel.isEnd) {
+                continue; // 跳过起点和终点
+            }
+            RouteWaypointModel *model = [[RouteWaypointModel alloc] init];
+            model.name = waypointModel.name;
+            model.index = index++;
+            [self.dataList addObject:model];
+        } else if ([waypoint isKindOfClass:[NSDictionary class]]) {
+            NSDictionary *waypointDict = (NSDictionary *)waypoint;
+            RouteWaypointModel *model = [[RouteWaypointModel alloc] init];
+            model.name = waypointDict[@"name"];
+            model.index = index++;
+            [self.dataList addObject:model];
+        }
     }
     
     // 添加一个空的途经点输入框
@@ -642,9 +655,35 @@
     [self endEditing:YES];
     
     NSMutableArray *waypoints = [NSMutableArray array];
+    NSInteger waypointIndex = 1;
+    
     for (RouteWaypointModel *model in self.dataList) {
-        if (!model.isStart && !model.isEnd && ![model.name isEqualToString:@"请输入途经点"]) {
-            [waypoints addObject:@{@"name": model.name}];
+        if (model.isStart) {
+            // 起点
+            RouteWaypointModel *startModel = [[RouteWaypointModel alloc] init];
+            startModel.name = model.name;
+            startModel.isStart = YES;
+            startModel.isEnd = NO;
+            startModel.index = 0;
+            [waypoints addObject:startModel];
+        } else if (model.isEnd) {
+            // 终点
+            RouteWaypointModel *endModel = [[RouteWaypointModel alloc] init];
+            endModel.name = model.name;
+            endModel.isStart = NO;
+            endModel.isEnd = YES;
+            endModel.index = 0;
+            [waypoints addObject:endModel];
+        } else {
+            // 途经点 - 如果为空或是默认文字则不添加
+            if (model.name.length > 0 && ![model.name isEqualToString:@"请输入途经点"]) {
+                RouteWaypointModel *waypointModel = [[RouteWaypointModel alloc] init];
+                waypointModel.name = model.name;
+                waypointModel.isStart = NO;
+                waypointModel.isEnd = NO;
+                waypointModel.index = waypointIndex++;
+                [waypoints addObject:waypointModel];
+            }
         }
     }
     

@@ -156,11 +156,12 @@
 
 #pragma mark - UI Setup
 - (void)setupUI {
-    // 地图区域（最底层）
-    [self setupMapContainer];
-    
-    // 顶部固定区域
+    // 顶部固定区域（先创建，因为地图依赖它的约束）
     [self setupTopFixedView];
+    
+    // 地图区域（放在最底层）
+    [self setupMapContainer];
+    [self.view sendSubviewToBack:self.mapContainer];
     
     // 可滑动区域（路线选项 + 终点附近）
     [self setupSlidableView];
@@ -235,7 +236,7 @@
         make.top.mas_equalTo(self.backButton.mas_top);
         make.left.mas_equalTo(self.backButton.mas_right).offset(10);
         make.right.mas_equalTo(0);
-        make.height.mas_equalTo(80);
+        make.height.mas_equalTo(70); // 2 rows * 35 per row
     }];
     
     WeakSelf
@@ -245,6 +246,34 @@
     
     self.headerView.routeEditButtonBlock = ^{
         [weakSelf toggleWaypointView];
+    };
+    
+    // 高度变化回调
+    self.headerView.heightDidChangeBlock = ^(CGFloat newHeight) {
+        [weakSelf.headerView mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.height.mas_equalTo(newHeight);
+        }];
+        
+        // 更新 topFixedView 高度
+        CGFloat newTopFixedHeight = statusBarHeight + 44 + newHeight + 10 + 10;
+        [weakSelf.topFixedView mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.height.mas_equalTo(newTopFixedHeight);
+        }];
+        weakSelf.topFixedHeight = newTopFixedHeight;
+        weakSelf.minSlidableTop = newTopFixedHeight;
+        weakSelf.maxSlidableTop = newTopFixedHeight + weakSelf.mapHeight - 30;
+        
+        // 更新 slidableScrollView 位置
+        [weakSelf.slidableScrollView mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.top.mas_equalTo(weakSelf.maxSlidableTop);
+        }];
+        
+        // 更新 refreshButton 位置
+        [weakSelf.refreshButton mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.top.mas_equalTo(weakSelf.maxSlidableTop - 5 - 44);
+        }];
+        
+        [weakSelf.view layoutIfNeeded];
     };
     
     // 出行方式 Tab
@@ -306,7 +335,7 @@
     // 计算：mapHeight + (95 + 20 - 30) = mapHeight + 85
     CGFloat mapExtendHeight = self.mapHeight + 85;
     [self.mapContainer mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.topFixedHeight);
+        make.top.mas_equalTo(self.topFixedView.mas_bottom);
         make.left.right.mas_equalTo(0);
         make.height.mas_equalTo(mapExtendHeight);
     }];
@@ -534,6 +563,8 @@
     
     self.waypointView.doneBlock = ^(NSArray *waypoints) {
         weakSelf.waypoints = [waypoints mutableCopy];
+        // 更新 headerView 显示途径点数据
+        [weakSelf.headerView updateWithWaypoints:waypoints];
         [weakSelf hideWaypointView];
         [weakSelf loadRoutes];
     };
@@ -809,31 +840,38 @@
 }
 
 #pragma mark - RouteHeaderViewDelegate
-- (void)headerView:(RouteHeaderView *)headerView didBeginEditingWithType:(RouteInputType)type {
+- (void)headerView:(RouteHeaderView *)headerView didBeginEditingWithType:(RouteInputType)type atIndex:(NSInteger)index {
     self.currentEditingType = type;
     
     // 点击输入框时始终显示分类页
     [self showCategorySearchView];
 }
 
-- (void)headerView:(RouteHeaderView *)headerView didEndEditingWithType:(RouteInputType)type {
+- (void)headerView:(RouteHeaderView *)headerView didEndEditingWithType:(RouteInputType)type atIndex:(NSInteger)index {
     // 可以在这里处理结束编辑的逻辑
 }
 
-- (void)headerView:(RouteHeaderView *)headerView didChangeText:(NSString *)text withType:(RouteInputType)type {
+- (void)headerView:(RouteHeaderView *)headerView didChangeText:(NSString *)text withType:(RouteInputType)type atIndex:(NSInteger)index {
     // 更新数据
     if (type == RouteInputTypeStart) {
         self.startName = text;
-    } else {
+    } else if (type == RouteInputTypeEnd) {
         self.endName = text;
     }
+    // 途经点的文字变化在 headerView 内部已经处理
     
     // 文字变化时不自动切换视图，保持当前显示的页面
 }
 
-- (void)headerView:(RouteHeaderView *)headerView didTapReturnWithType:(RouteInputType)type {
+- (void)headerView:(RouteHeaderView *)headerView didTapReturnWithType:(RouteInputType)type atIndex:(NSInteger)index {
     // 点击键盘完成/搜索按钮时显示搜索结果页
-    NSString *text = (type == RouteInputTypeStart) ? headerView.startTextField.text : headerView.endTextField.text;
+    NSString *text = @"";
+    if (type == RouteInputTypeStart) {
+        text = headerView.startTextField.text;
+    } else if (type == RouteInputTypeEnd) {
+        text = headerView.endTextField.text;
+    }
+    
     if (text.length > 0) {
         [self showSearchResultViewWithText:text];
     }

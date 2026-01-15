@@ -86,6 +86,7 @@
             }
         } failureHandler:^(NSError * _Nonnull error) {
             NSLog(@"%@",error);
+            [AlertWith showAlertWithMessageText:[AFNetworkingErrorHelper getFriendlyErrorMessage:error]];
             HomeModel *model;
             weakSelf.homeView.homeModel = model;
         }];

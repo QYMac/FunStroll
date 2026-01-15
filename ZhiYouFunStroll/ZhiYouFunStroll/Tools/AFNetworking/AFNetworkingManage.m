@@ -8,8 +8,25 @@
 #import "AFNetworkingManage.h"
 #import "AFNetworkingHeaders.h"
 #import "AFHTTPSessionManager.h"
+#import "UserModel.h"
 
 @implementation AFNetworkingManage
+
+/// 检查并处理 424 状态码（用户凭证已过期）
++ (void)handleStatusCode424IfNeeded:(NSURLSessionDataTask *)task {
+    if (task && [task.response isKindOfClass:[NSHTTPURLResponse class]]) {
+        NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)task.response;
+        NSInteger statusCode = httpResponse.statusCode;
+        
+        if (statusCode == 424) {
+            // 用户凭证已过期，删除用户信息并退回登录页面
+            [UserModel deleteUserInfo];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [UserModel logoutView];
+            });
+        }
+    }
+}
 
 + (void)requestWithUrl:(NSString *)url params:(NSDictionary *)params requestType:(NSString *)requestType isBody:(BOOL)isBody isToken:(BOOL)isToken successHanler:(SuccessHandler)success failureHandler:(FailureHandler)failure {
     
@@ -53,6 +70,9 @@
                 success(responseObject);
             }
         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+            // 检查状态码 424（用户凭证已过期）
+            [self handleStatusCode424IfNeeded:task];
+            
             if (failure) {
                 failure(error);
             }
@@ -66,6 +86,9 @@
                 success(responseObject);
             }
         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+            // 检查状态码 424（用户凭证已过期）
+            [self handleStatusCode424IfNeeded:task];
+            
             if (failure) {
                 failure(error);
             }
@@ -121,6 +144,9 @@
             success(responseObject);
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        // 检查状态码 424（用户凭证已过期）
+        [self handleStatusCode424IfNeeded:task];
+        
         if (failure) {
             failure(error);
         }

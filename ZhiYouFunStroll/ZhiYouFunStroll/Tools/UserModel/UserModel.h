@@ -25,6 +25,8 @@ NS_ASSUME_NONNULL_BEGIN
 + (void)logoutView;
 /// 切换根视图到首页
 + (void)newRootHomeVC;
+/// 删除用户信息
++ (void)deleteUserInfo;
 
 /// 是否已经登录
 @property (nonatomic,assign) BOOL isAutoLogin;

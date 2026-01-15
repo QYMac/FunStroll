@@ -192,6 +192,23 @@ static UserModel * instance = nil;
      */
 }
 
+// 删除用户信息
++ (void)deleteUserInfo{
+    [UserModel clearObjectForKey:kRefreshToken];
+    [UserModel clearObjectForKey:kAccessToken];
+    [UserModel clearObjectForKey:kUserId];
+    [UserModel clearObjectForKey:kTokenType];
+    [UserModel clearObjectForKey:kUserName];
+    [UserModel clearObjectForKey:kNickname];
+    [UserModel clearObjectForKey:kAvatar];
+    [UserModel clearObjectForKey:kGender];
+    [UserModel clearObjectForKey:kAge];
+    [UserModel clearObjectForKey:kBio];
+    [UserModel clearObjectForKey:kBgUrl];
+    [UserModel clearObjectForKey:kIpLocation];
+    [UserModel sharedUserModel].isAutoLogin = NO;
+}
+
 #pragma mark - 数组本地储存
 +(void)saveObject:(id)obj forKey:(NSString *)key {
     if (!key || !obj) {

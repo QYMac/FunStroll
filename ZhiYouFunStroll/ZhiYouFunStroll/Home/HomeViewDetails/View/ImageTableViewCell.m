@@ -21,73 +21,77 @@
         self.selectionStyle = UITableViewCellSelectionStyleNone;//去除cell的点击效果
         self.backgroundColor = [UIColor clearColor];
         
-        [self.contentView addSubview:self.bgView];
-        [self.bgView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.mas_equalTo(0);
-            make.right.mas_equalTo(0);
-            make.bottom.mas_equalTo(0);
-            make.top.mas_equalTo(0);
-        }];
-        
-        self.severalBg.layer.cornerRadius = 10;
-        self.severalBg.layer.masksToBounds = YES;
-        [self.bgView insertSubview:self.severalBg atIndex:999];
-        [self.severalBg mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.right.mas_equalTo(-15);
-            make.top.mas_equalTo(15);
-            make.width.mas_equalTo(40);
-            make.height.mas_equalTo(20);
-        }];
-
-        [self.severalBg addSubview:self.imageSeveralL];
-        [self.imageSeveralL mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.right.bottom.top.left.mas_equalTo(0);
-        }];
-        
-        [self.bgView insertSubview:self.bannerView atIndex:0];
-        
-        [self.bgView addSubview:self.titleL];
-        [self.titleL mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.right.mas_equalTo(-15);
-            make.left.mas_equalTo(15);
-            make.top.mas_equalTo(self.bannerView.mas_bottom).offset(25);
-        }];
-        
-        [self.bgView addSubview:self.contentL];
-        [self.contentL mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.right.mas_equalTo(self.titleL.mas_right).offset(0);
-            make.left.mas_equalTo(self.titleL.mas_left).offset(0);
-            make.top.mas_equalTo(self.titleL.mas_bottom).offset(10);
-        }];
-        
-        [self.bgView addSubview:self.topicL];
-        [self.topicL mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.right.mas_equalTo(self.titleL.mas_right).offset(0);
-            make.left.mas_equalTo(self.titleL.mas_left).offset(0);
-            make.top.mas_equalTo(self.contentL.mas_bottom).offset(5);
-        }];
-        
-        [self.bgView addSubview:self.timeL];
-        [self.timeL mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.right.mas_equalTo(self.titleL.mas_right).offset(0);
-            make.left.mas_equalTo(self.titleL.mas_left).offset(0);
-            make.top.mas_equalTo(self.topicL.mas_bottom).offset(10);
-        }];
-        
-        [self.bgView addSubview:self.fgView];
-        [self.fgView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.right.mas_equalTo(self.titleL.mas_right).offset(0);
-            make.left.mas_equalTo(self.titleL.mas_left).offset(0);
-            make.top.mas_equalTo(self.timeL.mas_bottom).offset(10);
-            make.height.mas_equalTo(1);
-        }];
-        
-        [self.bgView mas_updateConstraints:^(MASConstraintMaker *make) {
-            make.bottom.mas_equalTo(self.fgView.mas_bottom).offset(5);
-        }];
+        [self setupUI];
         
     }
     return self;
+}
+
+- (void)setupUI{
+    [self.contentView addSubview:self.bgView];
+    [self.bgView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(0);
+        make.right.mas_equalTo(0);
+        make.bottom.mas_equalTo(0);
+        make.top.mas_equalTo(0);
+    }];
+    
+    self.severalBg.layer.cornerRadius = 10;
+    self.severalBg.layer.masksToBounds = YES;
+    [self.bgView insertSubview:self.severalBg atIndex:999];
+    [self.severalBg mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.mas_equalTo(-15);
+        make.top.mas_equalTo(15);
+        make.width.mas_equalTo(40);
+        make.height.mas_equalTo(20);
+    }];
+
+    [self.severalBg addSubview:self.imageSeveralL];
+    [self.imageSeveralL mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.bottom.top.left.mas_equalTo(0);
+    }];
+    
+    [self.bgView insertSubview:self.bannerView atIndex:0];
+    
+    [self.bgView addSubview:self.titleL];
+    [self.titleL mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.mas_equalTo(-15);
+        make.left.mas_equalTo(15);
+        make.top.mas_equalTo(self.bannerView.mas_bottom).offset(25);
+    }];
+    
+    [self.bgView addSubview:self.contentL];
+    [self.contentL mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.mas_equalTo(self.titleL.mas_right).offset(0);
+        make.left.mas_equalTo(self.titleL.mas_left).offset(0);
+        make.top.mas_equalTo(self.titleL.mas_bottom).offset(10);
+    }];
+    
+    [self.bgView addSubview:self.topicL];
+    [self.topicL mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.mas_equalTo(self.titleL.mas_right).offset(0);
+        make.left.mas_equalTo(self.titleL.mas_left).offset(0);
+        make.top.mas_equalTo(self.contentL.mas_bottom).offset(5);
+    }];
+    
+    [self.bgView addSubview:self.timeL];
+    [self.timeL mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.mas_equalTo(self.titleL.mas_right).offset(0);
+        make.left.mas_equalTo(self.titleL.mas_left).offset(0);
+        make.top.mas_equalTo(self.topicL.mas_bottom).offset(10);
+    }];
+    
+    [self.bgView addSubview:self.fgView];
+    [self.fgView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.mas_equalTo(self.titleL.mas_right).offset(0);
+        make.left.mas_equalTo(self.titleL.mas_left).offset(0);
+        make.top.mas_equalTo(self.timeL.mas_bottom).offset(10);
+        make.height.mas_equalTo(1);
+    }];
+    
+    [self.bgView mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.bottom.mas_equalTo(self.fgView.mas_bottom).offset(5);
+    }];
 }
 
 - (void)setModel:(ResponseModel *)model{

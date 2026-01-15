@@ -225,16 +225,7 @@ static NSString *const kMineHeaderIdentifier = @"MineHeader";
     // 如果显示草稿且是第一个Cell
     if (self.showDraft && indexPath.item == 0) {
         MineDraftCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kMineDraftCellIdentifier forIndexPath:indexPath];
-        // 使用第一条数据的封面作为草稿背景
-        UIImage *bgImage = nil;
-        if (self.dataList.count > 0) {
-            NSDictionary *dict = [self.dataList objectAtIndexCheck:0];
-            NSString *coverUrl = [CheckTool replaceNullValue:dict[@"coverImage"]];
-            if (coverUrl.length > 0) {
-                // 异步加载背景图
-                [cell.bgImageView sd_setImageWithURL:[NSURL URLWithString:coverUrl] placeholderImage:nil];
-            }
-        }
+        UIImage *bgImage = [UIImage imageNamed:@"my_bg"];
         [cell configureDraftCount:self.draftCount backgroundImage:bgImage];
         return cell;
     }

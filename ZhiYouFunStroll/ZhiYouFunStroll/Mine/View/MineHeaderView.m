@@ -92,6 +92,15 @@
         make.height.mas_equalTo(30);
     }];
     
+    
+    [self addSubview:self.nextBut];
+    [self.nextBut mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(self.nameLabel.mas_left).offset(-5);
+        make.right.mas_equalTo(self.arrowBut.mas_right).offset(5);
+        make.top.mas_equalTo(self.nameLabel.mas_top).offset(-5);
+        make.bottom.mas_equalTo(self.idLabel.mas_bottom).offset(5);
+    }];
+    
     // 个人简介
     [self addSubview:self.bioLabel];
     [self.bioLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -345,6 +354,14 @@
     return _arrowBut1;
 }
 
+
+- (UIButton *)nextBut {
+    if (!_nextBut) {
+        _nextBut = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_nextBut addTarget:self action:@selector(avatarTapped) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _nextBut;
+}
 
 - (UIView *)bgView{
     if (!_bgView) {

@@ -10,8 +10,9 @@
 #import "MapSearchResultItem.h"
 #import "MapAddressView.h"
 #import "MapLocationDetailView.h"
+#import "RouteViewController.h"
 
-@interface MapSearchResultViewController () <MAMapViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UITextFieldDelegate, UIGestureRecognizerDelegate>
+@interface MapSearchResultViewController () <MAMapViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UITextFieldDelegate, UIGestureRecognizerDelegate, MapLocationDetailViewDelegate>
 
 /// 地图视图
 @property (nonatomic, strong) MapAddressView *mapView;
@@ -412,6 +413,7 @@
 - (MapLocationDetailView *)mapLocationDetailView{
     if (!_mapLocationDetailView) {
         _mapLocationDetailView = [[MapLocationDetailView alloc] init];
+        _mapLocationDetailView.delegate = self;
     }
     return _mapLocationDetailView;
 }
@@ -455,6 +457,22 @@
             [self.mapView moveToCurrentLocation];
         }
     }
+}
+
+#pragma mark - MapLocationDetailViewDelegate
+
+- (void)mapLocationDetailViewDidTapRoute:(MapLocationDetailView *)detailView {
+    RouteViewController *routeVC = [[RouteViewController alloc] init];
+    routeVC.startName = @"我的位置";
+    routeVC.endName = @"深圳大梅沙沙滩";
+    // TODO: 设置实际坐标
+    // routeVC.startCoordinate = self.mapView.userLocation.coordinate;
+    // routeVC.endCoordinate = CLLocationCoordinate2DMake(lat, lng);
+    [self.navigationController pushViewController:routeVC animated:YES];
+}
+
+- (void)mapLocationDetailViewDidTapNavigate:(MapLocationDetailView *)detailView {
+    // TODO: 立即导航
 }
 
 #pragma mark - UIGestureRecognizerDelegate

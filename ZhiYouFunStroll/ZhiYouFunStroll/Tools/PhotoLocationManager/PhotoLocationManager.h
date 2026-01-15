@@ -120,6 +120,21 @@ typedef void(^PhotoSaveCompletion)(BOOL success, NSError * _Nullable error, NSSt
 - (void)saveNetworkImageToPhotoLibrary:(NSString *)imageURLString albumName:(nullable NSString *)albumName completion:(PhotoSaveCompletion)completion;
 
 
+/// 获取网络图片在限制宽度下的高度（异步）
+/// @param imageURL 网络图片URL字符串
+/// @param limitWidth 限制的宽度
+/// @param completion 完成回调，返回计算后的高度（如果获取失败返回0）
++ (void)getImageHeightWithURL:(NSString *)imageURL
+                   limitWidth:(CGFloat)limitWidth
+                   completion:(void(^)(CGFloat height))completion;
+
+/// 获取网络图片尺寸（异步）
+/// @param imageURL 网络图片URL字符串
+/// @param completion 完成回调，返回图片尺寸（如果获取失败返回CGSizeZero）
++ (void)getImageSizeWithURL:(NSString *)imageURL
+                 completion:(void(^)(CGSize size))completion;
+
+
 @end
 
 NS_ASSUME_NONNULL_END

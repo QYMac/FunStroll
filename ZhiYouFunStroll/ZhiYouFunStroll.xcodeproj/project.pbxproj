@@ -195,6 +195,14 @@
 		CCC0F79D2F15E5B400F9D0DC /* SelectedPhotoBar.m in Sources */ = {isa = PBXBuildFile; fileRef = CCC0F7982F15E5B400F9D0DC /* SelectedPhotoBar.m */; };
 		CCC0F7A02F15E9E000F9D0DC /* PhotoGridPreviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CCC0F79F2F15E9E000F9D0DC /* PhotoGridPreviewViewController.m */; };
 		CCC0F7A32F16149A00F9D0DC /* AlbumListView.m in Sources */ = {isa = PBXBuildFile; fileRef = CCC0F7A22F16149A00F9D0DC /* AlbumListView.m */; };
+		CCC0F7B02F16417200F9D0DC /* RouteHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = CCC0F7A72F16417200F9D0DC /* RouteHeaderView.m */; };
+		CCC0F7B12F16417200F9D0DC /* RouteWaypointView.m in Sources */ = {isa = PBXBuildFile; fileRef = CCC0F7AB2F16417200F9D0DC /* RouteWaypointView.m */; };
+		CCC0F7B22F16417200F9D0DC /* RouteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CCC0F7AE2F16417200F9D0DC /* RouteViewController.m */; };
+		CCC0F7B32F16417200F9D0DC /* NearbyRecommendCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CCC0F7A52F16417200F9D0DC /* NearbyRecommendCell.m */; };
+		CCC0F7B42F16417200F9D0DC /* RouteOptionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CCC0F7A92F16417200F9D0DC /* RouteOptionCell.m */; };
+		CCC0F7B72F1787E500F9D0DC /* RouteSearchResultView.m in Sources */ = {isa = PBXBuildFile; fileRef = CCC0F7B62F1787E500F9D0DC /* RouteSearchResultView.m */; };
+		CCC0F7BA2F178B8F00F9D0DC /* RouteCategorySearchView.m in Sources */ = {isa = PBXBuildFile; fileRef = CCC0F7B92F178B8F00F9D0DC /* RouteCategorySearchView.m */; };
+		CCC0F7BD2F179E1100F9D0DC /* RouteLocationCardView.m in Sources */ = {isa = PBXBuildFile; fileRef = CCC0F7BC2F179E1100F9D0DC /* RouteLocationCardView.m */; };
 		CCDE01362F0E2F9100C4C9D4 /* ArrayHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = CCDE01352F0E2F9100C4C9D4 /* ArrayHelper.m */; };
 		CCDE013C2F0E411700C4C9D4 /* ViewControllerTransitionHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = CCDE013B2F0E411700C4C9D4 /* ViewControllerTransitionHelper.m */; };
 /* End PBXBuildFile section */
@@ -594,6 +602,22 @@
 		CCC0F79F2F15E9E000F9D0DC /* PhotoGridPreviewViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PhotoGridPreviewViewController.m; sourceTree = "<group>"; };
 		CCC0F7A12F16149A00F9D0DC /* AlbumListView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AlbumListView.h; sourceTree = "<group>"; };
 		CCC0F7A22F16149A00F9D0DC /* AlbumListView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AlbumListView.m; sourceTree = "<group>"; };
+		CCC0F7A42F16417200F9D0DC /* NearbyRecommendCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NearbyRecommendCell.h; sourceTree = "<group>"; };
+		CCC0F7A52F16417200F9D0DC /* NearbyRecommendCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NearbyRecommendCell.m; sourceTree = "<group>"; };
+		CCC0F7A62F16417200F9D0DC /* RouteHeaderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RouteHeaderView.h; sourceTree = "<group>"; };
+		CCC0F7A72F16417200F9D0DC /* RouteHeaderView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RouteHeaderView.m; sourceTree = "<group>"; };
+		CCC0F7A82F16417200F9D0DC /* RouteOptionCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RouteOptionCell.h; sourceTree = "<group>"; };
+		CCC0F7A92F16417200F9D0DC /* RouteOptionCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RouteOptionCell.m; sourceTree = "<group>"; };
+		CCC0F7AA2F16417200F9D0DC /* RouteWaypointView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RouteWaypointView.h; sourceTree = "<group>"; };
+		CCC0F7AB2F16417200F9D0DC /* RouteWaypointView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RouteWaypointView.m; sourceTree = "<group>"; };
+		CCC0F7AD2F16417200F9D0DC /* RouteViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RouteViewController.h; sourceTree = "<group>"; };
+		CCC0F7AE2F16417200F9D0DC /* RouteViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RouteViewController.m; sourceTree = "<group>"; };
+		CCC0F7B52F1787E500F9D0DC /* RouteSearchResultView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RouteSearchResultView.h; sourceTree = "<group>"; };
+		CCC0F7B62F1787E500F9D0DC /* RouteSearchResultView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RouteSearchResultView.m; sourceTree = "<group>"; };
+		CCC0F7B82F178B8F00F9D0DC /* RouteCategorySearchView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RouteCategorySearchView.h; sourceTree = "<group>"; };
+		CCC0F7B92F178B8F00F9D0DC /* RouteCategorySearchView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RouteCategorySearchView.m; sourceTree = "<group>"; };
+		CCC0F7BB2F179E1100F9D0DC /* RouteLocationCardView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RouteLocationCardView.h; sourceTree = "<group>"; };
+		CCC0F7BC2F179E1100F9D0DC /* RouteLocationCardView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RouteLocationCardView.m; sourceTree = "<group>"; };
 		CCDE01342F0E2F9100C4C9D4 /* ArrayHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ArrayHelper.h; sourceTree = "<group>"; };
 		CCDE01352F0E2F9100C4C9D4 /* ArrayHelper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ArrayHelper.m; sourceTree = "<group>"; };
 		CCDE013A2F0E411700C4C9D4 /* ViewControllerTransitionHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewControllerTransitionHelper.h; sourceTree = "<group>"; };
@@ -979,6 +1003,7 @@
 				CC8253622ED43097006BCE2A /* Main.storyboard */,
 				CC8253632ED43097006BCE2A /* ViewController.h */,
 				CC8253642ED43097006BCE2A /* ViewController.m */,
+				CCC0F7AF2F16417200F9D0DC /* Route */,
 				CCC0F78D2F15D3F700F9D0DC /* Publish */,
 				CC2F1CE12EF3CAE7007E8992 /* WKWebView */,
 				CC99591C2EE65EC600456825 /* MapNavigation */,
@@ -1759,6 +1784,37 @@
 			path = PhotoPicker;
 			sourceTree = "<group>";
 		};
+		CCC0F7AC2F16417200F9D0DC /* View */ = {
+			isa = PBXGroup;
+			children = (
+				CCC0F7A42F16417200F9D0DC /* NearbyRecommendCell.h */,
+				CCC0F7A52F16417200F9D0DC /* NearbyRecommendCell.m */,
+				CCC0F7A62F16417200F9D0DC /* RouteHeaderView.h */,
+				CCC0F7A72F16417200F9D0DC /* RouteHeaderView.m */,
+				CCC0F7A82F16417200F9D0DC /* RouteOptionCell.h */,
+				CCC0F7A92F16417200F9D0DC /* RouteOptionCell.m */,
+				CCC0F7B82F178B8F00F9D0DC /* RouteCategorySearchView.h */,
+				CCC0F7B92F178B8F00F9D0DC /* RouteCategorySearchView.m */,
+				CCC0F7AA2F16417200F9D0DC /* RouteWaypointView.h */,
+				CCC0F7AB2F16417200F9D0DC /* RouteWaypointView.m */,
+				CCC0F7B52F1787E500F9D0DC /* RouteSearchResultView.h */,
+				CCC0F7B62F1787E500F9D0DC /* RouteSearchResultView.m */,
+				CCC0F7BB2F179E1100F9D0DC /* RouteLocationCardView.h */,
+				CCC0F7BC2F179E1100F9D0DC /* RouteLocationCardView.m */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		CCC0F7AF2F16417200F9D0DC /* Route */ = {
+			isa = PBXGroup;
+			children = (
+				CCC0F7AC2F16417200F9D0DC /* View */,
+				CCC0F7AD2F16417200F9D0DC /* RouteViewController.h */,
+				CCC0F7AE2F16417200F9D0DC /* RouteViewController.m */,
+			);
+			path = Route;
+			sourceTree = "<group>";
+		};
 		CCDE01332F0E2F8C00C4C9D4 /* ArrayHelper */ = {
 			isa = PBXGroup;
 			children = (
@@ -1931,6 +1987,7 @@
 				CC8AB83F2F149B6E00BC11A8 /* MineFavoriteCell.m in Sources */,
 				CC2F1CDD2EF2A399007E8992 /* AlicomFusionAuthTokenManager.m in Sources */,
 				CC5AE5E32F036A4E0004B0A5 /* HomeHeadView.m in Sources */,
+				CCC0F7BD2F179E1100F9D0DC /* RouteLocationCardView.m in Sources */,
 				CC82543E2ED6E9E3006BCE2A /* SetShadow.m in Sources */,
 				CC57C9442EE15FA4006A38C3 /* MapLayerView.m in Sources */,
 				CC8253B02ED4414D006BCE2A /* MineViewController.m in Sources */,
@@ -1939,6 +1996,7 @@
 				CC8253932ED43A8A006BCE2A /* CustomNavController.m in Sources */,
 				CC676BE02F0BA9B300574EF8 /* UITextView+EmojiKeyboard.m in Sources */,
 				CC99591F2EE65EF800456825 /* MapNavigationController.m in Sources */,
+				CCC0F7BA2F178B8F00F9D0DC /* RouteCategorySearchView.m in Sources */,
 				CC8253B72ED4589B006BCE2A /* SwitchPageView.m in Sources */,
 				CC8253C52ED590DC006BCE2A /* UIView+QQFrame.m in Sources */,
 				CC5AE6202F0A51D10004B0A5 /* DCCycleScrollViewFlowLayout.m in Sources */,
@@ -2059,7 +2117,13 @@
 				CC5AE5E02F0273270004B0A5 /* HomeView.m in Sources */,
 				CC2F1CD82EF295E4007E8992 /* AlicomFusionDemoUtil.m in Sources */,
 				CC8254482ED7F12A006BCE2A /* MerchantVardTabListView.m in Sources */,
+				CCC0F7B72F1787E500F9D0DC /* RouteSearchResultView.m in Sources */,
 				CC82543B2ED6E0FD006BCE2A /* UIView+ZFView.m in Sources */,
+				CCC0F7B02F16417200F9D0DC /* RouteHeaderView.m in Sources */,
+				CCC0F7B12F16417200F9D0DC /* RouteWaypointView.m in Sources */,
+				CCC0F7B22F16417200F9D0DC /* RouteViewController.m in Sources */,
+				CCC0F7B32F16417200F9D0DC /* NearbyRecommendCell.m in Sources */,
+				CCC0F7B42F16417200F9D0DC /* RouteOptionCell.m in Sources */,
 				CC8253D42ED593E8006BCE2A /* DeliciousFoodViewController.m in Sources */,
 				CC8254802EDE80F3006BCE2A /* AddCommentCollectionCell.m in Sources */,
 				CC8253672ED43097006BCE2A /* main.m in Sources */,
@@ -2118,7 +2182,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 7G76343J86;
+				DEVELOPMENT_TEAM = CSJKZ9YWKT;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2227,7 +2291,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 7G76343J86;
+				DEVELOPMENT_TEAM = CSJKZ9YWKT;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",

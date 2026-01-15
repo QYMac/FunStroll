@@ -54,7 +54,10 @@ static UserModel * instance = nil;
     // 更新 token 需要未登录状态去查寻更新，API这样写，我不是很理解 ？？？
     // Authorization = Basic YXBwOmFwcA== （固定）
     NSString *refresh_token = [UserModel getObjectForKey:kRefreshToken];
-    [AFNetworkingManage LoginRefresh_token:refresh_token grant_type:@"refresh_token" scope:@"app-server" success:^(id  _Nonnull responseObject) {
+    if ([CheckTool replaceNullValue:refresh_token].length == 0) {
+        return;
+    }
+    [AFNetworkingManage LoginRefresh_token:[CheckTool replaceNullValue:refresh_token] grant_type:@"refresh_token" scope:@"app-server" success:^(id  _Nonnull responseObject) {
         
         NSDictionary *dict = [CheckTool replaceNullWithDictionary:responseObject];
         NSString *code = [CheckTool replaceNullValue:dict[@"code"]];
@@ -79,7 +82,10 @@ static UserModel * instance = nil;
 + (void)loginAccount{
     
     NSString *refresh_token = [UserModel getObjectForKey:kRefreshToken];
-    [AFNetworkingManage LoginRefresh_token:refresh_token grant_type:@"refresh_token" scope:@"app-server" success:^(id  _Nonnull responseObject) {
+    if ([CheckTool replaceNullValue:refresh_token].length == 0) {
+        return;
+    }
+    [AFNetworkingManage LoginRefresh_token:[CheckTool replaceNullValue:refresh_token] grant_type:@"refresh_token" scope:@"app-server" success:^(id  _Nonnull responseObject) {
         // 储存用户信息
         NSDictionary *dict = [CheckTool replaceNullWithDictionary:responseObject];
         NSString *refresh_token = [CheckTool replaceNullValue:dict[@"refresh_token"]];

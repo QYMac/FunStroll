@@ -9,7 +9,7 @@
 #import "CommunityCollectionViewCell.h"
 #import "HomeHeadView.h"
 #import "HomeViewDetailsController.h"
-#import "AddCommentController.h"
+#import "RouteViewController.h"
 
 @interface HomeView ()<GeneralWaterfallFlowLayoutDelegate,UICollectionViewDelegate,UICollectionViewDataSource>
 
@@ -177,8 +177,17 @@
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.row == 0) {
-        AddCommentController *navc = [[AddCommentController alloc]init];
-        [[TabBarViewController takeCurrentVC].navigationController pushViewController:navc animated:YES];
+        RouteViewController *routeVC = [[RouteViewController alloc] init];
+        routeVC.startName = @"我的位置";
+        routeVC.endName = @"深圳大梅沙沙滩";
+        // TODO: 设置实际坐标
+        // routeVC.startCoordinate = self.mapView.userLocation.coordinate;
+        // routeVC.endCoordinate = CLLocationCoordinate2DMake(lat, lng);
+        [[TabBarViewController takeCurrentVC].navigationController pushViewController:routeVC animated:YES];
+        return;
+    } else if (indexPath.row == 1) {
+        MapNavigationController *vc = [[MapNavigationController alloc]init];
+        [[TabBarViewController takeCurrentVC].navigationController pushViewController:vc animated:YES];
         return;
     }
     

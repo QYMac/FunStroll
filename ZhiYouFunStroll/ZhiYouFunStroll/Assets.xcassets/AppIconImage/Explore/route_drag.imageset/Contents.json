@@ -5,12 +5,12 @@
       "scale" : "1x"
     },
     {
-      "filename" : "shopping@2x.png",
+      "filename" : "route_drag@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "shopping@3x.png",
+      "filename" : "route_drag@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

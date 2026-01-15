@@ -251,7 +251,6 @@
             cell = [[ImageTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
         }
         
-        
         cell.model = self.responseModel;
         
         return cell;

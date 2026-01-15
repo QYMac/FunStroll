@@ -25,6 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) UIButton *arrowBut;         //双箭(用户名旁边)
 @property (nonatomic, strong) UIButton *arrowBut1;
 @property (nonatomic,strong) UIView *bgView;
+@property (nonatomic, strong) UIButton *nextBut;
 
 @property (nonatomic, copy) void(^settingButtonClickBlock)(void);
 @property (nonatomic, copy) void(^editBioClickBlock)(void);

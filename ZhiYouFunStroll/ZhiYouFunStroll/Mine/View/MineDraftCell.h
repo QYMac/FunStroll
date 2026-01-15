@@ -15,6 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) UILabel *titleLabel;           // 本地草稿
 @property (nonatomic, strong) UILabel *subtitleLabel;        // 有x篇笔记待发布
 @property (nonatomic, strong) UIImageView *bgImageView;      // 背景图
+@property (nonatomic, strong) UIImageView *nexImg; 
 
 - (void)configureDraftCount:(NSInteger)count backgroundImage:(UIImage * _Nullable)bgImage;
 

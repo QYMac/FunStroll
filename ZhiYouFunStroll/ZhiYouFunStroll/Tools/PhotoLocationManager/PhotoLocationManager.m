@@ -31,6 +31,72 @@
             self.formattedAddress ?: @"N/A"];
 }
 
++ (void)getImageHeightWithURL:(NSString *)imageURL
+                   limitWidth:(CGFloat)limitWidth
+                   completion:(void(^)(CGFloat height))completion {
+    if (!imageURL || imageURL.length == 0 || limitWidth <= 0) {
+        if (completion) {
+            completion(0);
+        }
+        return;
+    }
+    
+    [self getImageSizeWithURL:imageURL completion:^(CGSize size) {
+        if (CGSizeEqualToSize(size, CGSizeZero) || size.width <= 0) {
+            if (completion) {
+                completion(0);
+            }
+            return;
+        }
+        
+        // 按比例计算高度
+        CGFloat height = (limitWidth / size.width) * size.height;
+        if (completion) {
+            completion(height);
+        }
+    }];
+}
+
++ (void)getImageSizeWithURL:(NSString *)imageURL
+                 completion:(void(^)(CGSize size))completion {
+    if (!imageURL || imageURL.length == 0) {
+        if (completion) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                completion(CGSizeZero);
+            });
+        }
+        return;
+    }
+    
+    NSURL *url = [NSURL URLWithString:imageURL];
+    if (!url) {
+        if (completion) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                completion(CGSizeZero);
+            });
+        }
+        return;
+    }
+    
+    // 使用 SDWebImage 缓存机制获取图片尺寸
+    [[SDWebImageManager sharedManager] loadImageWithURL:url
+                                                options:SDWebImageRetryFailed
+                                               progress:nil
+                                              completed:^(UIImage * _Nullable image, NSData * _Nullable data, NSError * _Nullable error, SDImageCacheType cacheType, BOOL finished, NSURL * _Nullable imageURL) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (image) {
+                if (completion) {
+                    completion(image.size);
+                }
+            } else {
+                if (completion) {
+                    completion(CGSizeZero);
+                }
+            }
+        });
+    }];
+}
+
 @end
 
 @interface PhotoLocationManager () <AMapSearchDelegate>

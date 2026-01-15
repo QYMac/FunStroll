@@ -27,6 +27,7 @@
         make.edges.mas_equalTo(0);
     }];
     
+    /*
     // 半透明遮罩层
     UIView *overlayView = [[UIView alloc] init];
     overlayView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.3];
@@ -34,6 +35,7 @@
     [overlayView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.mas_equalTo(0);
     }];
+     */
     
     // 图标
     [self.contentView addSubview:self.iconImageView];
@@ -56,6 +58,14 @@
         make.centerX.mas_equalTo(self.contentView);
         make.top.mas_equalTo(self.titleLabel.mas_bottom).offset(8);
     }];
+    
+    [self.contentView addSubview:self.nexImg];
+    [self.nexImg mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.mas_equalTo(self.subtitleLabel);
+        make.left.mas_equalTo(self.subtitleLabel.mas_right).offset(2);
+        make.width.mas_equalTo(5);
+        make.height.mas_equalTo(10);
+    }];
 }
 
 #pragma mark - Public Methods
@@ -64,7 +74,7 @@
         self.bgImageView.image = bgImage;
     }
     
-    NSString *subtitle = [NSString stringWithFormat:@"有%ld篇笔记待发布 >", (long)count];
+    NSString *subtitle = [NSString stringWithFormat:@"有%ld篇笔记待发布", (long)count];
     self.subtitleLabel.text = subtitle;
 }
 
@@ -74,6 +84,7 @@
         _bgImageView = [[UIImageView alloc] init];
         _bgImageView.contentMode = UIViewContentModeScaleAspectFill;
         _bgImageView.clipsToBounds = YES;
+        _bgImageView.image = [UIImage imageNamed:@"my_bg"];
     }
     return _bgImageView;
 }
@@ -85,6 +96,14 @@
         _iconImageView.contentMode = UIViewContentModeScaleAspectFit;
     }
     return _iconImageView;
+}
+
+- (UIImageView *)nexImg {
+    if (!_nexImg) {
+        _nexImg = [[UIImageView alloc] init];
+        _nexImg.image = [UIImage imageNamed:@"my_next"];;
+    }
+    return _nexImg;
 }
 
 - (UILabel *)titleLabel {
@@ -101,8 +120,8 @@
 - (UILabel *)subtitleLabel {
     if (!_subtitleLabel) {
         _subtitleLabel = [[UILabel alloc] init];
-        _subtitleLabel.text = @"有1篇笔记待发布 >";
-        _subtitleLabel.textColor = [UIColor colorWithWhite:1.0 alpha:0.8];
+        _subtitleLabel.text = @"有1篇笔记待发布";
+        _subtitleLabel.textColor = [UIColor whiteColor];
         _subtitleLabel.font = [UIFont systemFontOfSize:10];
         _subtitleLabel.textAlignment = NSTextAlignmentCenter;
     }

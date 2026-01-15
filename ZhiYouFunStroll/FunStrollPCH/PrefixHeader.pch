@@ -78,6 +78,7 @@
 #import "ViewControllerTransitionHelper.h" // 转场动画
 //#import "TTTAttributedLabel.h" // 字体变色
 #import "CustomNavController.h" // 顶部标签栏
+#import "PhotoLocationManager.h"
 
 //加载控件
 #import "UIView+MBProgressHUD.h"

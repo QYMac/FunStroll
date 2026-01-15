@@ -36,6 +36,11 @@ static const NSInteger kMaxContentLength = 1000;
 // 可见性
 @property (nonatomic, strong) UIView *visibilityView;
 @property (nonatomic, strong) UILabel *visibilityLabel;
+@property (nonatomic, assign) NSInteger visibilityType; // 0: 公开可见, 1: 仅自己可见
+
+// 可见性选择弹窗
+@property (nonatomic, strong) UIView *visibilityPickerBackground;
+@property (nonatomic, strong) UIView *visibilityPickerView;
 
 // 底部按钮
 @property (nonatomic, strong) UIView *bottomView;
@@ -51,9 +56,11 @@ static const NSInteger kMaxContentLength = 1000;
     
     self.view.backgroundColor = [UIColor whiteColor];
     self.selectedImages = [NSMutableArray array];
+    self.visibilityType = 0; // 默认公开可见
     
     [self setupNavigationBar];
     [self setupUI];
+    [self setupVisibilityPicker];
 }
 
 - (void)setupNavigationBar {
@@ -340,6 +347,183 @@ static const NSInteger kMaxContentLength = 1000;
     }];
 }
 
+#pragma mark - 可见性选择弹窗
+- (void)setupVisibilityPicker {
+    // 背景遮罩
+    self.visibilityPickerBackground = [[UIView alloc] init];
+    self.visibilityPickerBackground.backgroundColor = [UIColor colorWithWhite:0 alpha:0.4];
+    self.visibilityPickerBackground.hidden = YES;
+    [self.view addSubview:self.visibilityPickerBackground];
+    [self.visibilityPickerBackground mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.mas_equalTo(0);
+    }];
+    
+    UITapGestureRecognizer *backgroundTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideVisibilityPicker)];
+    [self.visibilityPickerBackground addGestureRecognizer:backgroundTap];
+    
+    // 选择视图
+    self.visibilityPickerView = [[UIView alloc] init];
+    self.visibilityPickerView.backgroundColor = RGB(250, 250, 250);
+    self.visibilityPickerView.hidden = YES;
+    [self.view addSubview:self.visibilityPickerView];
+    [self.visibilityPickerView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.bottom.mas_equalTo(0);
+        make.height.mas_equalTo(200);
+    }];
+    
+    // 公开可见选项
+    UIButton *publicButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [publicButton setTitle:@"  公开可见" forState:UIControlStateNormal];
+    [publicButton setTitleColor:RGB(51, 51, 51) forState:UIControlStateNormal];
+    publicButton.titleLabel.font = [UIFont systemFontOfSize:14];
+    [publicButton setImage:[UIImage imageNamed:@"suo_p"] forState:UIControlStateNormal];
+    publicButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+    publicButton.backgroundColor = [UIColor whiteColor];
+    publicButton.layer.cornerRadius = 8;
+    publicButton.layer.maskedCorners = kCALayerMinXMinYCorner | kCALayerMaxXMinYCorner;
+    publicButton.layer.masksToBounds = YES;
+    publicButton.contentEdgeInsets = UIEdgeInsetsMake(0, 20, 0, 0);
+    [publicButton addTarget:self action:@selector(selectPublicVisibility) forControlEvents:UIControlEventTouchUpInside];
+    [self.visibilityPickerView addSubview:publicButton];
+    [publicButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(10);
+        make.left.mas_equalTo(10);
+        make.right.mas_equalTo(-10);
+        make.height.mas_equalTo(50);
+    }];
+    
+    // 公开可见的勾选标记
+    UIImageView *publicCheckmark = [[UIImageView alloc] init];
+    publicCheckmark.image = [UIImage imageNamed:@"dui_p"];
+    publicCheckmark.contentMode = UIViewContentModeScaleAspectFit;
+    publicCheckmark.tag = 100; // 用于标识
+    [self.visibilityPickerView addSubview:publicCheckmark];
+    [publicCheckmark mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.mas_equalTo(-20);
+        make.centerY.mas_equalTo(publicButton);
+        make.width.height.mas_equalTo(16);
+    }];
+    
+    // 仅自己可见选项
+    UIButton *privateButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [privateButton setTitle:@"  仅自己可见" forState:UIControlStateNormal];
+    [privateButton setTitleColor:RGB(51, 51, 51) forState:UIControlStateNormal];
+    [privateButton setImage:[UIImage imageNamed:@"suo_p"] forState:UIControlStateNormal];
+    privateButton.titleLabel.font = [UIFont systemFontOfSize:14];
+    privateButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+    privateButton.contentEdgeInsets = UIEdgeInsetsMake(0, 20, 0, 0);
+    privateButton.backgroundColor = [UIColor whiteColor];
+    privateButton.layer.cornerRadius = 8;
+    privateButton.layer.maskedCorners = kCALayerMinXMaxYCorner | kCALayerMaxXMaxYCorner;
+    privateButton.layer.masksToBounds = YES;
+    [privateButton addTarget:self action:@selector(selectPrivateVisibility) forControlEvents:UIControlEventTouchUpInside];
+    [self.visibilityPickerView addSubview:privateButton];
+    [privateButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(publicButton.mas_bottom).offset(0.5);
+        make.left.mas_equalTo(10);
+        make.right.mas_equalTo(-10);
+        make.height.mas_equalTo(50);
+    }];
+    
+    // 分割线
+    UIView *separator1 = [[UIView alloc] init];
+    separator1.backgroundColor = RGB(238, 238, 238);
+    [self.visibilityPickerView addSubview:separator1];
+    [separator1 mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(privateButton.mas_top);
+        make.left.mas_equalTo(publicButton.mas_left).offset(15);
+        make.right.mas_equalTo(publicButton.mas_left).offset(0);
+        make.height.mas_equalTo(0.5);
+    }];
+    
+    // 仅自己可见的勾选标记
+    UIImageView *privateCheckmark = [[UIImageView alloc] init];
+    privateCheckmark.image = [UIImage imageNamed:@"dui_p"];
+    privateCheckmark.contentMode = UIViewContentModeScaleAspectFit;
+    privateCheckmark.tag = 101; // 用于标识
+    privateCheckmark.hidden = YES;
+    [self.visibilityPickerView addSubview:privateCheckmark];
+    [privateCheckmark mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.mas_equalTo(-20);
+        make.centerY.mas_equalTo(privateButton);
+        make.width.height.mas_equalTo(16);
+    }];
+    
+    // 取消按钮
+    UIButton *cancelButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [cancelButton setTitle:@"取消" forState:UIControlStateNormal];
+    [cancelButton setTitleColor:RGB(51, 51, 51) forState:UIControlStateNormal];
+    cancelButton.titleLabel.font = [UIFont systemFontOfSize:14];
+    [cancelButton addTarget:self action:@selector(hideVisibilityPicker) forControlEvents:UIControlEventTouchUpInside];
+    cancelButton.layer.cornerRadius = 8;
+    cancelButton.layer.masksToBounds = YES;
+    cancelButton.backgroundColor = [UIColor whiteColor];
+    [self.visibilityPickerView addSubview:cancelButton];
+    [cancelButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(privateButton.mas_bottom).offset(10);
+        make.left.mas_equalTo(10);
+        make.right.mas_equalTo(-10);
+        make.height.mas_equalTo(50);
+    }];
+    
+    // 更新初始状态
+    [self updateVisibilityCheckmarks];
+}
+
+- (void)updateVisibilityCheckmarks {
+    UIImageView *publicCheckmark = [self.visibilityPickerView viewWithTag:100];
+    UIImageView *privateCheckmark = [self.visibilityPickerView viewWithTag:101];
+    
+    publicCheckmark.hidden = (self.visibilityType != 0);
+    privateCheckmark.hidden = (self.visibilityType != 1);
+}
+
+- (void)showVisibilityPicker {
+    // 更新勾选标记状态
+    [self updateVisibilityCheckmarks];
+    
+    self.visibilityPickerBackground.hidden = NO;
+    self.visibilityPickerView.hidden = NO;
+    
+    // 动画：从底部滑入
+    CGRect frame = self.visibilityPickerView.frame;
+    frame.origin.y = self.view.bounds.size.height;
+    self.visibilityPickerView.frame = frame;
+    
+    [UIView animateWithDuration:0.3 animations:^{
+        CGRect finalFrame = self.visibilityPickerView.frame;
+        finalFrame.origin.y = self.view.bounds.size.height - 200;
+        self.visibilityPickerView.frame = finalFrame;
+        self.visibilityPickerBackground.alpha = 1.0;
+    }];
+}
+
+- (void)hideVisibilityPicker {
+    [UIView animateWithDuration:0.3 animations:^{
+        CGRect frame = self.visibilityPickerView.frame;
+        frame.origin.y = self.view.bounds.size.height;
+        self.visibilityPickerView.frame = frame;
+        self.visibilityPickerBackground.alpha = 0.0;
+    } completion:^(BOOL finished) {
+        self.visibilityPickerBackground.hidden = YES;
+        self.visibilityPickerView.hidden = YES;
+    }];
+}
+
+- (void)selectPublicVisibility {
+    self.visibilityType = 0;
+    self.visibilityLabel.text = @"公开可见";
+    [self updateVisibilityCheckmarks];
+    [self hideVisibilityPicker];
+}
+
+- (void)selectPrivateVisibility {
+    self.visibilityType = 1;
+    self.visibilityLabel.text = @"仅自己可见";
+    [self updateVisibilityCheckmarks];
+    [self hideVisibilityPicker];
+}
+
 #pragma mark - UICollectionViewDataSource
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     return self.selectedImages.count + 1;  // +1 为添加按钮
@@ -573,8 +757,7 @@ static const NSInteger kMaxContentLength = 1000;
 }
 
 - (void)visibilityTapped {
-    NSLog(@"设置可见性");
-    // TODO: 打开可见性设置
+    [self showVisibilityPicker];
 }
 
 - (void)saveDraftButtonClicked {

@@ -172,6 +172,13 @@
 
 #pragma mark - 按钮点击
 - (void)iphonLoginButClick:(UIButton *)sender{
+    
+    if ([DeviceInfoHelper hasSIMCard] == NO) {
+        LoginUserViewController *navc = [[LoginUserViewController alloc] init];
+        [self.navigationController pushViewController:navc animated:YES];
+        return;
+    }
+    
     if (self.selectedBut.selected == NO) {
         [AlertWith showAlertWithMessageText:@"请先同意《用户条款》和《隐私政策》"];
         return;

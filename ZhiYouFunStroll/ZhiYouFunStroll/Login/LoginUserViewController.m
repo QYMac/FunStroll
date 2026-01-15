@@ -1013,7 +1013,12 @@
 - (UIButton *)selectedBut{
     if (!_selectedBut) {
         _selectedBut = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_selectedBut setImage:[UIImage imageNamed:@"loginBut_on"] forState:UIControlStateNormal];
+        _selectedBut.selected = _isSelected;
+        if (_isSelected == NO) {
+            [_selectedBut setImage:[UIImage imageNamed:@"loginBut_off"] forState:UIControlStateNormal];
+        } else {
+            [_selectedBut setImage:[UIImage imageNamed:@"loginBut_on"] forState:UIControlStateNormal];
+        }
         [_selectedBut addTarget:self action:@selector(selectedButClick:) forControlEvents:UIControlEventTouchUpInside];
         
     }

@@ -92,6 +92,12 @@
             [transitionContext completeTransition:finished];
         }];
     } else {
+        // Pop 时，确保 toVC.view 被添加到容器中并正确显示
+        CGRect finalFrame = [transitionContext finalFrameForViewController:toVC];
+        toVC.view.frame = finalFrame;
+        toVC.view.alpha = 1.0;
+        [containerView insertSubview:toVC.view belowSubview:fromVC.view];
+        
         [UIView animateWithDuration:self.duration animations:^{
             fromVC.view.alpha = 0.0;
         } completion:^(BOOL finished) {
@@ -122,9 +128,19 @@
             [transitionContext completeTransition:finished];
         }];
     } else {
-        CGRect finalFrame = fromVC.view.frame;
-        [UIView animateWithDuration:self.duration animations:^{
-            fromVC.view.frame = CGRectOffset(finalFrame, 0, finalFrame.size.height);
+        // Pop 时，确保 toVC.view 被添加到容器中并正确显示
+        CGRect finalFrame = [transitionContext finalFrameForViewController:toVC];
+        toVC.view.frame = finalFrame;
+        [containerView insertSubview:toVC.view belowSubview:fromVC.view];
+        
+        CGRect fromFinalFrame = fromVC.view.frame;
+        [UIView animateWithDuration:self.duration
+                              delay:0
+             usingSpringWithDamping:0.8
+              initialSpringVelocity:0
+                            options:UIViewAnimationOptionCurveEaseInOut
+                         animations:^{
+            fromVC.view.frame = CGRectOffset(fromFinalFrame, 0, fromFinalFrame.size.height);
         } completion:^(BOOL finished) {
             [fromVC.view removeFromSuperview];
             [transitionContext completeTransition:finished];
@@ -153,9 +169,19 @@
             [transitionContext completeTransition:finished];
         }];
     } else {
-        CGRect finalFrame = fromVC.view.frame;
-        [UIView animateWithDuration:self.duration animations:^{
-            fromVC.view.frame = CGRectOffset(finalFrame, 0, -finalFrame.size.height);
+        // Pop 时，确保 toVC.view 被添加到容器中并正确显示
+        CGRect finalFrame = [transitionContext finalFrameForViewController:toVC];
+        toVC.view.frame = finalFrame;
+        [containerView insertSubview:toVC.view belowSubview:fromVC.view];
+        
+        CGRect fromFinalFrame = fromVC.view.frame;
+        [UIView animateWithDuration:self.duration
+                              delay:0
+             usingSpringWithDamping:0.8
+              initialSpringVelocity:0
+                            options:UIViewAnimationOptionCurveEaseInOut
+                         animations:^{
+            fromVC.view.frame = CGRectOffset(fromFinalFrame, 0, -fromFinalFrame.size.height);
         } completion:^(BOOL finished) {
             [fromVC.view removeFromSuperview];
             [transitionContext completeTransition:finished];
@@ -180,9 +206,15 @@
             [transitionContext completeTransition:finished];
         }];
     } else {
-        CGRect finalFrame = fromVC.view.frame;
+        // Pop 时，确保 toVC.view 被添加到容器中并正确显示
+        CGRect finalFrame = [transitionContext finalFrameForViewController:toVC];
+        toVC.view.frame = CGRectOffset(finalFrame, -finalFrame.size.width * 0.3, 0);
+        [containerView insertSubview:toVC.view belowSubview:fromVC.view];
+        
+        CGRect fromFinalFrame = fromVC.view.frame;
         [UIView animateWithDuration:self.duration animations:^{
-            fromVC.view.frame = CGRectOffset(finalFrame, finalFrame.size.width, 0);
+            fromVC.view.frame = CGRectOffset(fromFinalFrame, fromFinalFrame.size.width, 0);
+            toVC.view.frame = finalFrame;
         } completion:^(BOOL finished) {
             [fromVC.view removeFromSuperview];
             [transitionContext completeTransition:finished];
@@ -207,9 +239,15 @@
             [transitionContext completeTransition:finished];
         }];
     } else {
-        CGRect finalFrame = fromVC.view.frame;
+        // Pop 时，确保 toVC.view 被添加到容器中并正确显示
+        CGRect finalFrame = [transitionContext finalFrameForViewController:toVC];
+        toVC.view.frame = CGRectOffset(finalFrame, finalFrame.size.width * 0.3, 0);
+        [containerView insertSubview:toVC.view belowSubview:fromVC.view];
+        
+        CGRect fromFinalFrame = fromVC.view.frame;
         [UIView animateWithDuration:self.duration animations:^{
-            fromVC.view.frame = CGRectOffset(finalFrame, -finalFrame.size.width, 0);
+            fromVC.view.frame = CGRectOffset(fromFinalFrame, -fromFinalFrame.size.width, 0);
+            toVC.view.frame = finalFrame;
         } completion:^(BOOL finished) {
             [fromVC.view removeFromSuperview];
             [transitionContext completeTransition:finished];
@@ -239,7 +277,19 @@
             [transitionContext completeTransition:finished];
         }];
     } else {
-        [UIView animateWithDuration:self.duration animations:^{
+        // Pop 时，确保 toVC.view 被添加到容器中并正确显示
+        CGRect finalFrame = [transitionContext finalFrameForViewController:toVC];
+        toVC.view.frame = finalFrame;
+        toVC.view.alpha = 1.0;
+        toVC.view.transform = CGAffineTransformIdentity;
+        [containerView insertSubview:toVC.view belowSubview:fromVC.view];
+        
+        [UIView animateWithDuration:self.duration
+                              delay:0
+             usingSpringWithDamping:0.6
+              initialSpringVelocity:0
+                            options:UIViewAnimationOptionCurveEaseInOut
+                         animations:^{
             fromVC.view.alpha = 0.0;
             fromVC.view.transform = CGAffineTransformMakeScale(0.1, 0.1);
         } completion:^(BOOL finished) {
@@ -265,6 +315,12 @@
             [transitionContext completeTransition:finished];
         }];
     } else {
+        // Pop 时，确保 toVC.view 被添加到容器中并正确显示
+        CGRect finalFrame = [transitionContext finalFrameForViewController:toVC];
+        toVC.view.frame = finalFrame;
+        toVC.view.layer.transform = CATransform3DIdentity;
+        [containerView insertSubview:toVC.view belowSubview:fromVC.view];
+        
         [UIView animateWithDuration:self.duration animations:^{
             fromVC.view.layer.transform = CATransform3DMakeRotation(-M_PI / 2, 0, 1, 0);
         } completion:^(BOOL finished) {
@@ -290,6 +346,12 @@
             [transitionContext completeTransition:finished];
         }];
     } else {
+        // Pop 时，确保 toVC.view 被添加到容器中并正确显示
+        CGRect finalFrame = [transitionContext finalFrameForViewController:toVC];
+        toVC.view.frame = finalFrame;
+        toVC.view.layer.transform = CATransform3DIdentity;
+        [containerView insertSubview:toVC.view belowSubview:fromVC.view];
+        
         [UIView animateWithDuration:self.duration animations:^{
             fromVC.view.layer.transform = CATransform3DMakeRotation(-M_PI / 2, 1, 0, 0);
         } completion:^(BOOL finished) {

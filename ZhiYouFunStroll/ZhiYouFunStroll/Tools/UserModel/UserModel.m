@@ -152,7 +152,7 @@ static UserModel * instance = nil;
             UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:newRootVC];
             [window setRootViewController:navVC
                         withAnimationType:TransitionAnimationTypeFade
-                                 duration:0.5
+                                 duration:0.0
                                completion:^{
                 NSLog(@"根视图切换完成（淡入淡出）");
             }];

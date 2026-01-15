@@ -12,10 +12,11 @@
 static const NSInteger kMaxTitleLength = 20;
 static const NSInteger kMaxContentLength = 1000;
 
-@interface PublishNoteViewController () <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UITextFieldDelegate, UITextViewDelegate, LFImagePickerControllerDelegate>
+@interface PublishNoteViewController () <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UITextFieldDelegate, UITextViewDelegate>
 
 @property (nonatomic, strong) UIScrollView *scrollView;
 @property (nonatomic, strong) UIView *contentView;
+@property (nonatomic, strong) UIButton *backButton;
 
 // 图片选择
 @property (nonatomic, strong) UICollectionView *imageCollectionView;
@@ -65,11 +66,15 @@ static const NSInteger kMaxContentLength = 1000;
 
 - (void)setupNavigationBar {
     // 返回按钮
-    UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [backButton setImage:[UIImage imageNamed:@"back"] forState:UIControlStateNormal];
-    [backButton addTarget:self action:@selector(backButtonClicked) forControlEvents:UIControlEventTouchUpInside];
-    backButton.frame = CGRectMake(0, 0, 30, 30);
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
+    self.backButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.backButton setImage:[UIImage imageNamed:@"back"] forState:UIControlStateNormal];
+    [self.backButton addTarget:self action:@selector(backButtonClicked) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:self.backButton];
+    [self.backButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(15);
+        make.top.mas_equalTo(self.view.mas_safeAreaLayoutGuideTop).offset(10);
+        make.width.height.mas_equalTo(24);
+    }];
 }
 
 - (void)setupUI {
@@ -88,7 +93,8 @@ static const NSInteger kMaxContentLength = 1000;
     self.scrollView.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
     [self.view addSubview:self.scrollView];
     [self.scrollView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.left.right.mas_equalTo(0);
+        make.top.mas_equalTo(self.backButton.mas_bottom).offset(10);
+        make.left.right.mas_equalTo(0);
         make.bottom.mas_equalTo(self.topicButton.mas_top).offset(-15);
     }];
     
@@ -489,16 +495,19 @@ static const NSInteger kMaxContentLength = 1000;
     CGRect frame = self.visibilityPickerView.frame;
     frame.origin.y = self.view.bounds.size.height;
     self.visibilityPickerView.frame = frame;
-    
+    [self.view layoutIfNeeded];
     [UIView animateWithDuration:0.3 animations:^{
         CGRect finalFrame = self.visibilityPickerView.frame;
         finalFrame.origin.y = self.view.bounds.size.height - 200;
         self.visibilityPickerView.frame = finalFrame;
         self.visibilityPickerBackground.alpha = 1.0;
+    } completion:^(BOOL finished) {
+        [self.view layoutIfNeeded];
     }];
 }
 
 - (void)hideVisibilityPicker {
+    [self.view layoutIfNeeded];
     [UIView animateWithDuration:0.3 animations:^{
         CGRect frame = self.visibilityPickerView.frame;
         frame.origin.y = self.view.bounds.size.height;
@@ -507,6 +516,7 @@ static const NSInteger kMaxContentLength = 1000;
     } completion:^(BOOL finished) {
         self.visibilityPickerBackground.hidden = YES;
         self.visibilityPickerView.hidden = YES;
+        [self.view layoutIfNeeded];
     }];
 }
 
@@ -708,26 +718,11 @@ static const NSInteger kMaxContentLength = 1000;
     return YES;  // 允许输入，通过字数统计显示超出
 }
 
-#pragma mark - LFImagePickerControllerDelegate
-- (void)lf_imagePickerController:(LFImagePickerController *)picker didFinishPickingResult:(NSArray<LFResultObject *> *)results {
-    for (LFResultObject *result in results) {
-        if ([result isKindOfClass:[LFResultImage class]]) {
-            LFResultImage *imageResult = (LFResultImage *)result;
-            if (imageResult.originalImage) {
-                [self.selectedImages addObject:imageResult.originalImage];
-            }
-        }
-    }
-    [self.imageCollectionView reloadData];
-}
-
-- (void)lf_imagePickerControllerDidCancel:(LFImagePickerController *)picker {
-    [picker dismissViewControllerAnimated:YES completion:nil];
-}
-
 #pragma mark - Actions
 - (void)backButtonClicked {
-    [self.navigationController popViewControllerAnimated:YES];
+    [self.navigationController popViewControllerWithAnimationType:TransitionAnimationTypePresentFromBottom duration:0.3 completion:^{
+        
+    }];
 }
 
 - (void)selectImages {
@@ -790,7 +785,7 @@ static const NSInteger kMaxContentLength = 1000;
 #pragma mark - Navigation Bar
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [self.navigationController setNavigationBarHidden:NO animated:YES];
+    [self.navigationController setNavigationBarHidden:YES animated:YES];
 }
 
 @end

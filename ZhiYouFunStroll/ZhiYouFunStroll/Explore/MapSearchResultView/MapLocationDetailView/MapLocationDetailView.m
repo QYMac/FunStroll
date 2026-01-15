@@ -263,7 +263,7 @@
 - (UILabel *)nameLabel {
     if (!_nameLabel) {
         _nameLabel = [[UILabel alloc] init];
-        _nameLabel.font = [UIFont boldSystemFontOfSize:18];
+        _nameLabel.font = [UIFont systemFontOfSize:15];
         _nameLabel.textColor = [UIColor blackColor];
         _nameLabel.numberOfLines = 0;
     }
@@ -273,8 +273,8 @@
 - (UILabel *)operatingHoursLabel {
     if (!_operatingHoursLabel) {
         _operatingHoursLabel = [[UILabel alloc] init];
-        _operatingHoursLabel.font = [UIFont systemFontOfSize:14];
-        _operatingHoursLabel.textColor = [UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:1.0];
+        _operatingHoursLabel.font = [UIFont systemFontOfSize:12];
+        _operatingHoursLabel.textColor = [UIColor blackColor];
         _operatingHoursLabel.numberOfLines = 0;
     }
     return _operatingHoursLabel;
@@ -284,7 +284,7 @@
     if (!_distanceTimeLabel) {
         _distanceTimeLabel = [[UILabel alloc] init];
         _distanceTimeLabel.font = [UIFont systemFontOfSize:14];
-        _distanceTimeLabel.textColor = [UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:1.0];
+        _distanceTimeLabel.textColor = [UIColor blackColor];
         _distanceTimeLabel.numberOfLines = 0;
     }
     return _distanceTimeLabel;
@@ -293,8 +293,8 @@
 - (UILabel *)addressLabel {
     if (!_addressLabel) {
         _addressLabel = [[UILabel alloc] init];
-        _addressLabel.font = [UIFont systemFontOfSize:14];
-        _addressLabel.textColor = [UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:1.0];
+        _addressLabel.font = [UIFont systemFontOfSize:12];
+        _addressLabel.textColor = [UIColor blackColor];
         _addressLabel.numberOfLines = 0;
     }
     return _addressLabel;
@@ -373,13 +373,67 @@
 - (UIButton *)relatedPhotosButton {
     if (!_relatedPhotosButton) {
         _relatedPhotosButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_relatedPhotosButton setTitle:@"相关照片99>" forState:UIControlStateNormal];
-        [_relatedPhotosButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        _relatedPhotosButton.titleLabel.font = [UIFont systemFontOfSize:12];
         _relatedPhotosButton.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.5];
         _relatedPhotosButton.layer.cornerRadius = 10;
         _relatedPhotosButton.layer.masksToBounds = YES;
         [_relatedPhotosButton addTarget:self action:@selector(relatedPhotosButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+        
+        // 左边图片图标
+        UIImageView *photoIcon = [[UIImageView alloc] init];
+        UIImage *photoImage = [UIImage imageNamed:@"photo_icon_white"];
+        if (!photoImage) {
+            // 备用方案：使用系统图标
+            if (@available(iOS 13.0, *)) {
+                photoImage = [UIImage systemImageNamed:@"photo"];
+            }
+        }
+        photoIcon.image = photoImage;
+        photoIcon.tintColor = [UIColor whiteColor];
+        photoIcon.contentMode = UIViewContentModeScaleAspectFit;
+        photoIcon.tag = 100;
+        [_relatedPhotosButton addSubview:photoIcon];
+        
+        // 中间文字
+        UILabel *titleLabel = [[UILabel alloc] init];
+        titleLabel.text = @"相关照片99";
+        titleLabel.textColor = [UIColor whiteColor];
+        titleLabel.font = [UIFont systemFontOfSize:11];
+        titleLabel.tag = 101;
+        [_relatedPhotosButton addSubview:titleLabel];
+        
+        // 右边箭头图标
+        UIImageView *arrowIcon = [[UIImageView alloc] init];
+        UIImage *arrowImage = [UIImage imageNamed:@"arrow_right_white"];
+        if (!arrowImage) {
+            // 备用方案：使用系统图标
+            if (@available(iOS 13.0, *)) {
+                arrowImage = [UIImage systemImageNamed:@"chevron.right"];
+            }
+        }
+        arrowIcon.image = arrowImage;
+        arrowIcon.tintColor = [UIColor whiteColor];
+        arrowIcon.contentMode = UIViewContentModeScaleAspectFit;
+        arrowIcon.tag = 102;
+        [_relatedPhotosButton addSubview:arrowIcon];
+        
+        // 布局
+        [photoIcon mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(8);
+            make.centerY.mas_equalTo(0);
+            make.width.height.mas_equalTo(14);
+        }];
+        
+        [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(photoIcon.mas_right).offset(6);
+            make.centerY.mas_equalTo(0);
+        }];
+        
+        [arrowIcon mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(titleLabel.mas_right).offset(2);
+            make.right.mas_equalTo(-6);
+            make.centerY.mas_equalTo(0);
+            make.width.height.mas_equalTo(12);
+        }];
     }
     return _relatedPhotosButton;
 }
@@ -438,12 +492,30 @@
                   address:(NSString *)address
                 imageUrls:(NSArray<NSString *> *)imageUrls {
     self.nameLabel.text = name;
-    self.operatingHoursLabel.text = [NSString stringWithFormat:@"营业时间: %@", operatingHours];
+    
+    // 使用富文本区分"营业时间："和具体时间
+    NSString *prefix = @"营业时间：";
+    NSString *fullText = [NSString stringWithFormat:@"%@%@", prefix, operatingHours];
+    NSMutableAttributedString *attributedText = [[NSMutableAttributedString alloc] initWithString:fullText];
+    // 设置"营业时间："为灰色
+    [attributedText addAttribute:NSForegroundColorAttributeName 
+                           value:[UIColor blackColor]
+                           range:NSMakeRange(0, prefix.length)];
+    // 设置具体时间为黑色
+    [attributedText addAttribute:NSForegroundColorAttributeName 
+                           value:RGB(153, 153, 153)
+                           range:NSMakeRange(prefix.length, operatingHours.length)];
+    self.operatingHoursLabel.attributedText = attributedText;
     self.distanceTimeLabel.text = [NSString stringWithFormat:@"距您%.0f公里 开车%ld小时%ld分钟", distance, (long)(driveTime / 60), (long)(driveTime % 60)];
     self.addressLabel.text = address;
     self.imageUrls = imageUrls;
-    // 如果有图片，显示相关照片按钮
+    // 如果有图片，显示相关照片按钮并更新数量
     self.relatedPhotosButton.hidden = (imageUrls.count == 0);
+    // 更新相关照片数量文字
+    UILabel *titleLabel = [self.relatedPhotosButton viewWithTag:101];
+    if (titleLabel) {
+        titleLabel.text = [NSString stringWithFormat:@"相关照片%ld", (long)imageUrls.count];
+    }
     [self.imageCollectionView reloadData];
 }
 

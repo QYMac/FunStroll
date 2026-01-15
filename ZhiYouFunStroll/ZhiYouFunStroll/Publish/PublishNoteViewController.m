@@ -8,6 +8,7 @@
 #import "PublishNoteViewController.h"
 #import "PhotoPickerViewController.h"
 #import "PhotoPreviewViewController.h"
+#import "UITextView+EmojiKeyboard.h"
 
 static const NSInteger kMaxTitleLength = 20;
 static const NSInteger kMaxContentLength = 1000;
@@ -30,6 +31,9 @@ static const NSInteger kMaxContentLength = 1000;
 @property (nonatomic, strong) UITextView *contentTextView;
 @property (nonatomic, strong) UILabel *contentPlaceholder;
 @property (nonatomic, strong) UILabel *contentCountLabel;
+@property (nonatomic, strong) UIView *keyboardToolbar; // 键盘工具栏
+@property (nonatomic, strong) UIButton *emojiToolbarButton; // 工具栏表情按钮
+@property (nonatomic, assign) BOOL isShowingEmojiKeyboard; // 是否显示表情键盘
 
 // 话题
 @property (nonatomic, strong) UIButton *topicButton;
@@ -196,6 +200,19 @@ static const NSInteger kMaxContentLength = 1000;
     self.contentTextView.delegate = self;
     self.contentTextView.textContainerInset = UIEdgeInsetsMake(0, 0, 0, 0);
     self.contentTextView.textContainer.lineFragmentPadding = 0;
+    
+    // 设置行间距
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+    paragraphStyle.lineSpacing = 5;
+    self.contentTextView.typingAttributes = @{
+        NSFontAttributeName: [UIFont systemFontOfSize:14],
+        NSForegroundColorAttributeName: RGB(51, 51, 51),
+        NSParagraphStyleAttributeName: paragraphStyle
+    };
+    
+    // 设置键盘工具栏
+    self.contentTextView.inputAccessoryView = [self createKeyboardToolbar];
+    
     [self.contentView addSubview:self.contentTextView];
     [self.contentTextView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.titleTextField.mas_bottom).offset(14);
@@ -227,6 +244,88 @@ static const NSInteger kMaxContentLength = 1000;
         make.right.mas_equalTo(-15);
         make.bottom.mas_equalTo(-10);
     }];
+}
+
+#pragma mark - 键盘工具栏
+- (UIView *)createKeyboardToolbar {
+    self.keyboardToolbar = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kWidth, 44)];
+    self.keyboardToolbar.backgroundColor = RGB(247, 247, 247);
+    
+    // 顶部分割线
+    UIView *topLine = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kWidth, 0.5)];
+    topLine.backgroundColor = RGB(229, 229, 229);
+    [self.keyboardToolbar addSubview:topLine];
+    
+    // 表情按钮
+    self.emojiToolbarButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.emojiToolbarButton.frame = CGRectMake(15, 10, 24, 24);
+    // 使用图片，如果没有则使用文字
+    UIImage *emojiImage = [UIImage imageNamed:@"keyboard_emoji"];
+    UIImage *textImage = [UIImage imageNamed:@"keyboard_text"];
+    if (emojiImage) {
+        [self.emojiToolbarButton setImage:emojiImage forState:UIControlStateNormal];
+        [self.emojiToolbarButton setImage:textImage ?: emojiImage forState:UIControlStateSelected];
+    } else {
+        // 备用方案：使用文字
+        [self.emojiToolbarButton setTitle:@"😊" forState:UIControlStateNormal];
+        [self.emojiToolbarButton setTitle:@"⌨️" forState:UIControlStateSelected];
+        self.emojiToolbarButton.titleLabel.font = [UIFont systemFontOfSize:20];
+    }
+    [self.emojiToolbarButton addTarget:self action:@selector(emojiButtonTapped) forControlEvents:UIControlEventTouchUpInside];
+    [self.keyboardToolbar addSubview:self.emojiToolbarButton];
+    
+    // #话题按钮
+    UIButton *topicTagButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    topicTagButton.frame = CGRectMake(CGRectGetMaxX(self.emojiToolbarButton.frame) + 20, 10, 24, 24);
+    UIImage *topicImage = [UIImage imageNamed:@"keyboard_topic"];
+    if (topicImage) {
+        [topicTagButton setImage:topicImage forState:UIControlStateNormal];
+    } else {
+        // 备用方案：使用文字
+        [topicTagButton setTitle:@"#" forState:UIControlStateNormal];
+        [topicTagButton setTitleColor:RGB(102, 102, 102) forState:UIControlStateNormal];
+        topicTagButton.titleLabel.font = [UIFont boldSystemFontOfSize:18];
+    }
+    [topicTagButton addTarget:self action:@selector(topicTagButtonTapped) forControlEvents:UIControlEventTouchUpInside];
+    [self.keyboardToolbar addSubview:topicTagButton];
+    
+    // 完成按钮
+    UIButton *doneButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    doneButton.frame = CGRectMake(kWidth - 15 - 40, 10, 40, 24);
+    [doneButton setTitle:@"完成" forState:UIControlStateNormal];
+    [doneButton setTitleColor:RGB(102, 102, 102) forState:UIControlStateNormal];
+    doneButton.titleLabel.font = [UIFont systemFontOfSize:14];
+    [doneButton addTarget:self action:@selector(keyboardDoneButtonTapped) forControlEvents:UIControlEventTouchUpInside];
+    [self.keyboardToolbar addSubview:doneButton];
+    
+    return self.keyboardToolbar;
+}
+
+#pragma mark - 键盘工具栏按钮事件
+- (void)emojiButtonTapped {
+    self.isShowingEmojiKeyboard = !self.isShowingEmojiKeyboard;
+    self.emojiToolbarButton.selected = self.isShowingEmojiKeyboard;
+    
+    if (self.isShowingEmojiKeyboard) {
+        // 显示表情键盘
+        [self.contentTextView showEmojiKeyboard];
+    } else {
+        // 恢复系统键盘
+        [self.contentTextView hideEmojiKeyboard];
+    }
+}
+
+- (void)topicTagButtonTapped {
+    // 在当前光标位置插入 #
+    [self.contentTextView insertText:@"#"];
+    // TODO: 可以跳转到话题选择页面
+}
+
+- (void)keyboardDoneButtonTapped {
+    // 收起键盘时重置状态
+    self.isShowingEmojiKeyboard = NO;
+    self.emojiToolbarButton.selected = NO;
+    [self.contentTextView resignFirstResponder];
 }
 
 #pragma mark - 话题区域

@@ -29,6 +29,9 @@ NS_ASSUME_NONNULL_BEGIN
 /// 账号密码登录
 + (void)LoginUsername:(NSString *)username password:(NSString *)password grant_type:(NSString *)grant_type scope:(NSString *)scope mobile:(NSString *)mobile loginLocation:(NSString *)loginLocation deviceInfo:(NSString *)deviceInfo success:(SuccessHandler)success failureHandler:(FailureHandler)failure;
 
+/// 获取用户信息
++ (void)LoginSearchUserId:(NSString *)userId success:(SuccessHandler)success failureHandler:(FailureHandler)failure;
+
 /// 更新token
 + (void)LoginRefresh_token:(NSString *)refresh_token grant_type:(NSString *)grant_type scope:(NSString *)scope success:(SuccessHandler)success failureHandler:(FailureHandler)failure;
 

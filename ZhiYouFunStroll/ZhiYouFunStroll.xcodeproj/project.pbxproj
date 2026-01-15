@@ -203,6 +203,7 @@
 		CCC0F7B72F1787E500F9D0DC /* RouteSearchResultView.m in Sources */ = {isa = PBXBuildFile; fileRef = CCC0F7B62F1787E500F9D0DC /* RouteSearchResultView.m */; };
 		CCC0F7BA2F178B8F00F9D0DC /* RouteCategorySearchView.m in Sources */ = {isa = PBXBuildFile; fileRef = CCC0F7B92F178B8F00F9D0DC /* RouteCategorySearchView.m */; };
 		CCC0F7BD2F179E1100F9D0DC /* RouteLocationCardView.m in Sources */ = {isa = PBXBuildFile; fileRef = CCC0F7BC2F179E1100F9D0DC /* RouteLocationCardView.m */; };
+		CCC0F7C02F18F9CC00F9D0DC /* UserInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = CCC0F7BF2F18F9CC00F9D0DC /* UserInfoModel.m */; };
 		CCDE01362F0E2F9100C4C9D4 /* ArrayHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = CCDE01352F0E2F9100C4C9D4 /* ArrayHelper.m */; };
 		CCDE013C2F0E411700C4C9D4 /* ViewControllerTransitionHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = CCDE013B2F0E411700C4C9D4 /* ViewControllerTransitionHelper.m */; };
 /* End PBXBuildFile section */
@@ -618,6 +619,8 @@
 		CCC0F7B92F178B8F00F9D0DC /* RouteCategorySearchView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RouteCategorySearchView.m; sourceTree = "<group>"; };
 		CCC0F7BB2F179E1100F9D0DC /* RouteLocationCardView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RouteLocationCardView.h; sourceTree = "<group>"; };
 		CCC0F7BC2F179E1100F9D0DC /* RouteLocationCardView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RouteLocationCardView.m; sourceTree = "<group>"; };
+		CCC0F7BE2F18F9CC00F9D0DC /* UserInfoModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UserInfoModel.h; sourceTree = "<group>"; };
+		CCC0F7BF2F18F9CC00F9D0DC /* UserInfoModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UserInfoModel.m; sourceTree = "<group>"; };
 		CCDE01342F0E2F9100C4C9D4 /* ArrayHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ArrayHelper.h; sourceTree = "<group>"; };
 		CCDE01352F0E2F9100C4C9D4 /* ArrayHelper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ArrayHelper.m; sourceTree = "<group>"; };
 		CCDE013A2F0E411700C4C9D4 /* ViewControllerTransitionHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewControllerTransitionHelper.h; sourceTree = "<group>"; };
@@ -962,6 +965,8 @@
 		CC754EEB2EF3F446002DB1FA /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				CCC0F7BE2F18F9CC00F9D0DC /* UserInfoModel.h */,
+				CCC0F7BF2F18F9CC00F9D0DC /* UserInfoModel.m */,
 				CC754EEC2EF3F452002DB1FA /* AFNetworkingManage+Login.h */,
 				CC754EED2EF3F452002DB1FA /* AFNetworkingManage+Login.m */,
 			);
@@ -2023,6 +2028,7 @@
 				CC5AE6152F050F460004B0A5 /* ItineraryViewController.m in Sources */,
 				CC995A2B2EF1297200456825 /* LFAlbumTitleView.m in Sources */,
 				CC8AB8112F12409C00BC11A8 /* MapLocationImageCell.m in Sources */,
+				CCC0F7C02F18F9CC00F9D0DC /* UserInfoModel.m in Sources */,
 				CC8AB8432F14C2EE00BC11A8 /* ProfileViewController.m in Sources */,
 				CC8AB8122F12409C00BC11A8 /* MapLocationDetailView.m in Sources */,
 				CC995A2C2EF1297200456825 /* LFAssetManager+Simple.m in Sources */,

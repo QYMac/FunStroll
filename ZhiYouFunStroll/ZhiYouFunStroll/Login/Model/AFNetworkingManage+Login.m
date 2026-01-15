@@ -94,4 +94,11 @@
 }
 
 
+// 获取用户信息
++ (void)LoginSearchUserId:(NSString *)userId success:(SuccessHandler)success failureHandler:(FailureHandler)failure{
+    NSString *url = @"/app/appuser/basic";
+    NSDictionary *parameters = @{@"userId":userId};
+    [self requestWithUrl:url params:parameters requestType:@"GET" isBody:NO isToken:YES successHanler:success failureHandler:failure];
+}
+
 @end

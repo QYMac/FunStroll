@@ -8,6 +8,7 @@
 #import "HomeViewController.h"
 #import "HomeView.h"
 #import "AFNetworkingManage+Home.h"
+#import "AFNetworkingManage+Login.h"
 
 @interface HomeViewController ()
 

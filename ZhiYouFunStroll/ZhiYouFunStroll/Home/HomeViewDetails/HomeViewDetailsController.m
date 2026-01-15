@@ -261,7 +261,7 @@
         }
         
         cell.postId = [CheckTool replaceNullValue:self.postId];
-        cell.imgURL = [CheckTool replaceNullValue:self.imageURL];
+        cell.imgURL = [CheckTool replaceNullValue:[UserModel getObjectForKey:kAvatar]];
         cell.model = self.commentListModel;
         
         WeakSelf

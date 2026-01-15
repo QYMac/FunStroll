@@ -301,6 +301,11 @@
     }];
     
      */
+    
+    if (self.isPasswordLogin == YES) {
+        self.verifyBut.selected = YES;
+        [self verifyButtonClick:self.verifyBut];
+    }
 }
 
 #pragma mark - UITextFieldDelegate
@@ -407,7 +412,7 @@
 
 // 登录
 - (void)loginButtonClick:(UIButton *)sender{
-    
+
     [self.userName resignFirstResponder];
     [self.password resignFirstResponder];
     [self.validation resignFirstResponder];
@@ -466,7 +471,6 @@
     if ([grant_type isEqualToString:@"mobile"]) {
         NSString *iphoneNumber = [NSString stringWithFormat:@"APP-SMS@%@",username];
         [AFNetworkingManage LoginMobile:iphoneNumber code:verification_code grant_type:grant_type scope:@"app-server" loginLocation:loginLocation deviceInfo:deviceInfo success:^(id  _Nonnull responseObject) {
-            [ZSProgressHUD hideAllHUDAnimated:YES];
             // 储存用户信息
             NSDictionary *dict = [CheckTool replaceNullWithDictionary:responseObject];
             [weakSelf saveUserInfoData:dict grant_type:grant_type];
@@ -476,7 +480,6 @@
         }];
     } else {
         [AFNetworkingManage LoginUsername:username password:password grant_type:grant_type scope:@"app-server" mobile:@"" loginLocation:loginLocation deviceInfo:deviceInfo success:^(id  _Nonnull responseObject) {
-            [ZSProgressHUD hideAllHUDAnimated:YES];
             // 储存用户信息
             NSDictionary *dict = [CheckTool replaceNullWithDictionary:responseObject];
             [weakSelf saveUserInfoData:dict grant_type:grant_type];
@@ -489,20 +492,49 @@
 }
 
 - (void)saveUserInfoData:(NSDictionary *)dict grant_type:(NSString *)grant_type{
-    [ZSProgressHUD hideAllHUDAnimated:YES];
+    
     // 储存用户信息
     NSString *refresh_token = [CheckTool replaceNullValue:dict[@"refresh_token"]];
     NSString *access_token = [CheckTool replaceNullValue:dict[@"access_token"]];
-    NSString *username = [CheckTool replaceNullValue:dict[@"username"]];
     NSString *user_id = [CheckTool replaceNullValue:dict[@"user_id"]];
     NSString *token_type = [CheckTool replaceNullValue:dict[@"token_type"]];
     NSString *iphoneNumber = [CheckTool replaceNullValue:self.userName.text];
     [UserModel saveObject:refresh_token forKey:kRefreshToken];
     [UserModel saveObject:access_token forKey:kAccessToken];
-    [UserModel saveObject:username forKey:kUserName];
     [UserModel saveObject:user_id forKey:kUserId];
     [UserModel saveObject:token_type forKey:kTokenType];
     [UserModel saveObject:iphoneNumber forKey:kPhoneNumber];
+    
+    [AFNetworkingManage LoginSearchUserId:user_id success:^(id  _Nonnull responseObject) {
+        
+        UserInfoModel *model = [UserInfoModel yy_modelWithJSON:responseObject];
+        NSString *username = [CheckTool replaceNullValue:model.username];
+        NSString *nickname = [CheckTool replaceNullValue:model.nickname];
+        NSString *avatar = [CheckTool replaceNullValue:model.avatar];
+        NSString *gender = [CheckTool replaceNullValue:model.gender];
+        NSString *age = [NSString stringWithFormat:@"%ld",model.age];
+        NSString *bio = [CheckTool replaceNullValue:model.bio];
+        NSString *bgUrl = [CheckTool replaceNullValue:model.bgUrl];
+        NSString *ipLocation = [CheckTool replaceNullValue:model.ipLocation];
+        [UserModel saveObject:username forKey:kUserName];
+        [UserModel saveObject:nickname forKey:kUserName];
+        [UserModel saveObject:avatar forKey:kUserName];
+        [UserModel saveObject:gender forKey:kUserName];
+        [UserModel saveObject:age forKey:kUserName];
+        [UserModel saveObject:bio forKey:kUserName];
+        [UserModel saveObject:bgUrl forKey:kUserName];
+        [UserModel saveObject:ipLocation forKey:kUserName];
+        [UserModel sharedUserModel].isAutoLogin = YES;
+        [UserModel newRootHomeVC];
+        [ZSProgressHUD hideAllHUDAnimated:YES];
+    } failureHandler:^(NSError * _Nonnull error) {
+        [UserModel sharedUserModel].isAutoLogin = YES;
+        [UserModel newRootHomeVC];
+        [ZSProgressHUD hideAllHUDAnimated:YES];
+        [ZSProgressHUD hideAllHUDAnimated:YES];
+    }];
+    
+    
     /*
     if ([grant_type isEqualToString:@"mobile"]) {
         [UserModel saveObject:iphoneNumber forKey:kPhoneNumber];
@@ -510,9 +542,6 @@
         [UserModel saveObject:iphoneNumber forKey:kAccount];
     }
      */
-    [UserModel sharedUserModel].isAutoLogin = YES;
-    
-    [UserModel newRootHomeVC];
 }
 
 // 切换验证或密码登录
@@ -615,6 +644,10 @@
     } else {
         self.selectedBut.selected = NO;
         [self.selectedBut setImage:[UIImage imageNamed:@"loginBut_on"] forState:UIControlStateNormal];
+    }
+    
+    if (self.selectedButClickBlcok) {
+        self.selectedButClickBlcok(self.selectedBut.selected);
     }
 }
 
@@ -1014,7 +1047,7 @@
     if (!_selectedBut) {
         _selectedBut = [UIButton buttonWithType:UIButtonTypeCustom];
         _selectedBut.selected = _isSelected;
-        if (_isSelected == NO) {
+        if (_isSelected == YES) {
             [_selectedBut setImage:[UIImage imageNamed:@"loginBut_off"] forState:UIControlStateNormal];
         } else {
             [_selectedBut setImage:[UIImage imageNamed:@"loginBut_on"] forState:UIControlStateNormal];

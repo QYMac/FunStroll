@@ -81,6 +81,11 @@
 #import "PhotoLocationManager.h"
 #import "IQKeyboardManager.h"
 
+
+#pragma mark - model
+
+#import "UserInfoModel.h" // 用户信息model
+
 //加载控件
 #import "UIView+MBProgressHUD.h"
 #import "MBProgressHUD+NH.h"
@@ -129,6 +134,13 @@
 #define kTokenType @"kTokenType" // token_type
 #define kPhoneNumber @"kPhoneNumber" // phoneNumber
 #define kAccount @"kAccount" // account
+#define kNickname @"kNickname" // nickname
+#define kAvatar @"kAvatar" // avatar
+#define kGender @"kGender" // gender
+#define kAge @"kAge" // age
+#define kBio @"kBio" // bio
+#define kBgUrl @"kBgUrl" // bgUrl
+#define kIpLocation @"kIpLocation" // ipLocation
 
 // FMDB表名
 #define kHomePageList @"kHomePageList" //本地首页列表

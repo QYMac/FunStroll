@@ -176,6 +176,7 @@
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
+    /*
     if (indexPath.row == 0) {
         RouteViewController *routeVC = [[RouteViewController alloc] init];
         routeVC.startName = @"我的位置";
@@ -190,6 +191,7 @@
         [[TabBarViewController takeCurrentVC].navigationController pushViewController:vc animated:YES];
         return;
     }
+     */
     
     NSDictionary *dict = [self.dataList objectAtIndexCheck:indexPath.row];
     HomeModel *model = [HomeModel yy_modelWithDictionary:dict];

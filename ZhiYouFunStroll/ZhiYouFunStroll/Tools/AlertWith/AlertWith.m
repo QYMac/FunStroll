@@ -16,6 +16,17 @@
     [[TabBarViewController takeCurrentVC] presentViewController:alert animated:YES completion:nil];
 }
 
+// 标题，带回调
++ (void)showAlertWithMessageText:(NSString *)message completion:(void(^)(void))completion{
+    UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"温馨提示" message:[CheckTool replaceNullValue:message] preferredStyle:UIAlertControllerStyleAlert];
+    [alert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        if (completion) {
+            completion();
+        }
+    }]];
+    [[TabBarViewController takeCurrentVC] presentViewController:alert animated:YES completion:nil];
+}
+
 + (void)showLocationDeniedAlert{
     UIAlertController *alert = [UIAlertController
         alertControllerWithTitle:@"定位权限被拒绝"
@@ -48,6 +59,12 @@
     UIAlertController * alert = [UIAlertController alertControllerWithTitle:[CheckTool replaceNullValue:message] message:[CheckTool replaceNullValue:contentText] preferredStyle:UIAlertControllerStyleAlert];
     [alert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:nil]];
     [[TabBarViewController takeCurrentVC] presentViewController:alert animated:YES completion:nil];
+}
+
+
+// 只有标题，提示请求接口错误
++ (void)showAlertWithError:(NSError *)error{
+    [self showAlertWithMessageText:[AFNetworkingErrorHelper getFriendlyErrorMessage:error]];
 }
 
 @end

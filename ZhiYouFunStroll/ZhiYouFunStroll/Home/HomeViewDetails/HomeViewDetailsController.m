@@ -14,6 +14,7 @@
 #import "AFNetworkingManage+Home.h"
 #import "ResponseModel.h"
 #import "CommentListModel.h"
+#import "UploadImageModel.h"
 
 @interface HomeViewDetailsController ()<UITableViewDelegate,UITableViewDataSource,XHInputViewDelagete>
 
@@ -337,12 +338,11 @@
         /** 更多属性设置,详见XHInputView.h文件 */
         
     } sendBlock:^BOOL(NSString *text,NSArray *images) {
-        if(text.length){
+        if(text.length || images.count != 0){
             //NSLog(@"输入的信息为:%@",text);
             [self addText:text images:images];
             return YES;//return YES,收起键盘
         }else{
-            //NSLog(@"显示提示框-请输入要评论的的内容");
             [AlertWith showAlertWithMessageText:@"请输入评论内容"];
             return NO;//return NO,不收键盘
         }
@@ -355,14 +355,54 @@
         images = @[];
     }
     WeakSelf
-    NSString *content = [CheckTool replaceNullValue:text];
-    [AFNetworkingManage homeAddCommentPostId:self.postId parentCommentId:@"" content:content resources:images success:^(id  _Nonnull responseObject) {
-        //NSLog(@"%@",responseObject);
+    // 如果用户选择了图片先上传图片
+    [ZSProgressHUD showHUDShowText:@"请稍等..."];
+    if (images.count > 0) {
+        // 循环上传每张图片
+        NSMutableArray *uploadedImageUrls = [NSMutableArray array];
+        __block NSInteger completedCount = 0;
+        __block BOOL hasError = NO;
+        
+        for (NSInteger i = 0; i < images.count; i++) {
+            UIImage *image = images[i];
+            NSMutableArray *imageList = [NSMutableArray arrayWithObjects:image, nil];
+            [AFNetworkingManage uploadPostImages:imageList imgAuditServiceType:@"app" successHanler:^(id  _Nonnull responseObject) {
+                completedCount++;
+                // 解析返回的图片数据
+                NSDictionary *dict = [CheckTool replaceNullWithDictionary:responseObject];
+                UploadImageModel *uploadModel = [UploadImageModel yy_modelWithJSON:dict];
+                if (uploadModel.resourceUrl.length > 0) {
+                    [uploadedImageUrls addObject:uploadModel.resourceUrl];
+                    [uploadedImageUrls addObject:uploadModel.resourceType];
+                }
+                
+                // 所有图片上传完成
+                if (completedCount == images.count && !hasError) {
+                    [weakSelf addCommentContent:text resources:uploadedImageUrls];
+                }
+            } failureHandler:^(NSError * _Nonnull error) {
+                hasError = YES;
+                [ZSProgressHUD hideAllHUDAnimated:YES];
+                [AlertWith showAlertWithError:error];
+            }];
+        }
+    } else {
+        [self addCommentContent:text resources:@[]];
+    }
+}
+
+// 发布评论
+- (void)addCommentContent:(NSString *)content resources:(NSArray *)resources{
+    content = [CheckTool replaceNullValue:content];
+    WeakSelf
+    [AFNetworkingManage homeAddCommentPostId:self.postId parentCommentId:@"" content:content resources:resources success:^(id  _Nonnull responseObject) {
         [weakSelf searchCommentListCurrent:1 andHandle:^(BOOL isSuccess) {
+            [ZSProgressHUD hideAllHUDAnimated:YES];
             [weakSelf.tableView reloadData];
         }];
     } failureHandler:^(NSError * _Nonnull error) {
-        [AlertWith showAlertWithMessageText:[AFNetworkingErrorHelper getFriendlyErrorMessage:error]];
+        [ZSProgressHUD hideAllHUDAnimated:YES];
+        [AlertWith showAlertWithError:error];
     }];
 }
 

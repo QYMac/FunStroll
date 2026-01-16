@@ -80,7 +80,8 @@
 #import "CustomNavController.h" // 顶部标签栏
 #import "PhotoLocationManager.h"
 #import "IQKeyboardManager.h"
-
+#import "AFNetworkingManage+Home.h" // 上传图片可能需要
+#import "PhotoPickerViewController.h" // 自定义照片选择器
 
 #pragma mark - model
 

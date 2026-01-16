@@ -170,9 +170,9 @@
 - (void)mapView:(MAMapView *)mapView didSelectAnnotationView:(MAAnnotationView *)view {
     MAPCustomPointAnnotation *customAnnotation = (MAPCustomPointAnnotation *)view.annotation;
     NSLog(@"选中标注: %@", customAnnotation.title);
-    if (self.didSelectAnnotationViewBlcok) {
-        self.didSelectAnnotationViewBlcok(customAnnotation.annotationId);
-    }
+//    if (self.didSelectAnnotationViewBlcok) {
+//        self.didSelectAnnotationViewBlcok(customAnnotation.annotationId);
+//    }
     
     // 遍历所有选中的标注并取消选中
     NSArray *selectedAnnotations = [self.mapView.selectedAnnotations copy];

@@ -84,7 +84,7 @@
 
 - (void)setModel:(CommentListModel *)model{
     self.numCommentL.text = [NSString stringWithFormat:@"共%ld条评论",model.total];
-    [self.avatarImage sd_setImageWithURL:[NSURL URLWithString:self.imgURL] placeholderImage:[UIImage imageNamed:@""]];
+    [self.avatarImage sd_setImageWithURL:[NSURL URLWithString:self.imgURL] placeholderImage:[UIImage imageNamed:@"touxiang_m"]];
 }
 
 #pragma mark - 按钮点击

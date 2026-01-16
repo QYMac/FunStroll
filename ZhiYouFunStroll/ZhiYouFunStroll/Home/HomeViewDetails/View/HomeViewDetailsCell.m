@@ -28,7 +28,7 @@
 
 - (void)setModel:(CommentItem *)model{
     NSString *userAvatar = [CheckTool replaceNullValue:model.userAvatar];
-    [self.avatarImage sd_setImageWithURL:[NSURL URLWithString:userAvatar] placeholderImage:[UIImage imageNamed:@""]];
+    [self.avatarImage sd_setImageWithURL:[NSURL URLWithString:userAvatar] placeholderImage:[UIImage imageNamed:@"touxiang_m"]];
     self.nameL.text = [CheckTool replaceNullValue:model.userNickname];
     self.contentL.text = [CheckTool replaceNullValue:model.content];
     

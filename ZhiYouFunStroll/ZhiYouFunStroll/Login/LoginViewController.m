@@ -173,16 +173,16 @@
 #pragma mark - 按钮点击
 - (void)iphonLoginButClick:(UIButton *)sender{
     
-    if (self.selectedBut.selected == NO) {
-        [AlertWith showAlertWithMessageText:@"请先同意《用户条款》和《隐私政策》"];
-        return;
-    }
-    
     if ([UserModel getObjectForKey:kPhoneNumber] == nil) {
         LoginUserViewController *navc = [[LoginUserViewController alloc] init];
         navc.isPasswordLogin = NO;
-        navc.isSelected = YES;
+        navc.isSelected = self.selectedBut.selected;
         [self.navigationController pushViewController:navc animated:YES];
+        return;
+    }
+    
+    if (self.selectedBut.selected == NO) {
+        [AlertWith showAlertWithMessageText:@"请先同意《用户条款》和《隐私政策》"];
         return;
     }
     
@@ -203,14 +203,9 @@
 }
 
 - (void)passwordLoginButClick:(UIButton *)sender{
-    if (self.selectedBut.selected == NO) {
-        [AlertWith showAlertWithMessageText:@"请先同意《用户条款》和《隐私政策》"];
-        return;
-    }
-    
     LoginUserViewController *navc = [[LoginUserViewController alloc] init];
     navc.isPasswordLogin = YES;
-    navc.isSelected = YES;
+    navc.isSelected = self.selectedBut.selected;
     [self.navigationController pushViewController:navc animated:YES];
 }
 

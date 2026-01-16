@@ -204,6 +204,7 @@
 		CCC0F7BA2F178B8F00F9D0DC /* RouteCategorySearchView.m in Sources */ = {isa = PBXBuildFile; fileRef = CCC0F7B92F178B8F00F9D0DC /* RouteCategorySearchView.m */; };
 		CCC0F7BD2F179E1100F9D0DC /* RouteLocationCardView.m in Sources */ = {isa = PBXBuildFile; fileRef = CCC0F7BC2F179E1100F9D0DC /* RouteLocationCardView.m */; };
 		CCC0F7C02F18F9CC00F9D0DC /* UserInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = CCC0F7BF2F18F9CC00F9D0DC /* UserInfoModel.m */; };
+		CCC0F7C32F19DE9A00F9D0DC /* UploadImageModel.m in Sources */ = {isa = PBXBuildFile; fileRef = CCC0F7C22F19DE9A00F9D0DC /* UploadImageModel.m */; };
 		CCDE01362F0E2F9100C4C9D4 /* ArrayHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = CCDE01352F0E2F9100C4C9D4 /* ArrayHelper.m */; };
 		CCDE013C2F0E411700C4C9D4 /* ViewControllerTransitionHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = CCDE013B2F0E411700C4C9D4 /* ViewControllerTransitionHelper.m */; };
 /* End PBXBuildFile section */
@@ -621,6 +622,8 @@
 		CCC0F7BC2F179E1100F9D0DC /* RouteLocationCardView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RouteLocationCardView.m; sourceTree = "<group>"; };
 		CCC0F7BE2F18F9CC00F9D0DC /* UserInfoModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UserInfoModel.h; sourceTree = "<group>"; };
 		CCC0F7BF2F18F9CC00F9D0DC /* UserInfoModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UserInfoModel.m; sourceTree = "<group>"; };
+		CCC0F7C12F19DE9A00F9D0DC /* UploadImageModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UploadImageModel.h; sourceTree = "<group>"; };
+		CCC0F7C22F19DE9A00F9D0DC /* UploadImageModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UploadImageModel.m; sourceTree = "<group>"; };
 		CCDE01342F0E2F9100C4C9D4 /* ArrayHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ArrayHelper.h; sourceTree = "<group>"; };
 		CCDE01352F0E2F9100C4C9D4 /* ArrayHelper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ArrayHelper.m; sourceTree = "<group>"; };
 		CCDE013A2F0E411700C4C9D4 /* ViewControllerTransitionHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewControllerTransitionHelper.h; sourceTree = "<group>"; };
@@ -915,6 +918,8 @@
 				CC676C152F0CE12F00574EF8 /* ResourceModel.m */,
 				CC676C372F0CFAE000574EF8 /* CommentListModel.h */,
 				CC676C382F0CFAE000574EF8 /* CommentListModel.m */,
+				CCC0F7C12F19DE9A00F9D0DC /* UploadImageModel.h */,
+				CCC0F7C22F19DE9A00F9D0DC /* UploadImageModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -2053,6 +2058,7 @@
 				CC995A372EF1297200456825 /* LFAssetManager.m in Sources */,
 				CC995A382EF1297200456825 /* LF_FileUtility.m in Sources */,
 				CCC0F78E2F15D3F700F9D0DC /* PublishNoteViewController.m in Sources */,
+				CCC0F7C32F19DE9A00F9D0DC /* UploadImageModel.m in Sources */,
 				CCC0F78F2F15D3F700F9D0DC /* PublishListView.m in Sources */,
 				CCC0F7902F15D3F700F9D0DC /* PublishListViewCell.m in Sources */,
 				CC995A392EF1297200456825 /* LFPhotoPickerController.m in Sources */,

@@ -112,7 +112,7 @@
     [self.likeBut setTitle:likeCountStr forState:UIControlStateNormal];
     
     NSString *userAvatar = [CheckTool replaceNullValue:model.userAvatar];
-    [self.avatarImage sd_setImageWithURL:[NSURL URLWithString:userAvatar] placeholderImage:[UIImage imageNamed:@""]];
+    [self.avatarImage sd_setImageWithURL:[NSURL URLWithString:userAvatar] placeholderImage:[UIImage imageNamed:@"touxiang_m"]];
     
     if ([model.liked intValue] == 1) {
         self.likeBut.selected = YES;

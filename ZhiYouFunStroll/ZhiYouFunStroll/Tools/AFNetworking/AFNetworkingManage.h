@@ -23,14 +23,15 @@ typedef void (^FailureHandler)(NSError *error);
       successHanler:(SuccessHandler)success
      failureHandler:(FailureHandler)failure;
 
-
-/// 带有上传图片的请求
-+ (void)requestImageWithUrl:(NSString *)url
-             params:(NSDictionary *)params
-         requestType:(NSString *)requestType
-                  imageList:(NSArray *)imageList
-      successHanler:(SuccessHandler)success
-     failureHandler:(FailureHandler)failure;
+/// 上传帖子图片
+/// @param images 图片数组
+/// @param imgAuditServiceType 图片审核服务类型
+/// @param success 成功回调
+/// @param failure 失败回调
++ (void)uploadPostImages:(NSArray<UIImage *> *)images
+    imgAuditServiceType:(NSString *)imgAuditServiceType
+          successHanler:(SuccessHandler)success
+         failureHandler:(FailureHandler)failure;
 
 @end
 

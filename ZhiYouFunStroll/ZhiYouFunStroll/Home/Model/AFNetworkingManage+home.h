@@ -29,6 +29,9 @@ NS_ASSUME_NONNULL_BEGIN
 /// 添加评论
 + (void)homeAddCommentPostId:(NSString *)postId parentCommentId:(NSString *)parentCommentId content:(NSString *)content resources:(NSArray *)resources success:(SuccessHandler)success failureHandler:(FailureHandler)failure;
 
+/// 上传图片
++ (void)uploadImageList:(NSArray *)imageList success:(SuccessHandler)success failureHandler:(FailureHandler)failure;
+
 @end
 
 NS_ASSUME_NONNULL_END

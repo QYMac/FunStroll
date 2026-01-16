@@ -14,8 +14,14 @@ NS_ASSUME_NONNULL_BEGIN
 /// 只有标题
 + (void)showAlertWithMessageText:(NSString *)message;
 
+/// 只有标题，带回调
++ (void)showAlertWithMessageText:(NSString *)message completion:(void(^)(void))completion;
+
 /// 标题和内容
 + (void)showAlertWithMessageText:(NSString *)message contentText:(NSString *)contentText;
+
+/// 只有标题，提示请求接口错误
++ (void)showAlertWithError:(NSError *)error;
 
 /// 提示开启定位
 + (void)showLocationDeniedAlert;

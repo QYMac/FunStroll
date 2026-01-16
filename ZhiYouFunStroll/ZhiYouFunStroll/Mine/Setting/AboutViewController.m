@@ -205,11 +205,19 @@
 - (void)openUserAgreement {
     // TODO: 打开用户协议页面
     NSLog(@"打开用户协议");
+    WKWebViewController *navc = [[WKWebViewController alloc] init];
+    navc.titleText = @"用户协议";
+    navc.urlStr = @"";
+    [self.navigationController pushViewController:navc animated:YES];
 }
 
 - (void)openPrivacyPolicy {
     // TODO: 打开隐私政策页面
     NSLog(@"打开隐私政策");
+    WKWebViewController *navc = [[WKWebViewController alloc] init];
+    navc.titleText = @"隐私政策";
+    navc.urlStr = @"";
+    [self.navigationController pushViewController:navc animated:YES];
 }
 
 #pragma mark - Navigation Bar

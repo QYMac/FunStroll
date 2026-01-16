@@ -71,135 +71,42 @@
 
 - (void)addImgButtonClick:(UIButton *)sender{
     [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
-    if (self.addImgList.count >= 1) {
-        [AlertWith showAlertWithMessageText:@"最多只能选择1张照片"];
-        return;
-    }
     
     if (self.addButClickBlcok) {
         self.addButClickBlcok();
     }
     
-    
-//    // MaxImagesCount  可以选着的最大条目数
-//    TZImagePickerController *imagePicker = [[TZImagePickerController alloc] initWithMaxImagesCount:9 delegate:self];
-//    // 是否显示可选原图按钮
-//    imagePicker.allowPickingOriginalPhoto = YES;
-//    // 是否允许显示视频
-//    imagePicker.allowPickingVideo = NO;
-//    // 是否允许显示图片
-//    imagePicker.allowPickingImage = YES;
-//    //相册导航栏颜色
-//    imagePicker.naviBgColor = [UIColor whiteColor];
-//    imagePicker.barItemTextColor = [UIColor blackColor];
-//    imagePicker.naviTitleColor = [UIColor whiteColor];
-//    imagePicker.oKButtonTitleColorNormal = [UIColor blackColor];
-//    imagePicker.oKButtonTitleColorDisabled = [UIColor blackColor];
-//    // 设置 模态弹出模式。 iOS 13默认非全屏
-//    imagePicker.modalPresentationStyle = UIModalPresentationFullScreen;
-//    [[TabBarViewController takeCurrentVC] presentViewController:imagePicker animated:YES completion:nil];
-
-    NSInteger maxImagesCount = 1;  // 不能小于0
-    LFImagePickerController *imagePicker = [[LFImagePickerController alloc] initWithMaxImagesCount:maxImagesCount delegate:self];
-    imagePicker.allowTakePicture = YES; // 隐藏拍照按钮
-    //imagePicker.maxVideosCount = 1; // 解除混合选择- 要么1个视频，要么9个图片
-    //imagePicker.sortAscendingByCreateDate = NO;
-    imagePicker.supportAutorotate = YES; // 适配横屏
-    //imagePicker.imageCompressSize = 200; // 标清图压缩大小
-    //imagePicker.thumbnailCompressSize = 20; // 缩略图压缩大小
-    imagePicker.allowPickingType = LFPickingMediaTypePhoto | LFPickingMediaTypeGif;
-    //imagePicker.autoPlayLivePhoto = NO; // 自动播放live photo
-    //imagePicker.autoSelectCurrentImage = NO; // 关闭自动选中
-    //imagePicker.defaultAlbumName = @"动图"; // 指定默认显示相册
-    //imagePicker.displayImageFilename = YES; // 显示文件名称
-    //imagePicker.thumbnailCompressSize = 0.f; // 不需要缩略图
-    if ([UIDevice currentDevice].systemVersion.floatValue >= 8.0f) {
-        imagePicker.syncAlbum = YES; // 实时同步相册
+    WeakSelf
+    NSInteger maxCount = 2 - self.addImgList.count;
+    if (maxCount <= 0) {
+        [AlertWith showAlertWithMessageText:@"最多只能选择1张图片" completion:^{
+            if (weakSelf.addImgButtonBlcok) {
+                weakSelf.addImgButtonBlcok(weakSelf.addImgList);
+            }
+        }];
+        return;
     }
-    imagePicker.modalPresentationStyle = UIModalPresentationFullScreen;
-    [[TabBarViewController takeCurrentVC] presentViewController:imagePicker animated:YES completion:nil];
+    
+    // 使用自定义图片选择器
+    PhotoPickerViewController *picker = [[PhotoPickerViewController alloc] init];
+    picker.maxSelectCount = maxCount;
+    picker.modalPresentationStyle = UIModalPresentationFullScreen;
+    
+    
+    picker.didFinishPickingBlock = ^(NSArray<UIImage *> *images, NSArray<PHAsset *> *assets) {
+        [weakSelf.addImgList addObjectsFromArray:images];
+        if (weakSelf.addImgButtonBlcok) {
+            weakSelf.addImgButtonBlcok(weakSelf.addImgList);
+        }
+    };
+    
+    [[TabBarViewController takeCurrentVC] presentViewController:picker animated:YES completion:nil];
 }
 
 - (void)removeButClick:(UIButton *)sender{
     if (self.removeImgButBlcok) {
         [self.addImgList removeObjectAtIndex:sender.tag];
         self.removeImgButBlcok(self.addImgList);
-    }
-}
-
-#pragma mark - TZImagePickerControllerDelegate
-// 选择视频的回调
--(void)imagePickerController:(TZImagePickerController *)picker
-       didFinishPickingVideo:(UIImage *)coverImage
-                sourceAssets:(PHAsset *)asset{
-    /*
-    [MovEncodeToMpegTool convertMovToMp4FromPHAsset:asset
-                      andAVAssetExportPresetQuality:ExportPresetMediumQuality
-                  andMovEncodeToMpegToolResultBlock:^(NSURL *mp4FileUrl, NSData *mp4Data, NSError *error) {
-        
-        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            //切回主线程
-            
-        }];
-    }];
-     */
-}
-
-// 选择照片的回调
--(void)imagePickerController:(TZImagePickerController *)picker
-      didFinishPickingPhotos:(NSArray<UIImage *> *)photos
-                sourceAssets:(NSArray *)assets
-       isSelectOriginalPhoto:(BOOL)isSelectOriginalPhoto{
-    for (int i = 0; i < photos.count; i++) {
-        if (self.self.addImgList.count >= 9) {
-            break;
-        }
-        [self.addImgList addObject:photos[i]];
-    }
-    
-    
-    
-    
-    if (self.addImgButtonBlcok) {
-        self.addImgButtonBlcok(self.addImgList);
-    }
-    
-    
-}
-
-
-
-#pragma mark - LFImagePickerControllerDelegate
-//- (void)lf_imagePickerController:(LFImagePickerController *)picker takePhotoHandler:(lf_takePhotoHandler)handler
-//{
-//    
-//}
-
-- (void)lf_imagePickerController:(LFImagePickerController *)picker didFinishPickingResult:(NSArray <LFResultObject /* <LFResultImage/LFResultVideo> */*> *)results
-{
-    for (NSInteger i = 0; i < results.count; i++) {
-        LFResultObject *result = results[i];
-        if ([result isKindOfClass:[LFResultImage class]]) {
-            LFResultImage *resultImage = (LFResultImage *)result;
-            [self.addImgList addObject:resultImage.originalImage];
-        } else if ([result isKindOfClass:[LFResultVideo class]]) {
-            //LFResultVideo *resultVideo = (LFResultVideo *)result;
-            
-        } else {
-            /** 无法处理的数据 */
-            NSLog(@"%@", result.error);
-        }
-    }
-    
-    if (self.addImgButtonBlcok) {
-        self.addImgButtonBlcok(self.addImgList);
-    }
-}
-
-- (void)lf_imagePickerControllerDidCancel:(LFImagePickerController *)picker
-{
-    if (self.addImgButtonBlcok) {
-        self.addImgButtonBlcok(self.addImgList);
     }
 }
 

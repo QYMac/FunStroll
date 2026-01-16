@@ -48,8 +48,16 @@
 + (void)homeAddCommentPostId:(NSString *)postId parentCommentId:(NSString *)parentCommentId content:(NSString *)content resources:(NSArray *)resources success:(SuccessHandler)success failureHandler:(FailureHandler)failure{
     NSString *url = @"/app/appPostComment/insertComment";
     NSDictionary *parameters = @{@"postId":postId,@"content":content,@"parentCommentId":parentCommentId,@"resources":resources};
-    //[self requestImageWithUrl:url params:parameters requestType:@"POST" imageList:resources successHanler:success failureHandler:failure];
     [self requestWithUrl:url params:parameters requestType:@"POST" isBody:YES isToken:YES successHanler:success failureHandler:failure];
+}
+
+
+// 上传图片
++ (void)uploadImageList:(NSArray *)imageList success:(SuccessHandler)success failureHandler:(FailureHandler)failure{
+    NSString *url = @"/app/appPost/uploadImage";
+    NSDictionary *parameters = @{};
+    //[self requestImageWithUrl:url params:parameters requestType:@"POST" imageList:imageList successHanler:success failureHandler:failure];
+    [self uploadPostImages:imageList imgAuditServiceType:@"app" successHanler:success failureHandler:failure];
 }
 
 @end

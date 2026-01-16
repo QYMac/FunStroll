@@ -108,7 +108,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "21"
             endingLineNumber = "21"
-            landmarkName = "+requestWithUrl:params:requestType:isBody:isToken:successHanler:failureHandler:"
+            landmarkName = "+handleStatusCode424IfNeeded:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

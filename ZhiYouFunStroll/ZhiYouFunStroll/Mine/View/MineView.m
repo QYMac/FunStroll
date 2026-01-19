@@ -92,6 +92,7 @@ static NSString *const kMineHeaderIdentifier = @"MineHeader";
     self.current = 1;
     [self.dataList removeAllObjects];
     [self.collectionView.mj_footer removeFromSuperview];
+    self.collectionView.mj_footer = nil;
     
     if (self.loadMoreDataBlock) {
         self.loadMoreDataBlock(self.current, self.size, self.currentTabType);
@@ -191,6 +192,7 @@ static NSString *const kMineHeaderIdentifier = @"MineHeader";
             weakSelf.current = 1;
             [weakSelf.dataList removeAllObjects];
             [weakSelf.collectionView.mj_footer removeFromSuperview];
+            weakSelf.collectionView.mj_footer = nil;
             
             // 只在笔记Tab显示草稿
             weakSelf.showDraft = (tabType == MineTabTypeNotes && weakSelf.draftCount > 0);
@@ -414,6 +416,7 @@ linesMarginForItemAtIndexPath:(NSIndexPath *)indexPath {
             weakSelf.current = 1;
             [weakSelf.dataList removeAllObjects];
             [weakSelf.collectionView.mj_footer removeFromSuperview];
+            weakSelf.collectionView.mj_footer = nil;
             
             // 只在笔记Tab显示草稿
             weakSelf.showDraft = (tabType == MineTabTypeNotes && weakSelf.draftCount > 0);

@@ -76,7 +76,6 @@
         NSString *currentStr = [NSString stringWithFormat:@"%ld",current];
         NSString *sizeStr = [NSString stringWithFormat:@"%ld",size];
         [AFNetworkingManage homeListCurrent:currentStr size:sizeStr keyword:keywordStr success:^(id  _Nonnull responseObject) {
-            NSLog(@"更新 token 成功！");
             //NSLog(@"%@",responseObject);
             HomeListModel *model = [HomeListModel yy_modelWithDictionary:responseObject];
             NSArray *dataArray = model.data.records;
@@ -91,7 +90,6 @@
             }
         } failureHandler:^(NSError * _Nonnull error) {
             //NSLog(@"%@",error);
-            NSLog(@"更新 token 失败！");
             [AlertWith showAlertWithMessageText:[AFNetworkingErrorHelper getFriendlyErrorMessage:error]];
             HomeListModel *model;
             weakSelf.homeView.model = model;

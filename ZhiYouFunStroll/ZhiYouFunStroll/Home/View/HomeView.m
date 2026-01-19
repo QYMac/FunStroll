@@ -137,6 +137,7 @@
     self.current = 1;
     [self.dataList removeAllObjects];
     [self.collectionView.mj_footer removeFromSuperview];
+    self.collectionView.mj_footer = nil;
     [self updataHomeDataListIsUpdtataTop:YES];
 }
 
@@ -196,6 +197,7 @@
     self.current = 1;
     [self.dataList removeAllObjects];
     [self.collectionView.mj_footer removeFromSuperview];
+    self.collectionView.mj_footer = nil;
     [self updataHomeDataListIsUpdtataTop:YES];
 }
 

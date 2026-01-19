@@ -47,7 +47,7 @@ static UserModel * instance = nil;
 + (void)updateUserLoginToken{
     
     // 未登录退回登录页面
-    if ([UserModel sharedUserModel].isAutoLogin == YES) {
+    if ([UserModel sharedUserModel].isAutoLogin == NO) {
         return;
     }
     
@@ -58,7 +58,7 @@ static UserModel * instance = nil;
         return;
     }
     [AFNetworkingManage LoginRefresh_token:[CheckTool replaceNullValue:refresh_token] grant_type:@"refresh_token" scope:@"app-server" success:^(id  _Nonnull responseObject) {
-        
+        NSLog(@"更新 token 成功！");
         NSDictionary *dict = [CheckTool replaceNullWithDictionary:responseObject];
         NSString *code = [CheckTool replaceNullValue:dict[@"code"]];
         if ([code intValue] == 1) {
@@ -74,7 +74,8 @@ static UserModel * instance = nil;
         }
         
     } failureHandler:^(NSError * _Nonnull error) {
-        NSLog(@"%@",error);
+        NSLog(@"更新 token 失败！");
+        //NSLog(@"%@",error);
     }];
     
 }

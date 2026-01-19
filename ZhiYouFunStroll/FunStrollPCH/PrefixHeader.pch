@@ -147,5 +147,6 @@
 #define kHomePageList @"kHomePageList" //本地首页列表
 #define kCommentData @"kCommentData" //帖子评论数据
 #define kExploreSearchList @"kExploreSearchList" //探索搜索列表
+#define kPublishDraftList @"kPublishDraftList" //发布草稿列表
 
 #endif /* PrefixHeader_pch */

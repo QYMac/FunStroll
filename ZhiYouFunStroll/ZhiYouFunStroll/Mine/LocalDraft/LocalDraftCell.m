@@ -6,6 +6,7 @@
 //
 
 #import "LocalDraftCell.h"
+#import "FMDBManager.h"
 
 @implementation LocalDraftCell
 
@@ -54,13 +55,100 @@
 }
 
 #pragma mark - Public Methods
-- (void)configureWithCoverUrl:(NSString *)coverUrl
-                        title:(NSString *)title
-                         date:(NSString *)date {
+- (void)configureWithDraftDict:(NSDictionary *)draftDict {
+    // 标题
+    NSString *title = [CheckTool replaceNullValue:draftDict[@"title"]];
+    self.titleLabel.text = title.length > 0 ? title : @"无标题";
     
-    [self.coverImageView sd_setImageWithURL:[NSURL URLWithString:coverUrl] placeholderImage:[UIImage imageNamed:@"placeholder"]];
-    self.titleLabel.text = title;
-    self.dateLabel.text = date;
+    // 正文预览（如果没有标题，显示正文）
+    if (title.length == 0) {
+        NSString *content = [CheckTool replaceNullValue:draftDict[@"content"]];
+        self.titleLabel.text = content.length > 0 ? content : @"无内容";
+    }
+    
+    // 创建时间（格式化显示）
+    NSString *createTime = [CheckTool replaceNullValue:draftDict[@"createTime"]];
+    self.dateLabel.text = [self formatCreateTime:createTime];
+    
+    // 加载封面图（从文件名数组加载第一张）
+    NSString *imagePathsJson = [CheckTool replaceNullValue:draftDict[@"imagePaths"]];
+    self.coverImageView.image = [UIImage imageNamed:@"placeholder"]; // 默认占位图
+    
+    if (imagePathsJson.length > 0) {
+        NSError *error;
+        NSData *jsonData = [imagePathsJson dataUsingEncoding:NSUTF8StringEncoding];
+        NSArray *imageNames = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:&error];
+        
+        if (!error && [imageNames isKindOfClass:[NSArray class]] && imageNames.count > 0) {
+            // 取第一张图片作为封面
+            NSString *firstName = imageNames.firstObject;
+            
+            if ([firstName isKindOfClass:[NSString class]] && firstName.length > 0) {
+                // 获取草稿图片目录
+                NSString *draftImagesDir = [FMDBManager draftImagesDirectory];
+                NSString *fullPath;
+                
+                // 判断是文件名还是完整路径（兼容旧数据）
+                if ([firstName hasPrefix:@"/"]) {
+                    // 旧数据：完整路径，提取文件名后重新拼接
+                    fullPath = [draftImagesDir stringByAppendingPathComponent:[firstName lastPathComponent]];
+                } else {
+                    // 新数据：文件名，直接拼接
+                    fullPath = [draftImagesDir stringByAppendingPathComponent:firstName];
+                }
+                
+                // 检查文件是否存在
+                NSFileManager *fileManager = [NSFileManager defaultManager];
+                if ([fileManager fileExistsAtPath:fullPath]) {
+                    UIImage *image = [UIImage imageWithContentsOfFile:fullPath];
+                    if (image) {
+                        self.coverImageView.image = image;
+                        NSLog(@"草稿封面图加载成功: %@", fullPath);
+                    } else {
+                        NSLog(@"草稿封面图加载失败，图片为nil: %@", fullPath);
+                    }
+                } else {
+                    NSLog(@"草稿图片文件不存在: %@", fullPath);
+                }
+            }
+        } else {
+            NSLog(@"解析图片路径JSON失败: %@", error);
+        }
+    }
+}
+
+#pragma mark - Private Methods
+/// 格式化创建时间：今年显示"M月d日 HH:mm"，非今年显示"yyyy年M月d日 HH:mm"
+- (NSString *)formatCreateTime:(NSString *)createTime {
+    if (createTime.length == 0) {
+        return @"";
+    }
+    
+    // 解析原始时间字符串 (yyyy-MM-dd HH:mm:ss)
+    NSDateFormatter *inputFormatter = [[NSDateFormatter alloc] init];
+    inputFormatter.dateFormat = @"yyyy-MM-dd HH:mm:ss";
+    NSDate *date = [inputFormatter dateFromString:createTime];
+    
+    if (!date) {
+        return createTime; // 解析失败，返回原字符串
+    }
+    
+    // 获取当前年份
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    NSInteger currentYear = [calendar component:NSCalendarUnitYear fromDate:[NSDate date]];
+    NSInteger dateYear = [calendar component:NSCalendarUnitYear fromDate:date];
+    
+    // 根据年份选择格式
+    NSDateFormatter *outputFormatter = [[NSDateFormatter alloc] init];
+    if (dateYear == currentYear) {
+        // 今年：显示 "M月d日 HH:mm"
+        outputFormatter.dateFormat = @"M月d日 HH:mm";
+    } else {
+        // 非今年：显示 "yyyy年M月d日 HH:mm"
+        outputFormatter.dateFormat = @"yyyy年M月d日 HH:mm";
+    }
+    
+    return [outputFormatter stringFromDate:date];
 }
 
 #pragma mark - Actions

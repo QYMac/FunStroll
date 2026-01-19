@@ -26,6 +26,14 @@ NS_ASSUME_NONNULL_BEGIN
 /// 提示开启定位
 + (void)showLocationDeniedAlert;
 
+/// 确认取消弹窗
++ (void)showConfirmAlertWithTitle:(NSString *)title
+                          message:(NSString *)message
+                     confirmTitle:(NSString *)confirmTitle
+                      cancelTitle:(NSString *)cancelTitle
+                   confirmHandler:(void(^)(void))confirmHandler
+                    cancelHandler:(void(^)(void))cancelHandler;
+
 @end
 
 NS_ASSUME_NONNULL_END

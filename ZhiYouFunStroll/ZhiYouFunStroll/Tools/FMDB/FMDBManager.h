@@ -35,6 +35,29 @@ NS_ASSUME_NONNULL_BEGIN
 /// 删除探索搜索历史
 + (void)deleteExploreSearchText:(NSString *)searchText andHandle:(void (^ _Nullable)(BOOL isSuccess))handle;
 
+#pragma mark - 草稿相关
+/// 保存草稿（标题、正文、可见性、图片路径数组）
++ (void)saveDraftWithTitle:(NSString *)title
+                   content:(NSString *)content
+            visibilityType:(NSInteger)visibilityType
+                    images:(NSArray<UIImage *> *)images
+                 andHandle:(void (^ _Nullable)(BOOL isSuccess))handle;
+
+/// 查询所有草稿
++ (void)searchDraftListAndHandle:(void (^ _Nullable)(NSArray * _Nullable dataArray))handle;
+
+/// 删除指定草稿
++ (void)deleteDraftWithDraftId:(NSString *)draftId andHandle:(void (^ _Nullable)(BOOL isSuccess))handle;
+
+/// 清空所有草稿
++ (void)clearAllDraftsAndHandle:(void (^ _Nullable)(BOOL isSuccess))handle;
+
+/// 获取草稿图片保存目录
++ (NSString *)draftImagesDirectory;
+
+/// 加载草稿图片
++ (NSArray<UIImage *> *)loadDraftImagesWithPaths:(NSArray<NSString *> *)imagePaths;
+
 @end
 
 NS_ASSUME_NONNULL_END

@@ -27,6 +27,7 @@
 		CC4F35512F1A354400FC9C5A /* HomeListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = CC4F35502F1A354400FC9C5A /* HomeListModel.m */; };
 		CC4F35562F1DC55600FC9C5A /* AlicomFusionAuth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC4F35522F1DC3A100FC9C5A /* AlicomFusionAuth.framework */; };
 		CC4F35572F1DC55600FC9C5A /* AlicomFusionAuth.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CC4F35522F1DC3A100FC9C5A /* AlicomFusionAuth.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		CC4F355B2F1DFD8300FC9C5A /* AFNetworkingManage+Publish.m in Sources */ = {isa = PBXBuildFile; fileRef = CC4F355A2F1DFD8300FC9C5A /* AFNetworkingManage+Publish.m */; };
 		CC57C92C2EDFC449006A38C3 /* MapAddressView.m in Sources */ = {isa = PBXBuildFile; fileRef = CC57C92B2EDFC449006A38C3 /* MapAddressView.m */; };
 		CC57C9322EE015F1006A38C3 /* MAPCustomPointAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = CC57C9312EE015F1006A38C3 /* MAPCustomPointAnnotation.m */; };
 		CC57C9382EE11554006A38C3 /* FMDBManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CC57C9372EE11554006A38C3 /* FMDBManager.m */; };
@@ -259,6 +260,8 @@
 		CC4F354F2F1A354400FC9C5A /* HomeListModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HomeListModel.h; sourceTree = "<group>"; };
 		CC4F35502F1A354400FC9C5A /* HomeListModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HomeListModel.m; sourceTree = "<group>"; };
 		CC4F35522F1DC3A100FC9C5A /* AlicomFusionAuth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AlicomFusionAuth.framework; sourceTree = "<group>"; };
+		CC4F35592F1DFD8300FC9C5A /* AFNetworkingManage+Publish.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AFNetworkingManage+Publish.h"; sourceTree = "<group>"; };
+		CC4F355A2F1DFD8300FC9C5A /* AFNetworkingManage+Publish.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "AFNetworkingManage+Publish.m"; sourceTree = "<group>"; };
 		CC57C92A2EDFC449006A38C3 /* MapAddressView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MapAddressView.h; sourceTree = "<group>"; };
 		CC57C92B2EDFC449006A38C3 /* MapAddressView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MapAddressView.m; sourceTree = "<group>"; };
 		CC57C9302EE015F1006A38C3 /* MAPCustomPointAnnotation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MAPCustomPointAnnotation.h; sourceTree = "<group>"; };
@@ -794,6 +797,15 @@
 				CC4F35522F1DC3A100FC9C5A /* AlicomFusionAuth.framework */,
 			);
 			path = iphoneos;
+			sourceTree = "<group>";
+		};
+		CC4F35582F1DFD6100FC9C5A /* Modle */ = {
+			isa = PBXGroup;
+			children = (
+				CC4F35592F1DFD8300FC9C5A /* AFNetworkingManage+Publish.h */,
+				CC4F355A2F1DFD8300FC9C5A /* AFNetworkingManage+Publish.m */,
+			);
+			path = Modle;
 			sourceTree = "<group>";
 		};
 		CC57C9332EE1154E006A38C3 /* FMDB */ = {
@@ -1770,6 +1782,7 @@
 		CCC0F78D2F15D3F700F9D0DC /* Publish */ = {
 			isa = PBXGroup;
 			children = (
+				CC4F35582F1DFD6100FC9C5A /* Modle */,
 				CCC0F7992F15E5B400F9D0DC /* PhotoPicker */,
 				CCC0F7882F15D3F700F9D0DC /* View */,
 				CCC0F7892F15D3F700F9D0DC /* PublishListView.h */,
@@ -2120,6 +2133,7 @@
 				CC57C9382EE11554006A38C3 /* FMDBManager.m in Sources */,
 				CC57C9392EE11554006A38C3 /* FMDBTool.m in Sources */,
 				CC8253992ED43C8F006BCE2A /* FunStrollTabBar.m in Sources */,
+				CC4F355B2F1DFD8300FC9C5A /* AFNetworkingManage+Publish.m in Sources */,
 				CC5AE62C2F0B58C40004B0A5 /* XHInputView.m in Sources */,
 				CC82546E2EDD2D2A006BCE2A /* ServiceStarView.m in Sources */,
 				CC8254772EDD8A18006BCE2A /* CommentListController.m in Sources */,

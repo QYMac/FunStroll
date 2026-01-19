@@ -18,9 +18,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, copy) void(^deleteBlock)(void);
 
-- (void)configureWithCoverUrl:(NSString *)coverUrl
-                        title:(NSString *)title
-                         date:(NSString *)date;
+/// 配置本地草稿数据
+- (void)configureWithDraftDict:(NSDictionary *)draftDict;
 
 @end
 

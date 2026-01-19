@@ -463,7 +463,7 @@
                     if (imageData.resourceUrl.length > 0) {
                         NSDictionary *dataDict = @{
                             @"resourceUrl": [CheckTool replaceNullValue:imageData.resourceUrl],
-                            @"resourceType":[NSString stringWithFormat:@"%ld",images.count]
+                            @"resourceType":@"1"
                         };
                         [uploadedImageUrls addObject:dataDict];
                     }

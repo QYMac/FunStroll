@@ -67,4 +67,38 @@
     [self showAlertWithMessageText:[AFNetworkingErrorHelper getFriendlyErrorMessage:error]];
 }
 
+// 确认取消弹窗
++ (void)showConfirmAlertWithTitle:(NSString *)title
+                          message:(NSString *)message
+                     confirmTitle:(NSString *)confirmTitle
+                      cancelTitle:(NSString *)cancelTitle
+                   confirmHandler:(void(^)(void))confirmHandler
+                    cancelHandler:(void(^)(void))cancelHandler {
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:title
+                                                                   message:message
+                                                            preferredStyle:UIAlertControllerStyleAlert];
+    
+    // 取消按钮
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:cancelTitle
+                                                           style:UIAlertActionStyleDefault
+                                                         handler:^(UIAlertAction * _Nonnull action) {
+        if (cancelHandler) {
+            cancelHandler();
+        }
+    }];
+    
+    // 确认按钮
+    UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:confirmTitle
+                                                            style:UIAlertActionStyleDefault
+                                                          handler:^(UIAlertAction * _Nonnull action) {
+        if (confirmHandler) {
+            confirmHandler();
+        }
+    }];
+    
+    [alert addAction:cancelAction];
+    [alert addAction:confirmAction];
+    [[TabBarViewController takeCurrentVC] presentViewController:alert animated:YES completion:nil];
+}
+
 @end

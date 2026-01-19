@@ -329,11 +329,18 @@
     CGFloat alpha = 1 - MAX(0, offset_Y/searcHeight);
     self.headerView.bgImg.alpha = alpha;
     
-    // 搜索框跟随 collectionView 滚动
-    CGFloat newTop = self.searchFieldInitialTop - offset_Y;
-    [self.homeSearcTextField mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(newTop);
-    }];
+    // 搜索框跟随 collectionView 滚动（使用 transform 更平滑）
+    // 下拉时减速跟随（系数0.3），上滑时正常跟随
+    CGFloat translateY = 0;
+    if (offset_Y < 0) {
+        // 下拉时，搜索框以较慢速度跟随，避免弹跳感
+        translateY = -offset_Y * 0.3;
+    } else {
+        // 上滑时，搜索框正常跟随
+        translateY = -offset_Y;
+    }
+    self.homeSearcTextField.transform = CGAffineTransformMakeTranslation(0, translateY);
+    self.searchBut.transform = CGAffineTransformMakeTranslation(0, translateY);
     
     /*
     if (offset_Y > scrollView.contentSize.height - (kHeight - navBarHeight)) {

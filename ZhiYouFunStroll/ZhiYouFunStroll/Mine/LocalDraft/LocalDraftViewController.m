@@ -8,6 +8,8 @@
 #import "LocalDraftViewController.h"
 #import "LocalDraftCell.h"
 #import "GeneralWaterfallFlowLayout.h"
+#import "FMDBManager.h"
+#import "PublishNoteViewController.h"
 
 static NSString *const kLocalDraftCellID = @"LocalDraftCell";
 
@@ -15,6 +17,7 @@ static NSString *const kLocalDraftCellID = @"LocalDraftCell";
 
 @property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic, strong) NSMutableArray *dataList;
+@property (nonatomic, strong) UILabel *emptyLabel;
 
 @end
 
@@ -28,6 +31,13 @@ static NSString *const kLocalDraftCellID = @"LocalDraftCell";
     
     [self setupNavigationBar];
     [self setupCollectionView];
+    [self setupEmptyView];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self.navigationController setNavigationBarHidden:NO animated:YES];
+    // 每次进入页面重新加载草稿
     [self loadData];
 }
 
@@ -61,21 +71,32 @@ static NSString *const kLocalDraftCellID = @"LocalDraftCell";
     }];
 }
 
+- (void)setupEmptyView {
+    self.emptyLabel = [[UILabel alloc] init];
+    self.emptyLabel.text = @"暂无草稿";
+    self.emptyLabel.font = [UIFont systemFontOfSize:16];
+    self.emptyLabel.textColor = RGB(187, 187, 187);
+    self.emptyLabel.textAlignment = NSTextAlignmentCenter;
+    self.emptyLabel.hidden = YES;
+    [self.view addSubview:self.emptyLabel];
+    [self.emptyLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.center.mas_equalTo(0);
+    }];
+}
+
 - (void)loadData {
-    // 模拟数据
-    self.dataList = [NSMutableArray array];
-    
-    for (int i = 0; i < 10; i++) {
-        NSDictionary *dict = @{
-            @"id": @(i),
-            @"coverUrl": @"https://picsum.photos/400/500",
-            @"title": @"青甘大环线7天极限攻坚路线保证完美",
-            @"date": @"9月12日 19:20"
-        };
-        [self.dataList addObject:dict];
-    }
-    
-    [self.collectionView reloadData];
+    WeakSelf
+    [FMDBManager searchDraftListAndHandle:^(NSArray * _Nullable dataArray) {
+        weakSelf.dataList = [NSMutableArray array];
+        if (dataArray && dataArray.count > 0) {
+            [weakSelf.dataList addObjectsFromArray:dataArray];
+        }
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [weakSelf.collectionView reloadData];
+            weakSelf.emptyLabel.hidden = weakSelf.dataList.count > 0;
+        });
+    }];
 }
 
 #pragma mark - Actions
@@ -84,6 +105,8 @@ static NSString *const kLocalDraftCellID = @"LocalDraftCell";
 }
 
 - (void)deleteDraftAtIndex:(NSInteger)index {
+    if (index >= self.dataList.count) return;
+    
     WeakSelf
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示"
                                                                    message:@"确定要删除这篇草稿吗？"
@@ -96,9 +119,21 @@ static NSString *const kLocalDraftCellID = @"LocalDraftCell";
     UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"删除"
                                                             style:UIAlertActionStyleDestructive
                                                           handler:^(UIAlertAction * _Nonnull action) {
-        [weakSelf.dataList removeObjectAtIndex:index];
-        [weakSelf.collectionView reloadData];
-        // TODO: 从本地数据库删除
+        NSDictionary *draftDict = weakSelf.dataList[index];
+        NSString *draftId = [CheckTool replaceNullValue:draftDict[@"draftId"]];
+        
+        // 从本地数据库删除
+        [FMDBManager deleteDraftWithDraftId:draftId andHandle:^(BOOL isSuccess) {
+            if (isSuccess) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [weakSelf.dataList removeObjectAtIndex:index];
+                    [weakSelf.collectionView reloadData];
+                    weakSelf.emptyLabel.hidden = weakSelf.dataList.count > 0;
+                });
+            } else {
+                [AlertWith showAlertWithMessageText:@"删除失败"];
+            }
+        }];
     }];
     
     [alert addAction:cancelAction];
@@ -114,24 +149,29 @@ static NSString *const kLocalDraftCellID = @"LocalDraftCell";
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     LocalDraftCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kLocalDraftCellID forIndexPath:indexPath];
     
-    NSDictionary *draftInfo = self.dataList[indexPath.item];
-    [cell configureWithCoverUrl:draftInfo[@"coverUrl"]
-                          title:draftInfo[@"title"]
-                           date:draftInfo[@"date"]];
-    
-    WeakSelf
-    cell.deleteBlock = ^{
-        [weakSelf deleteDraftAtIndex:indexPath.item];
-    };
+    if (indexPath.item < self.dataList.count) {
+        NSDictionary *draftDict = self.dataList[indexPath.item];
+        [cell configureWithDraftDict:draftDict];
+        
+        WeakSelf
+        cell.deleteBlock = ^{
+            [weakSelf deleteDraftAtIndex:indexPath.item];
+        };
+    }
     
     return cell;
 }
 
 #pragma mark - UICollectionViewDelegate
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    NSDictionary *draftInfo = self.dataList[indexPath.item];
-    NSLog(@"点击草稿: %@", draftInfo);
-    // TODO: 跳转到编辑页面
+    if (indexPath.item >= self.dataList.count) return;
+    
+    NSDictionary *draftDict = self.dataList[indexPath.item];
+    
+    // 跳转到编辑页面
+    PublishNoteViewController *publishVC = [[PublishNoteViewController alloc] init];
+    publishVC.draftDict = draftDict;
+    [self.navigationController pushViewController:publishVC animated:YES];
 }
 
 #pragma mark - GeneralWaterfallFlowLayoutDelegate
@@ -169,12 +209,6 @@ static NSString *const kLocalDraftCellID = @"LocalDraftCell";
 - (CGFloat)waterflowLayout:(GeneralWaterfallFlowLayout *)waterflowLayout collectionView:(UICollectionView *)collectionView linesMarginForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     return 5;
-}
-
-#pragma mark - Navigation Bar
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    [self.navigationController setNavigationBarHidden:NO animated:YES];
 }
 
 @end

@@ -9,6 +9,9 @@
 #import "PhotoPickerViewController.h"
 #import "PhotoPreviewViewController.h"
 #import "UITextView+EmojiKeyboard.h"
+#import "AFNetworkingManage+Publish.h"
+#import "UploadImageModel.h"
+#import "FMDBManager.h"
 
 static const NSInteger kMaxTitleLength = 20;
 static const NSInteger kMaxContentLength = 1000;
@@ -52,6 +55,12 @@ static const NSInteger kMaxContentLength = 1000;
 @property (nonatomic, strong) UIButton *saveDraftButton;
 @property (nonatomic, strong) UIButton *publishButton;
 
+// 原始草稿数据（用于判断是否有改动）
+@property (nonatomic, copy) NSString *originalTitle;
+@property (nonatomic, copy) NSString *originalContent;
+@property (nonatomic, assign) NSInteger originalVisibilityType;
+@property (nonatomic, assign) NSInteger originalImageCount;
+
 @end
 
 @implementation PublishNoteViewController
@@ -66,6 +75,52 @@ static const NSInteger kMaxContentLength = 1000;
     [self setupNavigationBar];
     [self setupUI];
     [self setupVisibilityPicker];
+    
+    // 如果是编辑草稿，加载草稿数据
+    if (self.draftDict) {
+        [self loadDraftData];
+    }
+}
+
+#pragma mark - 加载草稿数据
+- (void)loadDraftData {
+    // 标题
+    NSString *title = [CheckTool replaceNullValue:self.draftDict[@"title"]];
+    self.titleTextField.text = title;
+    [self titleTextFieldChanged:self.titleTextField];
+    
+    // 正文
+    NSString *content = [CheckTool replaceNullValue:self.draftDict[@"content"]];
+    self.contentTextView.text = content;
+    self.contentPlaceholder.hidden = content.length > 0;
+    [self textViewDidChange:self.contentTextView];
+    
+    // 可见性
+    NSInteger visibilityType = [self.draftDict[@"visibilityType"] integerValue];
+    self.visibilityType = visibilityType;
+    self.visibilityLabel.text = (visibilityType == 0) ? @"公开可见" : @"仅自己可见";
+    [self updateVisibilityCheckmarks];
+    
+    // 加载图片
+    NSString *imagePathsJson = self.draftDict[@"imagePaths"];
+    NSInteger imageCount = 0;
+    if (imagePathsJson.length > 0) {
+        NSData *jsonData = [imagePathsJson dataUsingEncoding:NSUTF8StringEncoding];
+        NSArray *imagePaths = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:nil];
+        
+        if (imagePaths && imagePaths.count > 0) {
+            NSArray *images = [FMDBManager loadDraftImagesWithPaths:imagePaths];
+            [self.selectedImages addObjectsFromArray:images];
+            [self.imageCollectionView reloadData];
+            imageCount = images.count;
+        }
+    }
+    
+    // 保存原始数据，用于判断是否有改动
+    self.originalTitle = title;
+    self.originalContent = content;
+    self.originalVisibilityType = visibilityType;
+    self.originalImageCount = imageCount;
 }
 
 - (void)setupNavigationBar {
@@ -234,7 +289,7 @@ static const NSInteger kMaxContentLength = 1000;
     
     // 字数统计
     self.contentCountLabel = [[UILabel alloc] init];
-    self.contentCountLabel.text = [NSString stringWithFormat:@"-%ld", (long)kMaxContentLength];
+    self.contentCountLabel.text = [NSString stringWithFormat:@"%ld", (long)kMaxContentLength];
     self.contentCountLabel.font = [UIFont systemFontOfSize:12];
     self.contentCountLabel.textColor = RGB(187, 187, 187);
     self.contentCountLabel.textAlignment = NSTextAlignmentRight;
@@ -814,13 +869,98 @@ static const NSInteger kMaxContentLength = 1000;
 }
 
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
-    return YES;  // 允许输入，通过字数统计显示超出
+    NSString *newText = [textView.text stringByReplacingCharactersInRange:range withString:text];
+    return newText.length <= kMaxContentLength;
 }
 
 #pragma mark - Actions
-- (void)backButtonClicked {
+
+/// 检查是否有未保存的内容（或草稿有改动）
+- (BOOL)hasUnsavedContent {
+    NSString *title = [CheckTool replaceNullValue:self.titleTextField.text];
+    NSString *content = [CheckTool replaceNullValue:self.contentTextView.text];
+    
+    // 如果是编辑草稿，判断是否有改动
+    if (self.draftDict) {
+        // 比较标题、正文、可见性、图片数量
+        BOOL titleChanged = ![title isEqualToString:self.originalTitle ?: @""];
+        BOOL contentChanged = ![content isEqualToString:self.originalContent ?: @""];
+        BOOL visibilityChanged = (self.visibilityType != self.originalVisibilityType);
+        BOOL imageCountChanged = (self.selectedImages.count != self.originalImageCount);
+        
+        return (titleChanged || contentChanged || visibilityChanged || imageCountChanged);
+    }
+    
+    // 新建内容，只要有内容就需要提示
+    return (title.length > 0 || content.length > 0 || self.selectedImages.count > 0);
+}
+
+/// 直接离开页面
+- (void)leavePage {
     [self.navigationController popViewControllerWithAnimationType:TransitionAnimationTypePresentFromBottom duration:0.3 completion:^{
         
+    }];
+}
+
+- (void)backButtonClicked {
+    // 检查是否有未保存的内容
+    if ([self hasUnsavedContent]) {
+        // 显示保存提醒
+        WeakSelf
+        [AlertWith showConfirmAlertWithTitle:@"温馨提示"
+                                     message:@"是否保存草稿？"
+                                confirmTitle:@"保存"
+                                 cancelTitle:@"不保存"
+                              confirmHandler:^{
+            // 保存草稿后离开
+            [weakSelf saveDraftAndLeave];
+        } cancelHandler:^{
+            // 直接离开
+            [weakSelf leavePage];
+        }];
+    } else {
+        // 没有内容，直接离开
+        [self leavePage];
+    }
+}
+
+/// 保存草稿并离开
+- (void)saveDraftAndLeave {
+    NSString *title = [CheckTool replaceNullValue:self.titleTextField.text];
+    NSString *content = [CheckTool replaceNullValue:self.contentTextView.text];
+    
+    [ZSProgressHUD showHUDShowText:@"保存中..."];
+    
+    WeakSelf
+    
+    // 如果是编辑草稿，先删除旧草稿
+    if (self.draftDict) {
+        NSString *oldDraftId = [CheckTool replaceNullValue:self.draftDict[@"draftId"]];
+        [FMDBManager deleteDraftWithDraftId:oldDraftId andHandle:^(BOOL isSuccess) {
+            // 保存新草稿
+            [weakSelf saveNewDraftWithTitle:title content:content];
+        }];
+    } else {
+        [self saveNewDraftWithTitle:title content:content];
+    }
+}
+
+/// 保存新草稿
+- (void)saveNewDraftWithTitle:(NSString *)title content:(NSString *)content {
+    WeakSelf
+    [FMDBManager saveDraftWithTitle:title
+                            content:content
+                     visibilityType:self.visibilityType
+                             images:self.selectedImages
+                          andHandle:^(BOOL isSuccess) {
+        [ZSProgressHUD hideAllHUDAnimated:YES];
+        if (isSuccess) {
+            [AlertWith showAlertWithMessageText:@"已保存到草稿" completion:^{
+                [weakSelf leavePage];
+            }];
+        } else {
+            [AlertWith showAlertWithMessageText:@"保存草稿失败"];
+        }
     }];
 }
 
@@ -848,6 +988,8 @@ static const NSInteger kMaxContentLength = 1000;
 - (void)topicButtonClicked {
     NSLog(@"选择话题");
     // TODO: 打开话题选择页面
+    [self.contentTextView insertText:@"#"];
+    [self.contentTextView becomeFirstResponder];
 }
 
 - (void)visibilityTapped {
@@ -855,16 +997,35 @@ static const NSInteger kMaxContentLength = 1000;
 }
 
 - (void)saveDraftButtonClicked {
-    NSLog(@"保存草稿");
-    // TODO: 保存到本地草稿
-    [AlertWith showAlertWithMessageText:@"已保存到草稿"];
+    NSString *title = [CheckTool replaceNullValue:self.titleTextField.text];
+    NSString *content = [CheckTool replaceNullValue:self.contentTextView.text];
+    
+    // 验证是否有内容可保存
+    if (title.length == 0 && content.length == 0 && self.selectedImages.count == 0) {
+        [AlertWith showAlertWithMessageText:@"请输入内容后再保存草稿"];
+        return;
+    }
+    
+    [ZSProgressHUD showHUDShowText:@"保存中..."];
+    
+    WeakSelf
+    // 如果是编辑草稿，先删除旧草稿
+    if (self.draftDict) {
+        NSString *oldDraftId = [CheckTool replaceNullValue:self.draftDict[@"draftId"]];
+        [FMDBManager deleteDraftWithDraftId:oldDraftId andHandle:^(BOOL isSuccess) {
+            // 保存新草稿
+            [weakSelf saveNewDraftWithTitle:title content:content];
+        }];
+    } else {
+        [self saveNewDraftWithTitle:title content:content];
+    }
 }
 
 - (void)publishButtonClicked {
     // 验证
     if (self.selectedImages.count == 0) {
-        [AlertWith showAlertWithMessageText:@"请选择至少一张图片"];
-        return;
+        //[AlertWith showAlertWithMessageText:@"请选择至少一张图片"];
+        //return;
     }
     
     if (self.titleTextField.text.length == 0) {
@@ -873,7 +1034,80 @@ static const NSInteger kMaxContentLength = 1000;
     }
     
     NSLog(@"发布帖子");
+    WeakSelf
     // TODO: 调用发布接口
+    // 如果用户选择了图片先上传图片
+    [ZSProgressHUD showHUDShowText:@"请稍等..."];
+    if (self.selectedImages.count > 0) {
+        NSMutableArray *uploadedImageUrls = [NSMutableArray array];
+        [AFNetworkingManage uploadPostImages:self.selectedImages imgAuditServiceType:@"profilePhotoCheck" successHanler:^(id  _Nonnull responseObject) {
+            // 解析返回的图片数据
+            NSDictionary *dict = [CheckTool replaceNullWithDictionary:responseObject];
+            UploadImageModel *uploadModel = [UploadImageModel yy_modelWithJSON:dict];
+            // 从成功列表中获取所有图片URL
+            if (uploadModel.data && uploadModel.data.successList.count > 0) {
+                for (UploadImageDataModel *imageData in uploadModel.data.successList) {
+                    if (imageData.resourceUrl.length > 0) {
+                        NSDictionary *dataDict = @{
+                            @"resourceUrl": [CheckTool replaceNullValue:imageData.resourceUrl],
+                            @"resourceType":@"1"
+                        };
+                        [uploadedImageUrls addObject:dataDict];
+                    }
+                }
+            }
+            // 所有图片上传完成
+            [weakSelf createPublishResources:uploadedImageUrls];
+        } failureHandler:^(NSError * _Nonnull error) {
+            [ZSProgressHUD hideAllHUDAnimated:YES];
+            [AlertWith showAlertWithError:error];
+        }];
+    } else {
+        NSDictionary *dict = @{
+            @"resourceUrl":@"http://47.121.183.217:9000/zytech/25dc7dda7d9f486e92030cb2bcde260c.jpg",
+            @"resourceType":@"1"
+        };
+        NSDictionary *dict1 = @{
+            @"resourceUrl":@"http://47.121.183.217:9000/zytech/ab225e7e8c8245188ef234a4a54ef6ed.jp",
+            @"resourceType":@"1"
+        };
+        NSDictionary *dict2 = @{
+            @"resourceUrl":@"http://47.121.183.217:9000/zytech/1835d6de8be145b09911c21a2203c3cd.jpg",
+            @"resourceType":@"1"
+        };
+        [self createPublishResources:@[dict,dict1,dict2]];
+    }
+}
+
+// 发布帖子
+- (void)createPublishResources:(NSArray *)resources{
+    NSString *title = [CheckTool replaceNullValue:self.titleTextField.text];
+    NSString *content = [CheckTool replaceNullValue:self.contentTextView.text];
+    NSString *visibility = @"public";
+    // 0: 公开可见, 1: 仅自己可见
+    if (self.visibilityType == 1) {
+        visibility = @"draft";
+    }
+    WeakSelf
+    [AFNetworkingManage createPublishTitle:title content:content visibility:visibility resources:resources success:^(id  _Nonnull responseObject) {
+        //NSDictionary *dict = [CheckTool replaceNullWithDictionary:responseObject];
+        //NSLog(@"auditMessage = %@",dict[@"data"][@"auditMessage"]);
+        //NSLog(@"statusDesc = %@",dict[@"data"][@"statusDesc"]);
+        [ZSProgressHUD hideAllHUDAnimated:YES];
+        
+        // 发布成功后，如果是草稿编辑则删除草稿
+        if (weakSelf.draftDict) {
+            NSString *draftId = [CheckTool replaceNullValue:weakSelf.draftDict[@"draftId"]];
+            [FMDBManager deleteDraftWithDraftId:draftId andHandle:nil];
+        }
+        
+        [AlertWith showAlertWithMessageText:@"发布成功" completion:^{
+            [weakSelf leavePage];
+        }];
+    } failureHandler:^(NSError * _Nonnull error) {
+        [ZSProgressHUD hideAllHUDAnimated:YES];
+        [AlertWith showAlertWithError:error];
+    }];
 }
 
 #pragma mark - Touch

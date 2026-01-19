@@ -42,6 +42,7 @@
         _imageView = [[UIImageView alloc]init];
         _imageView.contentMode = UIViewContentModeScaleAspectFill;
         _imageView.clipsToBounds = YES;
+        _imageView.backgroundColor = RGB(244, 244, 244);
     }
     return _imageView;
 }

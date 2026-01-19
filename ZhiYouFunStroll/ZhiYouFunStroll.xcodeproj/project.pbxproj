@@ -9,8 +9,6 @@
 /* Begin PBXBuildFile section */
 		41E7A062133A40296B0A0177 /* Pods_ZhiYouFunStroll.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEC8003BDD413912397E68E0 /* Pods_ZhiYouFunStroll.framework */; };
 		CC2F1C872EF24F12007E8992 /* Network.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC2F1C862EF24F12007E8992 /* Network.framework */; };
-		CC2F1C9E2EF25397007E8992 /* AlicomFusionAuth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC2F1C9B2EF252EC007E8992 /* AlicomFusionAuth.framework */; };
-		CC2F1C9F2EF25397007E8992 /* AlicomFusionAuth.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CC2F1C9B2EF252EC007E8992 /* AlicomFusionAuth.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		CC2F1CA62EF25B7C007E8992 /* ATAuthSDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = CC2F1CA52EF25B7C007E8992 /* ATAuthSDK.bundle */; };
 		CC2F1CA82EF25B8C007E8992 /* AlicomCaptcha4.bundle in Resources */ = {isa = PBXBuildFile; fileRef = CC2F1CA72EF25B8C007E8992 /* AlicomCaptcha4.bundle */; };
 		CC2F1CB02EF2783A007E8992 /* UMDevice.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC2F1CAF2EF2783A007E8992 /* UMDevice.framework */; };
@@ -22,6 +20,13 @@
 		CC2F1CE02EF3CAAC007E8992 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CC2F1CDF2EF3CAAC007E8992 /* LoginViewController.m */; };
 		CC2F1CE42EF3CB29007E8992 /* WKWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CC2F1CE32EF3CB29007E8992 /* WKWebViewController.m */; };
 		CC2F1CE82EF3D05A007E8992 /* TransitionAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = CC2F1CE72EF3D05A007E8992 /* TransitionAnimation.m */; };
+		CC4F35492F1A2CF800FC9C5A /* ResponseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = CC4F35482F1A2CF800FC9C5A /* ResponseModel.m */; };
+		CC4F354A2F1A2CF800FC9C5A /* PostDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = CC4F35442F1A2CF800FC9C5A /* PostDataModel.m */; };
+		CC4F354B2F1A2CF800FC9C5A /* ResourceModel.m in Sources */ = {isa = PBXBuildFile; fileRef = CC4F35462F1A2CF800FC9C5A /* ResourceModel.m */; };
+		CC4F354E2F1A2D3800FC9C5A /* HomePostListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = CC4F354D2F1A2D3800FC9C5A /* HomePostListModel.m */; };
+		CC4F35512F1A354400FC9C5A /* HomeListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = CC4F35502F1A354400FC9C5A /* HomeListModel.m */; };
+		CC4F35562F1DC55600FC9C5A /* AlicomFusionAuth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC4F35522F1DC3A100FC9C5A /* AlicomFusionAuth.framework */; };
+		CC4F35572F1DC55600FC9C5A /* AlicomFusionAuth.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CC4F35522F1DC3A100FC9C5A /* AlicomFusionAuth.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		CC57C92C2EDFC449006A38C3 /* MapAddressView.m in Sources */ = {isa = PBXBuildFile; fileRef = CC57C92B2EDFC449006A38C3 /* MapAddressView.m */; };
 		CC57C9322EE015F1006A38C3 /* MAPCustomPointAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = CC57C9312EE015F1006A38C3 /* MAPCustomPointAnnotation.m */; };
 		CC57C9382EE11554006A38C3 /* FMDBManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CC57C9372EE11554006A38C3 /* FMDBManager.m */; };
@@ -48,9 +53,6 @@
 		CC676BFF2F0CB4E100574EF8 /* KYPhotoZoomView.m in Sources */ = {isa = PBXBuildFile; fileRef = CC676BFC2F0CB4E100574EF8 /* KYPhotoZoomView.m */; };
 		CC676C002F0CB4E100574EF8 /* KYPhotoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = CC676BFA2F0CB4E100574EF8 /* KYPhotoModel.m */; };
 		CC676C012F0CB4E100574EF8 /* KYPhotoBrowserManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CC676BF62F0CB4E100574EF8 /* KYPhotoBrowserManager.m */; };
-		CC676C182F0CE12F00574EF8 /* ResponseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = CC676C172F0CE12F00574EF8 /* ResponseModel.m */; };
-		CC676C192F0CE12F00574EF8 /* ResourceModel.m in Sources */ = {isa = PBXBuildFile; fileRef = CC676C152F0CE12F00574EF8 /* ResourceModel.m */; };
-		CC676C1A2F0CE12F00574EF8 /* PostDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = CC676C132F0CE12F00574EF8 /* PostDataModel.m */; };
 		CC676C212F0CF10100574EF8 /* DateHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = CC676C202F0CF10100574EF8 /* DateHelper.m */; };
 		CC676C392F0CFAE000574EF8 /* CommentListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = CC676C382F0CFAE000574EF8 /* CommentListModel.m */; };
 		CC754ED52EF3EB4D002DB1FA /* LoginUserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CC754ED42EF3EB4D002DB1FA /* LoginUserViewController.m */; };
@@ -62,7 +64,6 @@
 		CC754EEA2EF3F1F1002DB1FA /* UIView+MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = CC754EE72EF3F1F1002DB1FA /* UIView+MBProgressHUD.m */; };
 		CC754EEE2EF3F452002DB1FA /* AFNetworkingManage+Login.m in Sources */ = {isa = PBXBuildFile; fileRef = CC754EED2EF3F452002DB1FA /* AFNetworkingManage+Login.m */; };
 		CC754EF82EFBBE60002DB1FA /* AFNetworkingManage+Home.m in Sources */ = {isa = PBXBuildFile; fileRef = CC754EF72EFBBE60002DB1FA /* AFNetworkingManage+Home.m */; };
-		CC754EFE2EFBC8F4002DB1FA /* HomeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = CC754EFD2EFBC8F4002DB1FA /* HomeModel.m */; };
 		CC754F012EFBD395002DB1FA /* NSArray+Check.m in Sources */ = {isa = PBXBuildFile; fileRef = CC754F002EFBD395002DB1FA /* NSArray+Check.m */; };
 		CC754F202EFD34C2002DB1FA /* PhotoLocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CC754F1F2EFD34C2002DB1FA /* PhotoLocationManager.m */; };
 		CC8253662ED43097006BCE2A /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CC8253642ED43097006BCE2A /* ViewController.m */; };
@@ -216,7 +217,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				CC2F1C9F2EF25397007E8992 /* AlicomFusionAuth.framework in Embed Frameworks */,
+				CC4F35572F1DC55600FC9C5A /* AlicomFusionAuth.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -229,7 +230,6 @@
 		CC0051D72ED402B600882B7B /* ZhiYouFunStroll.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ZhiYouFunStroll.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CC0052322ED406B400882B7B /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
 		CC2F1C862EF24F12007E8992 /* Network.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Network.framework; path = System/Library/Frameworks/Network.framework; sourceTree = SDKROOT; };
-		CC2F1C9B2EF252EC007E8992 /* AlicomFusionAuth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AlicomFusionAuth.framework; sourceTree = "<group>"; };
 		CC2F1CA52EF25B7C007E8992 /* ATAuthSDK.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = ATAuthSDK.bundle; sourceTree = "<group>"; };
 		CC2F1CA72EF25B8C007E8992 /* AlicomCaptcha4.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = AlicomCaptcha4.bundle; sourceTree = "<group>"; };
 		CC2F1CAF2EF2783A007E8992 /* UMDevice.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = UMDevice.framework; sourceTree = "<group>"; };
@@ -248,6 +248,17 @@
 		CC2F1CE32EF3CB29007E8992 /* WKWebViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WKWebViewController.m; sourceTree = "<group>"; };
 		CC2F1CE62EF3D05A007E8992 /* TransitionAnimation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TransitionAnimation.h; sourceTree = "<group>"; };
 		CC2F1CE72EF3D05A007E8992 /* TransitionAnimation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TransitionAnimation.m; sourceTree = "<group>"; };
+		CC4F35432F1A2CF800FC9C5A /* PostDataModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PostDataModel.h; sourceTree = "<group>"; };
+		CC4F35442F1A2CF800FC9C5A /* PostDataModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PostDataModel.m; sourceTree = "<group>"; };
+		CC4F35452F1A2CF800FC9C5A /* ResourceModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ResourceModel.h; sourceTree = "<group>"; };
+		CC4F35462F1A2CF800FC9C5A /* ResourceModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ResourceModel.m; sourceTree = "<group>"; };
+		CC4F35472F1A2CF800FC9C5A /* ResponseModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ResponseModel.h; sourceTree = "<group>"; };
+		CC4F35482F1A2CF800FC9C5A /* ResponseModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ResponseModel.m; sourceTree = "<group>"; };
+		CC4F354C2F1A2D3800FC9C5A /* HomePostListModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HomePostListModel.h; sourceTree = "<group>"; };
+		CC4F354D2F1A2D3800FC9C5A /* HomePostListModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HomePostListModel.m; sourceTree = "<group>"; };
+		CC4F354F2F1A354400FC9C5A /* HomeListModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HomeListModel.h; sourceTree = "<group>"; };
+		CC4F35502F1A354400FC9C5A /* HomeListModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HomeListModel.m; sourceTree = "<group>"; };
+		CC4F35522F1DC3A100FC9C5A /* AlicomFusionAuth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AlicomFusionAuth.framework; sourceTree = "<group>"; };
 		CC57C92A2EDFC449006A38C3 /* MapAddressView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MapAddressView.h; sourceTree = "<group>"; };
 		CC57C92B2EDFC449006A38C3 /* MapAddressView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MapAddressView.m; sourceTree = "<group>"; };
 		CC57C9302EE015F1006A38C3 /* MAPCustomPointAnnotation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MAPCustomPointAnnotation.h; sourceTree = "<group>"; };
@@ -302,12 +313,6 @@
 		CC676BFA2F0CB4E100574EF8 /* KYPhotoModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KYPhotoModel.m; sourceTree = "<group>"; };
 		CC676BFB2F0CB4E100574EF8 /* KYPhotoZoomView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KYPhotoZoomView.h; sourceTree = "<group>"; };
 		CC676BFC2F0CB4E100574EF8 /* KYPhotoZoomView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KYPhotoZoomView.m; sourceTree = "<group>"; };
-		CC676C122F0CE12F00574EF8 /* PostDataModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PostDataModel.h; sourceTree = "<group>"; };
-		CC676C132F0CE12F00574EF8 /* PostDataModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PostDataModel.m; sourceTree = "<group>"; };
-		CC676C142F0CE12F00574EF8 /* ResourceModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ResourceModel.h; sourceTree = "<group>"; };
-		CC676C152F0CE12F00574EF8 /* ResourceModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ResourceModel.m; sourceTree = "<group>"; };
-		CC676C162F0CE12F00574EF8 /* ResponseModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ResponseModel.h; sourceTree = "<group>"; };
-		CC676C172F0CE12F00574EF8 /* ResponseModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ResponseModel.m; sourceTree = "<group>"; };
 		CC676C1F2F0CF10100574EF8 /* DateHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DateHelper.h; sourceTree = "<group>"; };
 		CC676C202F0CF10100574EF8 /* DateHelper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DateHelper.m; sourceTree = "<group>"; };
 		CC676C372F0CFAE000574EF8 /* CommentListModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CommentListModel.h; sourceTree = "<group>"; };
@@ -330,8 +335,6 @@
 		CC754EED2EF3F452002DB1FA /* AFNetworkingManage+Login.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "AFNetworkingManage+Login.m"; sourceTree = "<group>"; };
 		CC754EF62EFBBE60002DB1FA /* AFNetworkingManage+Home.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AFNetworkingManage+Home.h"; sourceTree = "<group>"; };
 		CC754EF72EFBBE60002DB1FA /* AFNetworkingManage+Home.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "AFNetworkingManage+Home.m"; sourceTree = "<group>"; };
-		CC754EFC2EFBC8F4002DB1FA /* HomeModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HomeModel.h; sourceTree = "<group>"; };
-		CC754EFD2EFBC8F4002DB1FA /* HomeModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HomeModel.m; sourceTree = "<group>"; };
 		CC754EFF2EFBD395002DB1FA /* NSArray+Check.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSArray+Check.h"; sourceTree = "<group>"; };
 		CC754F002EFBD395002DB1FA /* NSArray+Check.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSArray+Check.m"; sourceTree = "<group>"; };
 		CC754F1E2EFD34C2002DB1FA /* PhotoLocationManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PhotoLocationManager.h; sourceTree = "<group>"; };
@@ -639,7 +642,7 @@
 				CC2F1CB02EF2783A007E8992 /* UMDevice.framework in Frameworks */,
 				41E7A062133A40296B0A0177 /* Pods_ZhiYouFunStroll.framework in Frameworks */,
 				CC2F1C872EF24F12007E8992 /* Network.framework in Frameworks */,
-				CC2F1C9E2EF25397007E8992 /* AlicomFusionAuth.framework in Frameworks */,
+				CC4F35562F1DC55600FC9C5A /* AlicomFusionAuth.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -705,20 +708,12 @@
 			isa = PBXGroup;
 			children = (
 				CC2F1CA52EF25B7C007E8992 /* ATAuthSDK.bundle */,
-				CC2F1C9C2EF252EC007E8992 /* iphoneos+iphonesimulator */,
 				CC2F1CA72EF25B8C007E8992 /* AlicomCaptcha4.bundle */,
 				CC2F1CAF2EF2783A007E8992 /* UMDevice.framework */,
 				CC2F1CB12EF27843007E8992 /* UMCommon.framework */,
+				CC4F35532F1DC3A100FC9C5A /* iphoneos */,
 			);
 			path = SDK;
-			sourceTree = "<group>";
-		};
-		CC2F1C9C2EF252EC007E8992 /* iphoneos+iphonesimulator */ = {
-			isa = PBXGroup;
-			children = (
-				CC2F1C9B2EF252EC007E8992 /* AlicomFusionAuth.framework */,
-			);
-			path = "iphoneos+iphonesimulator";
 			sourceTree = "<group>";
 		};
 		CC2F1CCA2EF28477007E8992 /* AFNetworking */ = {
@@ -791,6 +786,14 @@
 				CC2F1CE72EF3D05A007E8992 /* TransitionAnimation.m */,
 			);
 			path = ViewTransitionAnimation;
+			sourceTree = "<group>";
+		};
+		CC4F35532F1DC3A100FC9C5A /* iphoneos */ = {
+			isa = PBXGroup;
+			children = (
+				CC4F35522F1DC3A100FC9C5A /* AlicomFusionAuth.framework */,
+			);
+			path = iphoneos;
 			sourceTree = "<group>";
 		};
 		CC57C9332EE1154E006A38C3 /* FMDB */ = {
@@ -910,12 +913,12 @@
 		CC676C112F0CE12700574EF8 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				CC676C162F0CE12F00574EF8 /* ResponseModel.h */,
-				CC676C172F0CE12F00574EF8 /* ResponseModel.m */,
-				CC676C122F0CE12F00574EF8 /* PostDataModel.h */,
-				CC676C132F0CE12F00574EF8 /* PostDataModel.m */,
-				CC676C142F0CE12F00574EF8 /* ResourceModel.h */,
-				CC676C152F0CE12F00574EF8 /* ResourceModel.m */,
+				CC4F35432F1A2CF800FC9C5A /* PostDataModel.h */,
+				CC4F35442F1A2CF800FC9C5A /* PostDataModel.m */,
+				CC4F35452F1A2CF800FC9C5A /* ResourceModel.h */,
+				CC4F35462F1A2CF800FC9C5A /* ResourceModel.m */,
+				CC4F35472F1A2CF800FC9C5A /* ResponseModel.h */,
+				CC4F35482F1A2CF800FC9C5A /* ResponseModel.m */,
 				CC676C372F0CFAE000574EF8 /* CommentListModel.h */,
 				CC676C382F0CFAE000574EF8 /* CommentListModel.m */,
 				CCC0F7C12F19DE9A00F9D0DC /* UploadImageModel.h */,
@@ -983,8 +986,10 @@
 			children = (
 				CC754EF62EFBBE60002DB1FA /* AFNetworkingManage+Home.h */,
 				CC754EF72EFBBE60002DB1FA /* AFNetworkingManage+Home.m */,
-				CC754EFC2EFBC8F4002DB1FA /* HomeModel.h */,
-				CC754EFD2EFBC8F4002DB1FA /* HomeModel.m */,
+				CC4F354C2F1A2D3800FC9C5A /* HomePostListModel.h */,
+				CC4F354D2F1A2D3800FC9C5A /* HomePostListModel.m */,
+				CC4F354F2F1A354400FC9C5A /* HomeListModel.h */,
+				CC4F35502F1A354400FC9C5A /* HomeListModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -2032,6 +2037,9 @@
 				CC995A2A2EF1297200456825 /* LFResultImage.m in Sources */,
 				CC5AE6152F050F460004B0A5 /* ItineraryViewController.m in Sources */,
 				CC995A2B2EF1297200456825 /* LFAlbumTitleView.m in Sources */,
+				CC4F35492F1A2CF800FC9C5A /* ResponseModel.m in Sources */,
+				CC4F354A2F1A2CF800FC9C5A /* PostDataModel.m in Sources */,
+				CC4F354B2F1A2CF800FC9C5A /* ResourceModel.m in Sources */,
 				CC8AB8112F12409C00BC11A8 /* MapLocationImageCell.m in Sources */,
 				CCC0F7C02F18F9CC00F9D0DC /* UserInfoModel.m in Sources */,
 				CC8AB8432F14C2EE00BC11A8 /* ProfileViewController.m in Sources */,
@@ -2066,6 +2074,7 @@
 				CC995A3B2EF1297200456825 /* LFAssetManager+Authorization.m in Sources */,
 				CC995A3C2EF1297200456825 /* LFPhotoPreviewGifCell.m in Sources */,
 				CC995A3D2EF1297200456825 /* LFBaseViewController.m in Sources */,
+				CC4F35512F1A354400FC9C5A /* HomeListModel.m in Sources */,
 				CC995A3E2EF1297200456825 /* LFAssetManager+CreateMedia.m in Sources */,
 				CC995A3F2EF1297200456825 /* UIView+LFAnimate.m in Sources */,
 				CC995A402EF1297200456825 /* UIImage+LFCommon.m in Sources */,
@@ -2099,14 +2108,11 @@
 				CC995A4F2EF1297200456825 /* LF_VideoUtils.m in Sources */,
 				CC2F1CCD2EF284C0007E8992 /* AFNetworkingManage.m in Sources */,
 				CC995A502EF1297200456825 /* LFGIFImageSerialization.m in Sources */,
+				CC4F354E2F1A2D3800FC9C5A /* HomePostListModel.m in Sources */,
 				CC2F1CE82EF3D05A007E8992 /* TransitionAnimation.m in Sources */,
 				CC995A512EF1297200456825 /* LFAlbum.m in Sources */,
 				CC995A522EF1297200456825 /* LFPhotoPreviewVideoCell.m in Sources */,
 				CC995A532EF1297200456825 /* LFImagePickerHeader.m in Sources */,
-				CC676C182F0CE12F00574EF8 /* ResponseModel.m in Sources */,
-				CC676C192F0CE12F00574EF8 /* ResourceModel.m in Sources */,
-				CC676C1A2F0CE12F00574EF8 /* PostDataModel.m in Sources */,
-				CC754EFE2EFBC8F4002DB1FA /* HomeModel.m in Sources */,
 				CC8253CB2ED5935F006BCE2A /* CommunityViewController.m in Sources */,
 				CC5AE5DD2F025C080004B0A5 /* DeviceInfoHelper.m in Sources */,
 				CC9959AE2EEBE31900456825 /* NSString+TimeFormatter.m in Sources */,
@@ -2200,6 +2206,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/ZhiYouFunStroll/AlicomFusionAuth/SDK/iphoneos+iphonesimulator",
 					"$(PROJECT_DIR)/ZhiYouFunStroll/AlicomFusionAuth/SDK",
+					"$(PROJECT_DIR)/ZhiYouFunStroll/AlicomFusionAuth/SDK/iphoneos",
 				);
 				GCC_INCREASE_PRECOMPILED_HEADER_SHARING = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -2309,6 +2316,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/ZhiYouFunStroll/AlicomFusionAuth/SDK/iphoneos+iphonesimulator",
 					"$(PROJECT_DIR)/ZhiYouFunStroll/AlicomFusionAuth/SDK",
+					"$(PROJECT_DIR)/ZhiYouFunStroll/AlicomFusionAuth/SDK/iphoneos",
 				);
 				GCC_INCREASE_PRECOMPILED_HEADER_SHARING = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;

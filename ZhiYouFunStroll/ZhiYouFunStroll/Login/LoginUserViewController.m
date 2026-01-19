@@ -676,13 +676,13 @@
             NSLog(@"点击了用户协议");
             WKWebViewController *navc = [[WKWebViewController alloc] init];
             navc.titleText = @"用户协议";
-            navc.urlStr = @"";
+            navc.urlStr = @"http://47.121.183.217/ystk/";
             [self.navigationController pushViewController:navc animated:YES];
         } else if (NSLocationInRange(startIndex, privacyRange)) {
             NSLog(@"点击了隐私政策");
             WKWebViewController *navc = [[WKWebViewController alloc] init];
             navc.titleText = @"隐私政策";
-            navc.urlStr = @"";
+            navc.urlStr = @"http://47.121.183.217/ystk/";
             [self.navigationController pushViewController:navc animated:YES];
         }
     }

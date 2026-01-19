@@ -77,7 +77,7 @@
     }
     
     WeakSelf
-    NSInteger maxCount = 2 - self.addImgList.count;
+    NSInteger maxCount = 1 - self.addImgList.count;
     if (maxCount <= 0) {
         [AlertWith showAlertWithMessageText:@"最多只能选择1张图片" completion:^{
             if (weakSelf.addImgButtonBlcok) {

@@ -10,7 +10,7 @@
 
 @interface CommunityCollectionViewCell ()
 
-@property (nonatomic,strong) HomeModel *dataModel;
+@property (nonatomic,strong) HomeListRecordModel *dataModel;
 
 @end
 
@@ -89,7 +89,7 @@
     return self;
 }
 
-- (void)setModel:(HomeModel *)model{
+- (void)setModel:(HomeListRecordModel *)model{
     
     self.dataModel = model;
     
@@ -108,13 +108,13 @@
     [self.homeImage sd_setImageWithURL:[NSURL URLWithString:coverImage] placeholderImage:[UIImage imageNamed:@""]];
     self.nameL.text = [CheckTool replaceNullValue:model.userNickname];
     
-    NSString *likeCountStr = [DateHelper formatNumber:[model.likeCount intValue]];
+    NSString *likeCountStr = [DateHelper formatNumber:model.likeCount];
     [self.likeBut setTitle:likeCountStr forState:UIControlStateNormal];
     
     NSString *userAvatar = [CheckTool replaceNullValue:model.userAvatar];
     [self.avatarImage sd_setImageWithURL:[NSURL URLWithString:userAvatar] placeholderImage:[UIImage imageNamed:@"touxiang_m"]];
     
-    if ([model.liked intValue] == 1) {
+    if (model.liked == YES) {
         self.likeBut.selected = YES;
         [self.likeBut setImage:[UIImage imageNamed:@"like_off"] forState:UIControlStateNormal];
     } else {
@@ -137,26 +137,25 @@
         NSDictionary *dict = [CheckTool replaceNullWithDictionary:responseObject];
         BOOL isLick = [dict[@"data"] intValue];
         
-        NSLog(@"responseObject===%@",responseObject);
-        
-        NSInteger likeCount = [self.dataModel.likeCount intValue];
+        NSInteger likeCount = self.dataModel.likeCount;
         
         if (isLick == YES) {
-            sender.selected = YES;
             likeCount += 1;
             [sender setImage:[UIImage imageNamed:@"like_off"] forState:UIControlStateNormal];
         } else {
-            sender.selected = NO;
             likeCount -= 1;
             [sender setImage:[UIImage imageNamed:@"like_on"] forState:UIControlStateNormal];
         }
         
-        self.dataModel.likeCount = [NSString stringWithFormat:@"%ld",likeCount];
+        if (likeCount < 0) {
+            likeCount = 0;
+        }
+        self.dataModel.likeCount = likeCount;
         NSString *likeCountStr = [DateHelper formatNumber:likeCount];
         [self.likeBut setTitle:likeCountStr forState:UIControlStateNormal];
         
     } failureHandler:^(NSError * _Nonnull error) {
-        [AlertWith showAlertWithMessageText:[AFNetworkingErrorHelper getFriendlyErrorMessage:error]];
+        [AlertWith showAlertWithError:error];
     }];
 }
 

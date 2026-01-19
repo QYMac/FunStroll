@@ -52,7 +52,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) BOOL isAuthor;
 
 /// 是否已点赞
-@property (nonatomic, assign) BOOL isLiked;
+@property (nonatomic, assign) BOOL liked;
 
 /// 省份
 @property (nonatomic, strong, nullable) NSString *province;

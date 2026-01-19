@@ -10,7 +10,6 @@
 #import "HomeViewDetailsController.h"
 #import "AddCommentController.h"
 #import "AFNetworkingManage+Home.h"
-#import "HomeModel.h"
 
 @interface CommunityViewController ()<GeneralWaterfallFlowLayoutDelegate,UICollectionViewDelegate,UICollectionViewDataSource>
 
@@ -18,7 +17,6 @@
 @property (nonatomic,strong) NSString *currentStr; // 分页
 @property (nonatomic,strong) NSString *sizeStr; // 列数
 @property (nonatomic,strong) NSString *keywordStr; // 关键字搜索
-@property (nonatomic,strong) HomeModel *homeModel; // 列表数据
 
 @end
 
@@ -38,16 +36,7 @@
 
 // 获取首页列表数据
 - (void)AFNetworkingHomePage{
-    [AFNetworkingManage homeListCurrent:self.currentStr size:self.sizeStr keyword:self.keywordStr success:^(id  _Nonnull responseObject) {
-        NSLog(@"%@",responseObject);
-        [FMDBManager saveHomeList:[CheckTool replaceNullWithDictionary:responseObject] andHandle:^(BOOL isSuccess) {
-            
-        }];
-        self.homeModel = [HomeModel yy_modelWithDictionary:responseObject];
-        NSLog(@"pages===%@",self.homeModel.pages);
-    } failureHandler:^(NSError * _Nonnull error) {
-        NSLog(@"%@",error);
-    }];
+   
 }
 
 - (void)setupCollectioView

@@ -16,6 +16,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,strong) NSString *userNameText;
 @property (nonatomic,strong) NSString *postId;
 
+// 刷新收藏
+@property (nonatomic,copy) void(^updateLike)(NSInteger likeCount,NSInteger liked);
+
 @end
 
 NS_ASSUME_NONNULL_END

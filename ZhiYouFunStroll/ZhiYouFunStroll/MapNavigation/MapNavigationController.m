@@ -139,6 +139,7 @@
 
 #pragma mark - 按钮点击
 - (void)startButBtuClick:(UIButton *)sender{
+    /*
     if (self.selectedIndex == 0) {
         // 驾车导航
         if (DEBUG) {
@@ -178,6 +179,7 @@
     } completion:^(BOOL finished) {
         
     }];
+     */
 }
 
 - (void)stopButBtuClick{

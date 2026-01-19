@@ -64,7 +64,11 @@
         [AFNetworkingManage homeGetDetailsPostId:self.postId success:^(id  _Nonnull responseObject) {
             NSDictionary *dict = [CheckTool replaceNullWithDictionary:responseObject];
             weakSelf.responseModel = [ResponseModel yy_modelWithJSON:dict];
-            dispatch_group_leave(homeGetDetailsGroup);
+            
+            // 预先计算轮播图高度
+            [weakSelf calculateBannerHeightWithCompletion:^{
+                dispatch_group_leave(homeGetDetailsGroup);
+            }];
         } failureHandler:^(NSError * _Nonnull error) {
             dispatch_group_leave(homeGetDetailsGroup);
         }];
@@ -79,10 +83,73 @@
             [weakSelf.pingLunBut setTitle:[NSString stringWithFormat:@"%ld",weakSelf.commentListModel.total] forState:UIControlStateNormal];
             NSString *likeCountStr = [DateHelper formatNumber:weakSelf.responseModel.data.likeCount];
             [weakSelf.dianZanBut setTitle:likeCountStr forState:UIControlStateNormal];
+            if (weakSelf.responseModel.data.liked == 1) {
+                [weakSelf.dianZanBut setImage:[UIImage imageNamed:@"home_dsc_off"] forState:UIControlStateNormal];
+            } else {
+                [weakSelf.dianZanBut setImage:[UIImage imageNamed:@"home_dsc"] forState:UIControlStateNormal];
+            }
             [weakSelf.tableView reloadData];
         });
         
     });
+}
+
+// 预先计算轮播图高度
+- (void)calculateBannerHeightWithCompletion:(void(^)(void))completion {
+    // 获取第一张图片的 URL
+    if (self.responseModel.data.resources.count == 0) {
+        self.responseModel.data.bannerHeight = 435; // 默认高度
+        if (completion) completion();
+        return;
+    }
+    
+    ResourceModel *firstResource = self.responseModel.data.resources.firstObject;
+    NSString *imageUrl = [CheckTool replaceNullValue:firstResource.resourceUrl];
+    
+    if (![imageUrl hasPrefix:@"http"]) {
+        // 本地图片
+        UIImage *image = [UIImage imageNamed:imageUrl];
+        if (image) {
+            self.responseModel.data.bannerHeight = [self calculateHeightForImage:image];
+        } else {
+            self.responseModel.data.bannerHeight = 435;
+        }
+        if (completion) completion();
+        return;
+    }
+    
+    // 网络图片 - 使用 SDWebImage 获取图片尺寸
+    WeakSelf
+    [[SDWebImageManager sharedManager] loadImageWithURL:[NSURL URLWithString:imageUrl]
+                                                options:SDWebImageRetryFailed
+                                               progress:nil
+                                              completed:^(UIImage * _Nullable image, NSData * _Nullable data, NSError * _Nullable error, SDImageCacheType cacheType, BOOL finished, NSURL * _Nullable imageURL) {
+        if (image) {
+            weakSelf.responseModel.data.bannerHeight = [weakSelf calculateHeightForImage:image];
+        } else {
+            weakSelf.responseModel.data.bannerHeight = 435;
+        }
+        if (completion) completion();
+    }];
+}
+
+// 根据图片计算适配屏幕宽度的高度
+- (CGFloat)calculateHeightForImage:(UIImage *)image {
+    if (!image || image.size.width == 0) {
+        return 435; // 默认高度
+    }
+    CGFloat imageWidth = image.size.width;
+    CGFloat imageHeight = image.size.height;
+    CGFloat ratio = imageHeight / imageWidth;
+    CGFloat calculatedHeight = kWidth * ratio;
+    
+    // 限制最大高度为屏幕高度的70%，最小高度为200
+    CGFloat maxHeight = kHeight * 0.7;
+    CGFloat minHeight = 200;
+    calculatedHeight = MIN(calculatedHeight, maxHeight);
+    calculatedHeight = MAX(calculatedHeight, minHeight);
+    
+    return calculatedHeight;
 }
 
 // 获取评论列表数据
@@ -319,7 +386,34 @@
 }
 
 - (void)dianZanButClick{
-    
+    if ([UserModel sharedUserModel].isAutoLogin == NO) {
+        return;
+    }
+    WeakSelf
+    NSString *postId = [CheckTool replaceNullValue:self.responseModel.data.postId];
+    [AFNetworkingManage homeLikePostId:postId success:^(id  _Nonnull responseObject) {
+        NSDictionary *dict = [CheckTool replaceNullWithDictionary:responseObject];
+        BOOL isLick = [dict[@"data"] intValue];
+        if (isLick == YES) {
+            weakSelf.responseModel.data.liked = 1;
+            weakSelf.responseModel.data.likeCount += 1;
+            [weakSelf.dianZanBut setImage:[UIImage imageNamed:@"home_dsc_off"] forState:UIControlStateNormal];
+        } else {
+            weakSelf.responseModel.data.liked = 0;
+            weakSelf.responseModel.data.likeCount -= 1;
+            [weakSelf.dianZanBut setImage:[UIImage imageNamed:@"home_dsc"] forState:UIControlStateNormal];
+        }
+        if (weakSelf.responseModel.data.likeCount < 0) {
+            weakSelf.responseModel.data.likeCount = 0;
+        }
+        NSString *likeCountStr = [DateHelper formatNumber:weakSelf.responseModel.data.likeCount];
+        [weakSelf.dianZanBut setTitle:likeCountStr forState:UIControlStateNormal];
+        if (weakSelf.updateLike) {
+            weakSelf.updateLike(weakSelf.responseModel.data.likeCount, weakSelf.responseModel.data.liked);
+        }
+    } failureHandler:^(NSError * _Nonnull error) {
+        [AlertWith showAlertWithError:error];
+    }];
 }
 
 
@@ -358,34 +452,29 @@
     // 如果用户选择了图片先上传图片
     [ZSProgressHUD showHUDShowText:@"请稍等..."];
     if (images.count > 0) {
-        // 循环上传每张图片
         NSMutableArray *uploadedImageUrls = [NSMutableArray array];
-        __block NSInteger completedCount = 0;
-        __block BOOL hasError = NO;
-        
-        for (NSInteger i = 0; i < images.count; i++) {
-            UIImage *image = images[i];
-            NSMutableArray *imageList = [NSMutableArray arrayWithObjects:image, nil];
-            [AFNetworkingManage uploadPostImages:imageList imgAuditServiceType:@"app" successHanler:^(id  _Nonnull responseObject) {
-                completedCount++;
-                // 解析返回的图片数据
-                NSDictionary *dict = [CheckTool replaceNullWithDictionary:responseObject];
-                UploadImageModel *uploadModel = [UploadImageModel yy_modelWithJSON:dict];
-                if (uploadModel.resourceUrl.length > 0) {
-                    [uploadedImageUrls addObject:uploadModel.resourceUrl];
-                    [uploadedImageUrls addObject:uploadModel.resourceType];
+        [AFNetworkingManage uploadPostImages:images imgAuditServiceType:@"profilePhotoCheck" successHanler:^(id  _Nonnull responseObject) {
+            // 解析返回的图片数据
+            NSDictionary *dict = [CheckTool replaceNullWithDictionary:responseObject];
+            UploadImageModel *uploadModel = [UploadImageModel yy_modelWithJSON:dict];
+            // 从成功列表中获取所有图片URL
+            if (uploadModel.data && uploadModel.data.successList.count > 0) {
+                for (UploadImageDataModel *imageData in uploadModel.data.successList) {
+                    if (imageData.resourceUrl.length > 0) {
+                        NSDictionary *dataDict = @{
+                            @"resourceUrl": [CheckTool replaceNullValue:imageData.resourceUrl],
+                            @"resourceType":[NSString stringWithFormat:@"%ld",images.count]
+                        };
+                        [uploadedImageUrls addObject:dataDict];
+                    }
                 }
-                
-                // 所有图片上传完成
-                if (completedCount == images.count && !hasError) {
-                    [weakSelf addCommentContent:text resources:uploadedImageUrls];
-                }
-            } failureHandler:^(NSError * _Nonnull error) {
-                hasError = YES;
-                [ZSProgressHUD hideAllHUDAnimated:YES];
-                [AlertWith showAlertWithError:error];
-            }];
-        }
+            }
+            // 所有图片上传完成
+            [weakSelf addCommentContent:text resources:uploadedImageUrls];
+        } failureHandler:^(NSError * _Nonnull error) {
+            [ZSProgressHUD hideAllHUDAnimated:YES];
+            [AlertWith showAlertWithError:error];
+        }];
     } else {
         [self addCommentContent:text resources:@[]];
     }

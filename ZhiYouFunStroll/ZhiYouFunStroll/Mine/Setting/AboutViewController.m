@@ -207,7 +207,7 @@
     NSLog(@"打开用户协议");
     WKWebViewController *navc = [[WKWebViewController alloc] init];
     navc.titleText = @"用户协议";
-    navc.urlStr = @"";
+    navc.urlStr = @"http://47.121.183.217/ystk/";
     [self.navigationController pushViewController:navc animated:YES];
 }
 
@@ -216,7 +216,7 @@
     NSLog(@"打开隐私政策");
     WKWebViewController *navc = [[WKWebViewController alloc] init];
     navc.titleText = @"隐私政策";
-    navc.urlStr = @"";
+    navc.urlStr = @"http://47.121.183.217/ystk/";
     [self.navigationController pushViewController:navc animated:YES];
 }
 

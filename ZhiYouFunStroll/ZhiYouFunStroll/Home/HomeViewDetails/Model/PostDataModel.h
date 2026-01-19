@@ -118,6 +118,9 @@ NS_ASSUME_NONNULL_BEGIN
 /// 权重
 @property (nonatomic, assign) NSInteger weight;
 
+/// 轮播图高度（计算后缓存）
+@property (nonatomic, assign) CGFloat bannerHeight;
+
 @end
 
 NS_ASSUME_NONNULL_END

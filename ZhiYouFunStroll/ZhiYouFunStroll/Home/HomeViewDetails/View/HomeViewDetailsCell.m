@@ -10,6 +10,8 @@
 
 @interface HomeViewDetailsCell ()<KYPhotoBrowserControllerDelegate>
 
+@property (nonatomic,strong) CommentItem *dataModel;
+
 @end
 
 @implementation HomeViewDetailsCell
@@ -27,6 +29,8 @@
 }
 
 - (void)setModel:(CommentItem *)model{
+    self.dataModel = model;
+    
     NSString *userAvatar = [CheckTool replaceNullValue:model.userAvatar];
     [self.avatarImage sd_setImageWithURL:[NSURL URLWithString:userAvatar] placeholderImage:[UIImage imageNamed:@"touxiang_m"]];
     self.nameL.text = [CheckTool replaceNullValue:model.userNickname];
@@ -38,6 +42,11 @@
     self.timeL.text = [CheckTool replaceNullValue:createTimeStr];
     NSString *likesNumber = [NSString stringWithFormat:@"%ld",model.likesNumber];
     [self.likeBut setTitle:[CheckTool replaceNullValue:likesNumber] forState:UIControlStateNormal];
+    if (model.liked == YES) {
+        [self.likeBut setImage:[UIImage imageNamed:@"home_dianZan_off"] forState:UIControlStateNormal];
+    } else {
+        [self.likeBut setImage:[UIImage imageNamed:@"home_dianZan"] forState:UIControlStateNormal];
+    }
     
     //[self.contentL layoutIfNeeded];
     
@@ -67,6 +76,9 @@
         _contentImg.tag = i;
         _contentImg.userInteractionEnabled = YES;
         [_contentImg sd_setImageWithURL:[NSURL URLWithString:imgURL] placeholderImage:[UIImage imageNamed:@""]];
+        _contentImg.contentMode = UIViewContentModeScaleAspectFill;
+        _contentImg.layer.cornerRadius = 0;
+        _contentImg.layer.masksToBounds = YES;
         // 添加点击手势
         UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc]
                                                initWithTarget:self
@@ -155,14 +167,35 @@
     [[TabBarViewController takeCurrentVC].navigationController pushViewController:navc animated:YES];
 }
 
+// 点赞
 - (void)likeButClick:(UIButton *)sender{
-    if (sender.selected == NO) {
-        sender.selected = YES;
-        [sender setImage:[UIImage imageNamed:@"home_dianZan"] forState:UIControlStateNormal];
-    } else {
-        sender.selected = NO;
-        [sender setImage:[UIImage imageNamed:@"home_dianZan"] forState:UIControlStateNormal];
+    
+    // 未登录不能点击
+    if ([UserModel sharedUserModel].isAutoLogin == NO) {
+        return;
     }
+    
+    WeakSelf
+    NSString *commentId = [CheckTool replaceNullValue:self.dataModel.commentId];
+    [AFNetworkingManage homeToggleCommentLikeCommentId:commentId success:^(id  _Nonnull responseObject) {
+        NSDictionary *dict = [CheckTool replaceNullWithDictionary:responseObject];
+        if ([dict[@"data"] intValue] == 1) {
+            weakSelf.dataModel.liked = YES;
+            weakSelf.dataModel.likesNumber += 1;
+            [sender setImage:[UIImage imageNamed:@"home_dianZan_off"] forState:UIControlStateNormal];
+        } else {
+            weakSelf.dataModel.liked = NO;
+            weakSelf.dataModel.likesNumber -= 1;
+            [sender setImage:[UIImage imageNamed:@"home_dianZan"] forState:UIControlStateNormal];
+        }
+        if (weakSelf.dataModel.likesNumber < 0) {
+            weakSelf.dataModel.likesNumber = 0;
+        }
+        NSString *likesNumber = [NSString stringWithFormat:@"%ld",weakSelf.dataModel.likesNumber];
+        [sender setTitle:[CheckTool replaceNullValue:likesNumber] forState:UIControlStateNormal];
+    } failureHandler:^(NSError * _Nonnull error) {
+        [AlertWith showAlertWithError:error];
+    }];
 }
 
 - (void)numButClick:(UIButton *)sender{
@@ -196,7 +229,7 @@
     if (!_avatarImage) {
         _avatarImage = [[UIImageView alloc]init];
         _avatarImage.backgroundColor = RGB(240, 240, 240);
-        _avatarImage.contentMode = UIViewContentModeScaleToFill;
+        _avatarImage.contentMode = UIViewContentModeScaleAspectFill;
     }
     return _avatarImage;
 }

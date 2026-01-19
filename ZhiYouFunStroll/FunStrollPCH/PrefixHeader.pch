@@ -53,7 +53,7 @@
 #import "MJRefresh.h" // 刷新控件
 #import "UIView+ZFView.h" // 设置部分圆角
 #import "SetShadow.h" // 设置阴影
-//#import "IQKeyboardManager.h" //键盘相关
+#import "IQKeyboardManager.h" //键盘相关
 #import "ServiceStarView.h" // 评分控件
 #import "TabBarViewController.h" // tabBar
 #import "TZImagePickerController.h" // 图片选择

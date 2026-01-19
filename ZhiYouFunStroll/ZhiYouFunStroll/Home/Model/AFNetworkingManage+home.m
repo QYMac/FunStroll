@@ -51,13 +51,18 @@
     [self requestWithUrl:url params:parameters requestType:@"POST" isBody:YES isToken:YES successHanler:success failureHandler:failure];
 }
 
+// 评论点赞/取消点赞
++ (void)homeToggleCommentLikeCommentId:(NSString *)commentId success:(SuccessHandler)success failureHandler:(FailureHandler)failure{
+    NSString *url = [NSString stringWithFormat:@"/app/appPostComment/toggleLike/%@",commentId];
+    NSDictionary *parameters = @{};
+    [self requestWithUrl:url params:parameters requestType:@"POST" isBody:YES isToken:YES successHanler:success failureHandler:failure];
+}
 
 // 上传图片
 + (void)uploadImageList:(NSArray *)imageList success:(SuccessHandler)success failureHandler:(FailureHandler)failure{
-    NSString *url = @"/app/appPost/uploadImage";
-    NSDictionary *parameters = @{};
-    //[self requestImageWithUrl:url params:parameters requestType:@"POST" imageList:imageList successHanler:success failureHandler:failure];
-    [self uploadPostImages:imageList imgAuditServiceType:@"app" successHanler:success failureHandler:failure];
+    //NSString *url = @"/app/appPost/uploadImage";
+    //NSDictionary *parameters = @{};
+    [self uploadPostImages:imageList imgAuditServiceType:@"profilePhotoCheck" successHanler:success failureHandler:failure];
 }
 
 @end

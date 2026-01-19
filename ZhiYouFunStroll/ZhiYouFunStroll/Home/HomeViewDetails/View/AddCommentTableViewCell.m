@@ -125,7 +125,7 @@
         /** 更多属性设置,详见XHInputView.h文件 */
         
     } sendBlock:^BOOL(NSString *text,NSArray *images) {
-        if(text.length){
+        if(text.length || images.count != 0){
             //NSLog(@"输入的信息为:%@",text);
             [self addText:text images:images];
             return YES;//return YES,收起键盘

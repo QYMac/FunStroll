@@ -11,7 +11,7 @@
 #import "HomeViewDetailsController.h"
 #import "RouteViewController.h"
 
-@interface HomeView ()<GeneralWaterfallFlowLayoutDelegate,UICollectionViewDelegate,UICollectionViewDataSource>
+@interface HomeView ()<GeneralWaterfallFlowLayoutDelegate,UICollectionViewDelegate,UICollectionViewDataSource,UITextFieldDelegate>
 
 @property (nonatomic,strong) UICollectionView *collectionView;
 @property (nonatomic,assign) HomeHeadView *headerView;// 头部视图
@@ -20,6 +20,11 @@
 @property (nonatomic,assign) NSInteger size; // 列数
 @property (nonatomic,strong) NSString *keywordStr; // 关键字搜索
 @property (nonatomic,strong) NSMutableArray *dataList; // 数据源
+
+// 搜索框（放在 collectionView 上层，避免 reloadData 影响）
+@property (nonatomic,strong) UITextField *homeSearcTextField;
+@property (nonatomic,strong) UIButton *searchBut;
+@property (nonatomic,assign) CGFloat searchFieldInitialTop; // 搜索框初始 top 值
 
 @end
 
@@ -41,15 +46,15 @@
 }
 
 
-- (void)setHomeModel:(HomeModel *)homeModel{
+- (void)setModel:(HomeListModel *)model{
     
-    if (homeModel.records.count > 0) {
+    if (model.data.records.count > 0) {
         //停止刷新 并刷新数据
         [self.collectionView.mj_header endRefreshing];
         [self.collectionView.mj_footer endRefreshing];
-        [self.dataList addObjectsFromArray:homeModel.records];
+        [self.dataList addObjectsFromArray:model.data.records];
         [self.collectionView reloadData];
-        if (homeModel.records.count >= self.size) {
+        if (model.data.records.count >= self.size) {
             [self MJRefreshFooter];
         }
     } else {
@@ -62,7 +67,7 @@
 
 - (void)updataHomeDataListIsUpdtataTop:(BOOL)isUpdtataTop{
     if (self.updateHomeDataListBlcok) {
-        self.keywordStr = [CheckTool replaceNullValue:self.headerView.homeSearcTextField.text];
+        self.keywordStr = [CheckTool replaceNullValue:self.homeSearcTextField.text];
         self.updateHomeDataListBlcok(self.current, self.size, self.keywordStr,isUpdtataTop);
     }
 }
@@ -76,6 +81,74 @@
     }];
     [self cartoonContentRefresh];
     
+    // 搜索框放在 collectionView 上层，避免 reloadData 影响
+    [self setupSearchField];
+}
+
+#pragma mark - 搜索框设置
+- (void)setupSearchField {
+    // 搜索框
+    self.homeSearcTextField.layer.cornerRadius = 35/2;
+    self.homeSearcTextField.layer.masksToBounds = YES;
+    self.homeSearcTextField.layer.borderColor = RGB(51, 51, 51).CGColor;
+    self.homeSearcTextField.layer.borderWidth = 1;
+    [self addSubview:self.homeSearcTextField];
+    
+    CGFloat topFloat = statusBarHeight;
+    if ([DeviceInfoHelper isDynamicIsland] == YES) {
+        topFloat = statusBarHeight + 10;
+    }
+    self.searchFieldInitialTop = topFloat; // 保存初始 top 值
+    
+    [self.homeSearcTextField mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(topFloat);
+        make.left.mas_equalTo(15);
+        make.right.mas_equalTo(-15);
+        make.height.mas_equalTo(35);
+    }];
+    
+    // 搜索按钮
+    [self addSubview:self.searchBut];
+    [self.searchBut mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.mas_equalTo(self.homeSearcTextField);
+        make.right.mas_equalTo(self.homeSearcTextField.mas_right).offset(-3);
+        make.width.mas_equalTo(38);
+        make.height.mas_equalTo(29);
+    }];
+}
+
+#pragma mark - 搜索按钮点击
+- (void)searchButClick {
+    [self performSearch];
+}
+
+#pragma mark - UITextFieldDelegate
+- (void)textFieldDidChange:(UITextField *)textField {
+    [self performSearch];
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    [self.homeSearcTextField resignFirstResponder];
+    [self performSearch];
+    return YES;
+}
+
+- (void)performSearch {
+    self.current = 1;
+    [self.dataList removeAllObjects];
+    [self.collectionView.mj_footer removeFromSuperview];
+    [self updataHomeDataListIsUpdtataTop:YES];
+}
+
+// 键盘回收
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    UITouch *touch = [touches anyObject];
+    CGPoint point = [touch locationInView:self];
+    
+    // 只有当点击的不是 textField 区域时才回收键盘
+    if (!CGRectContainsPoint(self.homeSearcTextField.frame, point)) {
+        [self.homeSearcTextField resignFirstResponder];
+    }
 }
 
 #pragma mark 刷新控件
@@ -143,15 +216,6 @@
     
     if ([kind isEqualToString:UICollectionElementKindSectionHeader]) {
         self.headerView = [collectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:@"Header" forIndexPath:indexPath];
-        WeakSelf
-        [self.headerView setSearcDataListBlcok:^(NSString * _Nonnull keywordStr, BOOL isSearcDome) {
-            if (isSearcDome == YES) {
-                weakSelf.current = 1;
-                [weakSelf.dataList removeAllObjects];
-                [weakSelf.collectionView.mj_footer removeFromSuperview];
-                [weakSelf updataHomeDataListIsUpdtataTop:YES];
-            }
-        }];
         return self.headerView;
     }
     
@@ -166,8 +230,7 @@
     
     cell.contentView.backgroundColor = [UIColor whiteColor];
     
-    NSDictionary *dict = [self.dataList objectAtIndexCheck:indexPath.row];
-    HomeModel *model = [HomeModel yy_modelWithDictionary:dict];
+    HomeListRecordModel *model = [self.dataList objectAtIndexCheck:indexPath.row];
     cell.model = model;
     
     return cell;
@@ -193,21 +256,28 @@
     }
      */
     
-    NSDictionary *dict = [self.dataList objectAtIndexCheck:indexPath.row];
-    HomeModel *model = [HomeModel yy_modelWithDictionary:dict];
+    HomeListRecordModel *model = [self.dataList objectAtIndexCheck:indexPath.row];
     HomeViewDetailsController *navc = [[HomeViewDetailsController alloc]init];
     navc.imageURL = [CheckTool replaceNullValue:model.userAvatar];
     navc.userNameText = [CheckTool replaceNullValue:model.userNickname];
     navc.postId = [CheckTool replaceNullValue:model.postId];
     [[TabBarViewController takeCurrentVC].navigationController pushViewController:navc animated:YES];
     
+    WeakSelf
+    // 刷新cell 详情更改收藏，首页也刷新
+    navc.updateLike = ^(NSInteger likeCount, NSInteger liked) {
+        model.likeCount = likeCount;
+        model.liked = liked;
+        CommunityCollectionViewCell *cell = [weakSelf.collectionView cellForItemAtIndexPath:indexPath];
+        cell.model = model;
+    };
+    
 }
 
 #pragma mark - <GeneralWaterfallFlowLayoutDelegate>
 - (CGFloat)waterflowLayout:(GeneralWaterfallFlowLayout *)waterflowLayout collectionView:(UICollectionView *)collectionView heightForItemAtIndexPath:(NSIndexPath *)indexPath itemWidth:(CGFloat)itemWidth
 {
-    NSDictionary *dict = [self.dataList objectAtIndexCheck:indexPath.row];
-    HomeModel *model = [HomeModel yy_modelWithDictionary:dict];
+    HomeListRecordModel *model = [self.dataList objectAtIndexCheck:indexPath.row];
     NSString *titleText = [CheckTool replaceNullValue:model.title];
     NSInteger num = [LabelSpacing needLinesWithWidth:itemWidth textStr:titleText font:14];
     if (num >= 2) {
@@ -258,6 +328,13 @@
     }
     CGFloat alpha = 1 - MAX(0, offset_Y/searcHeight);
     self.headerView.bgImg.alpha = alpha;
+    
+    // 搜索框跟随 collectionView 滚动
+    CGFloat newTop = self.searchFieldInitialTop - offset_Y;
+    [self.homeSearcTextField mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(newTop);
+    }];
+    
     /*
     if (offset_Y > scrollView.contentSize.height - (kHeight - navBarHeight)) {
         [self.collectionView mas_updateConstraints:^(MASConstraintMaker *make) {
@@ -305,6 +382,33 @@
         _collectionView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
     }
     return _collectionView;
+}
+
+- (UITextField *)homeSearcTextField {
+    if (!_homeSearcTextField) {
+        _homeSearcTextField = [[UITextField alloc] init];
+        _homeSearcTextField.backgroundColor = [UIColor whiteColor];
+        _homeSearcTextField.delegate = self;
+        _homeSearcTextField.font = [UIFont systemFontOfSize:14];
+        NSAttributedString *attrString = [[NSAttributedString alloc] initWithString:@"请输入关键字" attributes:@{NSForegroundColorAttributeName:RGB(187, 187, 187),NSFontAttributeName:_homeSearcTextField.font}];
+        _homeSearcTextField.attributedPlaceholder = attrString;
+        _homeSearcTextField.returnKeyType = UIReturnKeySearch;
+        _homeSearcTextField.leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 15, 0)];
+        _homeSearcTextField.leftViewMode = UITextFieldViewModeAlways;
+        _homeSearcTextField.rightView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 55, 0)];
+        _homeSearcTextField.rightViewMode = UITextFieldViewModeAlways;
+        [_homeSearcTextField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
+    }
+    return _homeSearcTextField;
+}
+
+- (UIButton *)searchBut {
+    if (!_searchBut) {
+        _searchBut = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_searchBut setBackgroundImage:[UIImage imageNamed:@"home_search"] forState:UIControlStateNormal];
+        [_searchBut addTarget:self action:@selector(searchButClick) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _searchBut;
 }
 
 @end

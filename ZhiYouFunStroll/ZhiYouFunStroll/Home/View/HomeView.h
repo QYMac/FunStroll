@@ -6,7 +6,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "HomeModel.h"
+#import "HomeListModel.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic,copy) void(^updateHomeDataListBlcok)(NSInteger current,NSInteger size,NSString *keywordStr,BOOL isUpdtataTop);
 
-@property (nonatomic,strong) HomeModel *homeModel;
+@property (nonatomic,strong) HomeListModel *model;
 
 @end
 

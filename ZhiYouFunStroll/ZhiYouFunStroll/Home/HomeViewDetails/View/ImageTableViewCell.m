@@ -10,6 +10,7 @@
 @interface ImageTableViewCell ()<DCCycleScrollViewDelegate,KYPhotoBrowserControllerDelegate>
 
 @property (nonatomic,strong) NSMutableArray *imageArray;
+@property (nonatomic,assign) CGFloat bannerHeight; // 轮播图高度
 
 @end
 
@@ -101,13 +102,19 @@
         [self.imageArray addObject:resourceUrl];
     }
     
-    self.bannerView.dataList = self.imageArray;
-    if (self.imageArray.count != 0) {
+    // 使用预先计算好的高度
+    CGFloat bannerHeight = model.data.bannerHeight > 0 ? model.data.bannerHeight : 435;
+    [self updateBannerHeight:bannerHeight];
+    
+    if (self.imageArray.count > 0) {
         self.severalBg.hidden = NO;
         self.imageSeveralL.text = [NSString stringWithFormat:@"1/%ld",self.imageArray.count];
     } else {
         self.severalBg.hidden = YES;
     }
+    
+    self.bannerView.dataList = self.imageArray;
+    
     self.titleL.text = [CheckTool replaceNullValue:model.data.title];
     
     // 使用 NSPredicate 过滤
@@ -140,6 +147,18 @@
     
 }
 
+// 更新轮播图高度
+- (void)updateBannerHeight:(CGFloat)height {
+    self.bannerHeight = height;
+    self.bannerView.frame = CGRectMake(0, 0, kWidth, height);
+    self.bannerView.pageControlY = height + 5;
+    
+    // 更新 titleL 的约束
+    [self.titleL mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(self.bannerView.mas_bottom).offset(25);
+    }];
+}
+
 #pragma mark - DCCycleScrollViewDelegate
 /** 点击图片回调 */
 - (void)cycleScrollView:(DCCycleScrollView *)cycleScrollView didSelectItemAtIndex:(NSInteger)index{
@@ -163,7 +182,8 @@
 
 - (DCCycleScrollView *)bannerView{
     if (!_bannerView) {
-        _bannerView = [DCCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 0, kWidth, 435) shouldInfiniteLoop:YES imageGroups:@[]];
+        CGFloat defaultHeight = self.bannerHeight > 0 ? self.bannerHeight : 435;
+        _bannerView = [DCCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 0, kWidth, defaultHeight) shouldInfiniteLoop:YES imageGroups:@[]];
         _bannerView.autoScrollTimeInterval = 3;
         _bannerView.autoScroll = NO;
         _bannerView.isZoom = NO;
@@ -172,9 +192,10 @@
         _bannerView.delegate = self;
         _bannerView.itemSpace = 0;
         _bannerView.pageControl.hidden = NO;
-        _bannerView.pageControlY = 440;
+        _bannerView.pageControlY = defaultHeight + 5;
         _bannerView.pageControlColor = RGB(227, 227, 227);
         _bannerView.pageControlSelectedColor = RGB(145, 233, 80);
+        _bannerView.bannerImageViewContentMode = UIViewContentModeScaleAspectFit;
     }
     return _bannerView;
 }
